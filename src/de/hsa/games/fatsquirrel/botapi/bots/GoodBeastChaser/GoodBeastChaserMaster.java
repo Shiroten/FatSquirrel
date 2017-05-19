@@ -11,154 +11,38 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 public class GoodBeastChaserMaster implements BotController {
     private int energyCutoff = 2000;
+    private XY lastPosition = XY.ZERO_ZERO;
+    private XY maxSize = XY.ZERO_ZERO;
 
     @Override
     public void nextStep(ControllerContext view) {
+        if (maxSize.getX() < view.getViewUpperRight().getX())
+            maxSize = maxSize.plus(new XY(view.getViewUpperRight().getX(), 0));
+
+        if (maxSize.getY() < view.getViewLowerLeft().getY())
+            maxSize = maxSize.plus(new XY(view.getViewLowerLeft().getY(), 0));
+
+        XY toMove = GoodBeastChaserHelper.toMove(view, lastPosition, maxSize);
+
         try {
-            XY toMove;
-
-            XY nearestEntityOfBADBEAST = nearestSearchedEntity(view, EntityType.BADBEAST);
-            XY nearestEntityOfGOODPLANT = nearestSearchedEntity(view, EntityType.GOODPLANT);
-            XY nearestEntityOfGOODBEAST = nearestSearchedEntity(view, EntityType.GOODBEAST);
-            XY nearestEntityOfPOSITIVE = nearestEntityOfGOODBEAST.distanceFrom(view.locate()) <
-                    nearestEntityOfGOODPLANT.distanceFrom(view.locate())
-                    ? nearestEntityOfGOODBEAST : nearestEntityOfGOODPLANT;
-
-            if (nearestEntityOfPOSITIVE.distanceFrom(view.locate()) >
-                    nearestEntityOfBADBEAST.distanceFrom(view.locate())) {
-                toMove = XYsupport.normalizedVector(view.locate().minus(nearestEntityOfBADBEAST));
-                toMove = goodMove(view, toMove, freeFieldMode.master);
-                view.move(toMove);
-            } else {
-                toMove = XYsupport.normalizedVector(view.locate().minus(nearestEntityOfPOSITIVE));
-
-                if (view.getEnergy() > energyCutoff) {
-                    XY toSpawnDirection = goodMove(view, toMove, freeFieldMode.spawnmini);
-                    if (freeField(view, view.locate().plus(toSpawnDirection), freeFieldMode.spawnmini)) {
-                        view.spawnMiniBot(toSpawnDirection, 1000);
-                        energyCutoff = energyCutoff + 1200;
-                    }
-                } else {
-                    toMove = XYsupport.oppositeVector(toMove);
-                    toMove = goodMove(view, toMove, freeFieldMode.master);
-                    view.move(toMove);
+            if (view.getEnergy() > energyCutoff) {
+                XY toSpawnDirection = GoodBeastChaserHelper.goodMove(view, XYsupport.oppositeVector(toMove), GoodBeastChaserHelper.freeFieldMode.spawnmini);
+                if (GoodBeastChaserHelper.freeField(view, view.locate().plus(toSpawnDirection), GoodBeastChaserHelper.freeFieldMode.spawnmini)) {
+                    view.spawnMiniBot(toSpawnDirection, 1000);
+                    energyCutoff = energyCutoff + 1200;
+                    return;
                 }
+            } else {
+                toMove = GoodBeastChaserHelper.goodMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.master);
+                view.move(toMove);
+                lastPosition = view.locate().plus(toMove);
             }
-
         } catch (SpawnException e) {
             e.printStackTrace();
         }
+
     }
 
-    private XY goodMove(ControllerContext view, XY directionVector, freeFieldMode ffm) {
-        XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
-        int nor = 1;
-        boolean stuck = true;
-
-        XY checkPostion = view.locate().plus(directionVector);
-        if (freeField(view, checkPostion, ffm)) {
-            return directionVector;
-        }
-        XY newVector;
-        while (stuck) {
-            newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPostion = view.locate().plus(newVector);
-            if (freeField(view, checkPostion, ffm)) {
-                return newVector;
-            } else {
-                if (rotation == XYsupport.Rotation.clockwise) {
-                    rotation = XYsupport.Rotation.anticlockwise;
-                } else {
-                    rotation = XYsupport.Rotation.clockwise;
-                    nor++;
-                }
-                if (nor > 3)
-                    return XYsupport.oppositeVector(directionVector);
-            }
-        }
-        return null;
-    }
-
-    private enum freeFieldMode {
-        master,
-        spawnmini
-    }
-
-    private boolean freeField(ControllerContext view, XY location, freeFieldMode ffm) {
-
-        try {
-            EntityType et = view.getEntityAt(location);
-            switch (ffm) {
-                case master: {
-                    switch (et) {
-                        case WALL:
-                        case BADBEAST:
-                        case BADPLANT:
-                            return false;
-                        case NONE:
-                        case GOODBEAST:
-                        case GOODPLANT:
-                            return true;
-                        case MINISQUIRREL:
-                        case MASTERSQUIRREL:
-                            if (view.isMine(location))
-                                return true;
-                            else
-                                return false;
-
-                    }
-                    break;
-                }
-                case spawnmini: {
-                    switch (et) {
-                        case NONE:
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-            }
-        } catch (OutOfViewException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private XY nearestSearchedEntity(ControllerContext view, EntityType et) {
-
-        XY pos = view.locate();
-        int minX = view.getViewLowerLeft().getX(), maxX = view.getViewUpperRight().getX();
-        int minY = view.getViewUpperRight().getY(), maxY = view.getViewLowerLeft().getY();
-
-        try {
-            XY nearestEntity = new XY(100, 100);
-            for (int i = minX; i < maxX; i++) {
-                for (int j = minY; j < maxY; j++) {
-                    if (view.getEntityAt(new XY(i, j)) == et) {
-                        double distanceToNew = pos.distanceFrom(new XY(i, j));
-                        if (distanceToNew < pos.distanceFrom(nearestEntity)) {
-                            nearestEntity = new XY(i, j);
-                        }
-                    }
-
-                }
-            }
-            return nearestEntity;
-        } catch (OutOfViewException e) {
-            e.printStackTrace();
-
-        }
-        return null;
-    }
-
-    private int normalizeNumber(int i) {
-        if (i >= 1)
-            return 1;
-        else if (i <= -1)
-            return -1;
-        else
-            return 0;
-    }
 
 }
 

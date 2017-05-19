@@ -17,7 +17,7 @@ import java.util.logging.*;
 
 public class Launcher extends Application {
 
-    private static final int FRAMERATE = 60;
+    private static final int tickLength = 60;
     private static final Game.GameType gameType = Game.GameType.SINGLE_PLAYER;
     private static final Level logLevel = Level.FINER;
     private static final XY gameSize = new XY(40, 30);
@@ -53,7 +53,6 @@ public class Launcher extends Application {
             handler.setFormatter(formatter);
             handler.setLevel(Level.FINE);
             logger.addHandler(handler);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +86,6 @@ public class Launcher extends Application {
 
     private static void startGame(Game game) {
         game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
-        game.setGameSpeed(24);
         try {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -116,46 +114,48 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         int multiplier;
+        int density;
         BoardConfig config;
         switch (dn) {
 
             case normal:
                 multiplier = 10;
-                config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 60,
+                config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 100,
                         50, 7, 7, 7, 50,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 cellSize = 10;
                 break;
             case testcase1:
-                config = new BoardConfig(new XY(30, 30), 60,
+                config = new BoardConfig(new XY(30, 30), 100,
                         500, 0, 0, 0, 0,
                         0, 20, 5, Game.GameType.SINGLE_PLAYER);
                 break;
             case testcase2:
-                config = new BoardConfig(new XY(30, 30), 60,
+                config = new BoardConfig(new XY(30, 30), 100,
                         100, 15, 0, 0, 50,
                         NUMBER_OF_BOTS, 20, 20, Game.GameType.SINGLE_PLAYER);
                 break;
             case testcase3:
-                config = new BoardConfig(new XY(30, 30), 20,
+                config = new BoardConfig(new XY(30, 30), 40,
                         50, 0, 0, 0, 100,
                         NUMBER_OF_BOTS, 20, 20, Game.GameType.WITH_BOT);
                 break;
             case testcase4:
-                config = new BoardConfig(new XY(10, 10), 20,
+                config = new BoardConfig(new XY(10, 10), 40,
                         40, 0, 0, 0, 0,
                         0, 20, 20, Game.GameType.SINGLE_PLAYER);
                 break;
             case testcase5:
-                multiplier = 3;
-                config = new BoardConfig(new XY(14 * multiplier, 8 * multiplier), 60,
-                        50, 7, 7, 7, 100,
+                multiplier = 10;
+                density = 14*8*multiplier;
+                config = new BoardConfig(new XY(14 * multiplier, 8 * multiplier), 40,
+                        density/32, density/64, density/64, density/64, density/8,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 break;
 
             case custom:
             default:
-                config = new BoardConfig(gameSize, FRAMERATE,
+                config = new BoardConfig(gameSize, tickLength,
                         NUMBER_OF_GB, NUMBER_OF_BB, NUMBER_OF_GP, NUMBER_OF_BP, NUMBER_OF_WA,
                         NUMBER_OF_BOTS, VIEW_DISTANCE_OF_GOODBEAST, VIEW_DISTANCE_OF_BADBEAST, gameType);
 

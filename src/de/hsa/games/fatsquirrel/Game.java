@@ -7,16 +7,16 @@ import java.util.logging.Logger;
 
 public class Game {
 
-    private int gameSpeed;
-
-    private int tickLength;
-
+    private double gameSpeed;
+    private double gameSpeedScaleFactor = 1.3;
     private UI ui;
     private State state;
     protected ActionCommand command;
+
     public UI getUi() {
         return ui;
     }
+
     protected void setUi(UI ui) {
         this.ui = ui;
     }
@@ -30,21 +30,18 @@ public class Game {
         this.state = state;
     }
 
-    public int getGameSpeed() {
-        return gameSpeed;
+    public void setGameSpeed(double getTICKLENGTH) {
+        this.gameSpeed = (Math.log(getTICKLENGTH) / Math.log(gameSpeedScaleFactor));
     }
 
-    public void setGameSpeed(int gameSpeed) {
-        this.gameSpeed = gameSpeed;
-    }
-
-    public void addGameSpeed(int gameSpeed){
-        if ((int) Math.pow((this.gameSpeed + gameSpeed),1.3) > 10)
-        this.gameSpeed = this.gameSpeed + gameSpeed;
+    public void addGameSpeed(int gameSpeed) {
+        if ((int) Math.pow((this.gameSpeed + gameSpeed), gameSpeedScaleFactor) > 1)
+            this.gameSpeed = this.gameSpeed + gameSpeed;
         System.out.println(this.gameSpeed);
     }
+
     public int getTickLength() {
-        return  (int) Math.pow(gameSpeed, 1.3);
+        return (int) Math.pow(gameSpeedScaleFactor, gameSpeed);
     }
 
     public Game(State state, UI ui) {
