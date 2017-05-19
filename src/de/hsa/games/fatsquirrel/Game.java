@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
+    public int gameSpeed;
+    public int counter;
     private UI ui;
     private State state;
     protected ActionCommand command;

@@ -15,24 +15,34 @@ public class GoodBeastChaserMaster implements BotController {
     @Override
     public void nextStep(ControllerContext view) {
         try {
+            XY toMove;
 
-            XY toMove = XY.UP;
-            if (view.getEnergy() > energyCutoff) {
-                XY toSpawnDirection = goodMove(view, toMove, freeFieldMode.spawnmini);
-                if (freeField(view, view.locate().plus(toSpawnDirection), freeFieldMode.spawnmini)) {
-                    view.spawnMiniBot(toSpawnDirection, 1000);
-                    energyCutoff = energyCutoff + 1200;
-                }
-            } else {
-                XY nearestEntityOfGOODPLANT = nearestSearchedEntity(view, EntityType.GOODPLANT);
-                XY nearestEntityOfGOODBEAST = nearestSearchedEntity(view, EntityType.GOODBEAST);
-                XY nearestEntityOf = nearestEntityOfGOODBEAST.distanceFrom(view.locate()) <
-                        nearestEntityOfGOODPLANT.distanceFrom(view.locate())
-                        ? nearestEntityOfGOODBEAST : nearestEntityOfGOODPLANT;
+            XY nearestEntityOfBADBEAST = nearestSearchedEntity(view, EntityType.BADBEAST);
+            XY nearestEntityOfGOODPLANT = nearestSearchedEntity(view, EntityType.GOODPLANT);
+            XY nearestEntityOfGOODBEAST = nearestSearchedEntity(view, EntityType.GOODBEAST);
+            XY nearestEntityOfPOSITIVE = nearestEntityOfGOODBEAST.distanceFrom(view.locate()) <
+                    nearestEntityOfGOODPLANT.distanceFrom(view.locate())
+                    ? nearestEntityOfGOODBEAST : nearestEntityOfGOODPLANT;
 
-                toMove = XYsupport.oppositeVector(XYsupport.normalizedVector(view.locate().minus(nearestEntityOf)));
+            if (nearestEntityOfPOSITIVE.distanceFrom(view.locate()) >
+                    nearestEntityOfBADBEAST.distanceFrom(view.locate())) {
+                toMove = XYsupport.normalizedVector(view.locate().minus(nearestEntityOfBADBEAST));
                 toMove = goodMove(view, toMove, freeFieldMode.master);
                 view.move(toMove);
+            } else {
+                toMove = XYsupport.normalizedVector(view.locate().minus(nearestEntityOfPOSITIVE));
+
+                if (view.getEnergy() > energyCutoff) {
+                    XY toSpawnDirection = goodMove(view, toMove, freeFieldMode.spawnmini);
+                    if (freeField(view, view.locate().plus(toSpawnDirection), freeFieldMode.spawnmini)) {
+                        view.spawnMiniBot(toSpawnDirection, 1000);
+                        energyCutoff = energyCutoff + 1200;
+                    }
+                } else {
+                    toMove = XYsupport.oppositeVector(toMove);
+                    toMove = goodMove(view, toMove, freeFieldMode.master);
+                    view.move(toMove);
+                }
             }
 
         } catch (SpawnException e) {

@@ -6,6 +6,7 @@ import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+import de.hsa.games.fatsquirrel.core.entity.character.Character;
 
 public class GoodBeastChaserMini implements BotController {
     @Override
@@ -53,22 +54,32 @@ public class GoodBeastChaserMini implements BotController {
             view.implode(5);
 
         XY toMove;
-        if (view.getEnergy() > 7500) {
-            toMove = view.directionOfMaster();
+
+        XY nearestEntityOfBADBEAST = nearestSearchedEntity(view, EntityType.BADBEAST);
+        XY nearestEntityOfGOODPLANT = nearestSearchedEntity(view, EntityType.GOODPLANT);
+        XY nearestEntityOfGOODBEAST = nearestSearchedEntity(view, EntityType.GOODBEAST);
+        XY nearestEntityOfPOSITIVE = nearestEntityOfGOODBEAST.distanceFrom(view.locate()) <
+                nearestEntityOfGOODPLANT.distanceFrom(view.locate())
+                ? nearestEntityOfGOODBEAST : nearestEntityOfGOODPLANT;
+
+        if (nearestEntityOfPOSITIVE.distanceFrom(view.locate()) >
+                nearestEntityOfBADBEAST.distanceFrom(view.locate())) {
+            toMove = XYsupport.normalizedVector(view.locate().minus(nearestEntityOfBADBEAST));
             toMove = goodMove(view, toMove);
             view.move(toMove);
         } else {
 
-            XY nearestEntityOfGOODPLANT = nearestSearchedEntity(view, EntityType.GOODPLANT);
-            XY nearestEntityOfGOODBEAST = nearestSearchedEntity(view, EntityType.GOODBEAST);
-            XY nearestEntityOf = nearestEntityOfGOODBEAST.distanceFrom(view.locate()) <
-                    nearestEntityOfGOODPLANT.distanceFrom(view.locate())
-                    ? nearestEntityOfGOODBEAST : nearestEntityOfGOODPLANT;
-
-            toMove = XYsupport.oppositeVector(XYsupport.normalizedVector(view.locate().minus(nearestEntityOf)));
-            toMove = goodMove(view, toMove);
-            view.move(toMove);
-            return;
+            if (view.getEnergy() > 7500) {
+                toMove = view.directionOfMaster();
+                toMove = goodMove(view, toMove);
+                view.move(toMove);
+            } else {
+                toMove = XYsupport.oppositeVector(XYsupport.normalizedVector(
+                        view.locate().minus(nearestEntityOfPOSITIVE)));
+                toMove = goodMove(view, toMove);
+                view.move(toMove);
+                return;
+            }
         }
     }
 

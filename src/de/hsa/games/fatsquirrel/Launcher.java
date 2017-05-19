@@ -86,6 +86,8 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
+        game.gameSpeed = game.getState().getBoard().getConfig().getTICKLENGTH();
+        game.counter = 0;
         try {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -94,8 +96,15 @@ public class Launcher extends Application {
                     Logger logger = Logger.getLogger(Launcher.class.getName());
                     logger.log(Level.FINEST, "start game.run()");
                     game.run();
+                    game.counter = game.counter +1;
+                    System.out.println("counter: " + game.counter + " game.speed: " + game.gameSpeed);
+                    if (game.counter > 60){
+                        game.counter = 0;
+                        game.gameSpeed = game.gameSpeed -1;
+                    }
+
                 }
-            }, 1000, game.getState().getBoard().getConfig().getTICKLENGTH());
+            }, 1000, game.gameSpeed);
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
@@ -146,8 +155,8 @@ public class Launcher extends Application {
                         0, 20, 20, Game.GameType.SINGLE_PLAYER);
                 break;
             case testcase5:
-                multiplier = 5;
-                config = new BoardConfig(new XY(15*multiplier, 8*multiplier), 60,
+                multiplier = 3;
+                config = new BoardConfig(new XY(14*multiplier, 8*multiplier), 60,
                         50, 7, 7, 7, 100,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 break;

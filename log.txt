@@ -1,2 +1,2 @@
-Mai 18, 2017 4:27:33 PM de.hsa.games.fatsquirrel.Launcher start
+Mai 19, 2017 2:24:16 PM de.hsa.games.fatsquirrel.Launcher start
 INFORMATION: Starting Game
