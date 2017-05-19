@@ -8,17 +8,19 @@ import java.util.logging.Logger;
 public class Game {
 
     private int gameSpeed;
+
+    private int tickLength;
+
     private UI ui;
     private State state;
     protected ActionCommand command;
     public UI getUi() {
         return ui;
     }
-
-
     protected void setUi(UI ui) {
         this.ui = ui;
     }
+
 
     protected State getState() {
         return state;
@@ -35,12 +37,14 @@ public class Game {
     public void setGameSpeed(int gameSpeed) {
         this.gameSpeed = gameSpeed;
     }
+
     public void addGameSpeed(int gameSpeed){
-        if (this.gameSpeed >= 10)
+        if ((int) Math.pow((this.gameSpeed + gameSpeed),1.3) > 10)
         this.gameSpeed = this.gameSpeed + gameSpeed;
-        else
-            this.gameSpeed = 10;
         System.out.println(this.gameSpeed);
+    }
+    public int getTickLength() {
+        return  (int) Math.pow(gameSpeed, 1.3);
     }
 
     public Game(State state, UI ui) {
