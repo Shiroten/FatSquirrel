@@ -86,7 +86,7 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
-        game.gameSpeed = game.getState().getBoard().getConfig().getTICKLENGTH();
+        game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
         try {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -96,7 +96,7 @@ public class Launcher extends Application {
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
                     try {
-                        Thread.sleep(game.gameSpeed);
+                        Thread.sleep(game.getGameSpeed());
                         game.run();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
