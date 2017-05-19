@@ -22,10 +22,10 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY getViewLowerLeft() {
-            int x = locate().getX() - 31;
+            int x = locate().getX() - 15;
             if (x < 0)
                 x = 0;
-            int y = locate().getY() + 31;
+            int y = locate().getY() + 15;
             if (y > context.getSize().getY())
                 y = context.getSize().getY();
             return new XY(x, y);
@@ -33,10 +33,10 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY getViewUpperRight() {
-            int x = locate().getX() + 31;
+            int x = locate().getX() + 15;
             if (x > context.getSize().getX())
                 x = context.getSize().getX();
-            int y = locate().getY() - 31;
+            int y = locate().getY() - 15;
             if (y < 0)
                 y = 0;
             return new XY(x, y);

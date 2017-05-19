@@ -21,10 +21,10 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public XY getViewLowerLeft() {
-            int x = locate().getX() - 21;
+            int x = locate().getX() - 10;
             if (x < 0)
                 x = 0;
-            int y = locate().getY() + 21;
+            int y = locate().getY() + 10;
             if (y > context.getSize().getY())
                 y = context.getSize().getY();
             return new XY(x, y);
@@ -32,10 +32,10 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public XY getViewUpperRight() {
-            int x = locate().getX() + 21;
-            if (x > context.getSize().getY())
-                x = context.getSize().getY();
-            int y = locate().getY() - 21;
+            int x = locate().getX() + 10;
+            if (x > context.getSize().getX())
+                x = context.getSize().getX();
+            int y = locate().getY() - 10;
             if (y < 0)
                 y = 0;
             return new XY(x, y);
