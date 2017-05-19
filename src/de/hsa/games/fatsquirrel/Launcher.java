@@ -87,32 +87,22 @@ public class Launcher extends Application {
 
     private static void startGame(Game game) {
         game.gameSpeed = game.getState().getBoard().getConfig().getTICKLENGTH();
-        game.counter = 0;
         try {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
                     Logger logger = Logger.getLogger(Launcher.class.getName());
-                    logger.log(Level.FINEST, "start game.run()");
-                    game.run();
-                    game.counter = game.counter +1;
-                    System.out.println("counter: " + game.counter + " game.speed: " + game.gameSpeed);
-                    if (game.counter > 60){
-                        game.counter = 0;
-                        game.gameSpeed = game.gameSpeed -1;
-                    }
-
-                }
-            }, 1000, game.gameSpeed);
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Logger logger = Logger.getLogger(Launcher.class.getName());
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
+                    try {
+                        Thread.sleep(game.gameSpeed);
+                        game.run();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }, 500, 75);
+            }, 500, 1);
         } catch (Exception e) {
             System.out.println("Error");
             e.printStackTrace();
@@ -129,7 +119,7 @@ public class Launcher extends Application {
 
             case normal:
                 multiplier = 10;
-                config = new BoardConfig(new XY(16*multiplier, 9*multiplier), 60,
+                config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 60,
                         50, 7, 7, 7, 50,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 cellSize = 10;
@@ -156,7 +146,7 @@ public class Launcher extends Application {
                 break;
             case testcase5:
                 multiplier = 3;
-                config = new BoardConfig(new XY(14*multiplier, 8*multiplier), 60,
+                config = new BoardConfig(new XY(14 * multiplier, 8 * multiplier), 60,
                         50, 7, 7, 7, 100,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 break;

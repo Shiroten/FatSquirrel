@@ -50,6 +50,16 @@ public class FxGameImpl extends Game {
                     break;
                 case "t":
                     imploadMiniSquirrel = cmd;
+                    break;
+                case "#":
+                    this.gameSpeed = this.gameSpeed +2;
+                    break;
+                case "+":
+                    this.gameSpeed = this.gameSpeed -2;
+                    if (this.gameSpeed < 6){
+                        this.gameSpeed = 6;
+                    }
+                    break;
                 default:
                     handOperatedMasterSquirrel.setCommand(ActionCommand.NOWHERE);
             }
