@@ -31,6 +31,15 @@ public class FlattenedBoardTest {
     }
 
     @org.junit.Test
+    public void tearDown() {
+        set = new EntitySet(new XY(40, 30));
+        config = new BoardConfig();
+        board = new Board(set, config);
+
+
+    }
+
+    @org.junit.Test
     public void getEntityType() throws Exception {
         assertEquals(EntityType.GOODPLANT, flat.getEntityType(new XY(20, 20)));
         assertEquals(EntityType.GOODBEAST, flat.getEntityType(new XY(10, 15)));
@@ -43,7 +52,20 @@ public class FlattenedBoardTest {
     }
 
     @org.junit.Test
-    public void tryMove() throws Exception {
+    public void tryMoves() {
+        for (int i = 0; i < 20; i++) {
+            try {
+                tearDown();
+                tryMoveMini();
+                tearDown();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @org.junit.Test
+    public void tryMoveMini() throws Exception {
         board.add(new GoodBeast(0, new XY(10, 15)));
         MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
         MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, master);
@@ -67,8 +89,8 @@ public class FlattenedBoardTest {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
                     if (goodBeast.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         goodBeast = flat.getEntity(new XY(i, j));
-                        System.out.println("Test: " + new XY(i, j));
-                        System.out.println("Mini: " + mini.getCoordinate().toString());
+                        //System.out.println("Test: " + new XY(i, j));
+                        //System.out.println("Mini: " + mini.getCoordinate().toString());
                         counter++;
                     }
                 }
@@ -87,6 +109,7 @@ public class FlattenedBoardTest {
         System.out.println(counter);
         assertTrue(counter == maxTests);
     }
+
 
     @org.junit.Test
     public void tryMove1() throws Exception {
@@ -146,6 +169,15 @@ public class FlattenedBoardTest {
 
         assertEquals(one, flat.nearestPlayerEntity(new XY(15,2)));
         assertEquals(two, flat.nearestPlayerEntity(new XY(30, 8)));
+    }
+
+    @org.junit.Test
+    public void randomWithRange() {
+        int randomNumber;
+        for (int i = 0; i < 10000; i++) {
+            randomNumber = flat.randomWithRange(0, 10);
+            assertTrue(randomNumber <= 10 && randomNumber >= 0);
+        }
     }
 
 }
