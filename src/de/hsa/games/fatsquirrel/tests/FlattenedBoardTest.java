@@ -43,6 +43,17 @@ public class FlattenedBoardTest {
     }
 
     @org.junit.Test
+    public void tryMoves() {
+        for (int i = 0; i < 20; i++) {
+            try {
+                tryMove();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @org.junit.Test
     public void tryMove() throws Exception {
         board.add(new GoodBeast(0, new XY(10, 15)));
         MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
@@ -50,7 +61,7 @@ public class FlattenedBoardTest {
         board.add(mini);
         flat = board.flatten();
 
-        int maxTests = 1000;
+        int maxTests = 10000;
         int counter = 0;
         XY toMove;
 
@@ -67,8 +78,8 @@ public class FlattenedBoardTest {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
                     if (goodBeast.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         goodBeast = flat.getEntity(new XY(i, j));
-                        System.out.println("Test: " + new XY(i, j));
-                        System.out.println("Mini: " + mini.getCoordinate().toString());
+                        //System.out.println("Test: " + new XY(i, j));
+                        //System.out.println("Mini: " + mini.getCoordinate().toString());
                         counter++;
                     }
                 }
