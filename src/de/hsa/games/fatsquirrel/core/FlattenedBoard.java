@@ -600,7 +600,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
             xy = new XY(randomWithRange(1, size.getX() - 1), randomWithRange(1, size.getY() - 1));
         }
         while (flattenedBoard[xy.getY()][xy.getX()] != null);
-
         return xy;
     }
 

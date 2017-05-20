@@ -60,7 +60,7 @@ public class FlattenedBoardTest {
         flat = board.flatten();
 
         int maxTests = 1000;
-        int testCounter = 0;
+        int counter = 0;
         XY toMove;
 
         Entity target = flat.getEntity(new XY(10, 15));
@@ -79,7 +79,7 @@ public class FlattenedBoardTest {
                     else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         target = flat.getEntity(new XY(i, j));
                         System.out.println(new XY(i, j));
-                        testCounter++;
+                        counter++;
                     }
                 }
             }
@@ -97,8 +97,8 @@ public class FlattenedBoardTest {
         }
 
         System.out.println(counterEntitys);
-        System.out.println(testCounter);
-        assertTrue(testCounter == maxTests);
+        System.out.println(counter);
+        assertTrue(counter == maxTests);
     }
 
     @org.junit.Test
