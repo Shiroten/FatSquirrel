@@ -1,12 +1,8 @@
 package de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.Character;
 
 public class GoodBeastChaserMini implements BotController {
     private XY lastPosition = XY.ZERO_ZERO;
@@ -15,10 +11,11 @@ public class GoodBeastChaserMini implements BotController {
     @Override
     public void nextStep(ControllerContext view) {
         if (maxSize.getX() < view.getViewUpperRight().getX())
-            maxSize = maxSize.plus(new XY(view.getViewUpperRight().getX(), 0));
+            maxSize = new XY (view.getViewUpperRight().getX(),maxSize.getY());
 
         if (maxSize.getY() < view.getViewLowerLeft().getY())
-            maxSize = maxSize.plus(new XY(view.getViewLowerLeft().getY(), 0));
+            maxSize = new XY (maxSize.getX(), view.getViewLowerLeft().getY());
+
 
         boolean shouldImplode = false;
         int counterForPoints = 0;
@@ -65,14 +62,16 @@ public class GoodBeastChaserMini implements BotController {
 
         if (view.getEnergy() > 7500) {
             toMove = view.directionOfMaster();
-            toMove = GoodBeastChaserHelper.goodMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.mini);
+            toMove = GoodBeastChaserHelper.dodgeMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.mini);
+            lastPosition = view.locate().plus(toMove);
             view.move(toMove);
         }
 
         toMove = GoodBeastChaserHelper.toMove(view, lastPosition, maxSize);
-        toMove = GoodBeastChaserHelper.goodMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.master);
-        view.move(toMove);
+        toMove = GoodBeastChaserHelper.dodgeMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.master);
         lastPosition = view.locate().plus(toMove);
+        view.move(toMove);
+
 
 
     }

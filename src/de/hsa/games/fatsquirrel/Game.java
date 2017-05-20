@@ -37,7 +37,6 @@ public class Game {
     public void addGameSpeed(int gameSpeed) {
         if ((int) Math.pow((this.gameSpeed + gameSpeed), gameSpeedScaleFactor) > 1)
             this.gameSpeed = this.gameSpeed + gameSpeed;
-        System.out.println(this.gameSpeed);
     }
 
     public int getTickLength() {

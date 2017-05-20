@@ -11,7 +11,14 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
  */
 public class GoodBeastChaserHelper {
 
-    protected static XY goodMove(ControllerContext view, XY directionVector, freeFieldMode ffm) {
+    protected enum freeFieldMode {
+        master,
+        mini,
+        spawnmini,
+
+    }
+
+    protected static XY dodgeMove(ControllerContext view, XY directionVector, freeFieldMode ffm) {
         XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
         int nor = 1;
         boolean stuck = true;
@@ -38,13 +45,6 @@ public class GoodBeastChaserHelper {
             }
         }
         return null;
-    }
-
-    protected enum freeFieldMode {
-        master,
-        mini,
-        spawnmini,
-
     }
 
     protected static boolean freeField(ControllerContext view, XY location, freeFieldMode ffm) {
@@ -130,13 +130,12 @@ public class GoodBeastChaserHelper {
         } else if (view.locate().distanceFrom(nearestPositionOfPositive) < 16) {
             toMove = XYsupport.normalizedVector(nearestPositionOfPositive.minus(view.locate()));
         } else {
-            if (lastPosition != view.locate()) {
+            if (!view.locate().equals(new XY(maxSize.getX() / 2, maxSize.getY() / 2))) {
                 toMove = XYsupport.normalizedVector(new XY(maxSize.getX() / 2, maxSize.getY() / 2).minus(view.locate()));
             } else {
-                toMove = XY.RIGHT_DOWN;
+                //Todo: Sitzen in der Mitte verbessern. Wenn nichts mehr gefunden wird.
             }
         }
-        toMove = GoodBeastChaserHelper.goodMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.master);
         return toMove;
     }
 }
