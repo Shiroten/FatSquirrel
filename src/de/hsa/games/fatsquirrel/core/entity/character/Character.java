@@ -9,6 +9,13 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 public abstract class Character extends Entity {
     private XY lastVector = XY.ZERO_ZERO;
 
+    enum freeFieldMode {
+        master,
+        spawnmini,
+        goodBeast,
+        badBeast,
+    }
+
     public XY getLastVector() {
         return lastVector;
     }
@@ -27,7 +34,6 @@ public abstract class Character extends Entity {
 
     Character() {
     }
-
 
     public abstract void nextStep(EntityContext context);
 
@@ -82,13 +88,6 @@ public abstract class Character extends Entity {
         return null;
     }
 
-    enum freeFieldMode {
-        master,
-        spawnmini,
-        goodBeast,
-        badBeast,
-    }
-
     private boolean freeField(EntityContext view, XY location, freeFieldMode ffm) {
         EntityType et = view.getEntityType(location);
         switch (ffm) {
@@ -133,7 +132,6 @@ public abstract class Character extends Entity {
         }
         return false;
     }
-
 
     boolean gotStuck(XY xy) {
         return this.getCoordinate().getX() == xy.getX() && this.getCoordinate().getY() == xy.getY();

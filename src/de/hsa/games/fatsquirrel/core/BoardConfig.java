@@ -22,9 +22,9 @@ public class BoardConfig {
 
     private final float SQUIRREL_STUN_TIME_LENGTH = 0.2f;
     private final int SQUIRREL_STUN_TIME_IN_TICKS;
-    private final float BEAST_MOVE_TIME_LENGTH = 0.07f;
+    private final float BEAST_MOVE_TIME_LENGTH = 0.1f;
     private final int BEAST_MOVE_TIME_IN_TICKS;
-    private final float MINI_SQUIRREL_MOVE_TIME_LENGTH = 0.05f;
+    private final float MINI_SQUIRREL_MOVE_TIME_LENGTH = 0.07f;
     private final int MINI_SQUIRREL_MOVE_TIME_IN_TICKS;
     private final int VIEW_DISTANCE_OF_GOODBEAST;
 

@@ -13,6 +13,8 @@ public enum GameCommandType implements CommandTypeInfo {
     SPAWN_MINI("f", "spawnMini" ,"<param1> Integer  *spawn a mini-squirrel with param1 Energy", int.class),
     CHEAT_ENERGY("p", "addEnergy" ,"Adds 1000 Energy to MasterSquirrel"),
     IMPLODE_MINISQUIRRELS("t", "implode" ,"Implode all MiniSquirrel of Player"),
+    ADD_GAME_SPEED("+","gameSpeed+","Inkrement the Game Speed"),
+    SUBTRACT_GAME_SPEED("#","gameSpeed-","Dekrement the Game Speed"),
     NOTHING("", "doNothing", "* Just press Enter");
 
     private String commandName, helpText, methodName;

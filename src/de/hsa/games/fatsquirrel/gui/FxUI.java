@@ -205,7 +205,12 @@ public class FxUI extends Scene implements UI {
                                     break;
                             }
                             break;
-
+                        case PLUS:
+                            cmd = new Command(GameCommandType.ADD_GAME_SPEED, new Object[0]);
+                            break;
+                        case NUMBER_SIGN:
+                            cmd = new Command(GameCommandType.SUBTRACT_GAME_SPEED, new Object[0]);
+                            break;
                         default:
                             cmd = new Command(GameCommandType.NOTHING, new Object[0]);
                     }

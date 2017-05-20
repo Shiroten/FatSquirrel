@@ -6,12 +6,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
-    public int gameSpeed;
-    public int counter;
+
+    private double gameSpeed;
+    private double gameSpeedScaleFactor = 1.3;
     private UI ui;
     private State state;
     protected ActionCommand command;
-
 
     public UI getUi() {
         return ui;
@@ -21,12 +21,26 @@ public class Game {
         this.ui = ui;
     }
 
+
     protected State getState() {
         return state;
     }
 
     protected void setState(State state) {
         this.state = state;
+    }
+
+    public void setGameSpeed(double getTICKLENGTH) {
+        this.gameSpeed = (Math.log(getTICKLENGTH) / Math.log(gameSpeedScaleFactor));
+    }
+
+    public void addGameSpeed(int gameSpeed) {
+        if ((int) Math.pow((this.gameSpeed + gameSpeed), gameSpeedScaleFactor) > 1)
+            this.gameSpeed = this.gameSpeed + gameSpeed;
+    }
+
+    public int getTickLength() {
+        return (int) Math.pow(gameSpeedScaleFactor, gameSpeed);
     }
 
     public Game(State state, UI ui) {
@@ -66,7 +80,7 @@ public class Game {
 
     }
 
-    public static enum GameType {
-        SINGLE_PLAYER, WITH_BOT, BOT_ONLY, PACMAN
+    public enum GameType {
+        SINGLE_PLAYER, WITH_BOT, BOT_ONLY, PACMAN;
     }
 }

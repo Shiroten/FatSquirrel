@@ -42,6 +42,11 @@ public class Board {
         //initBoard();
     }
 
+    public Board(EntitySet set, BoardConfig config){
+        this.set = set;
+        this.config = config;
+    }
+
     public Board(BoardConfig config) {
         this.set = new EntitySet(config.getSize());
         this.config = config;
@@ -61,7 +66,7 @@ public class Board {
         return config;
     }
 
-    FlattenedBoard flatten() {
+    public FlattenedBoard flatten() {
         Entity[][] list = new Entity[config.getSize().getY()][config.getSize().getX()];
         for (int i = 0; i < set.getNumberOfMaxEntities(); i++) {
             if (set.getEntity(i) != null) {

@@ -26,7 +26,7 @@ public class BadBeast extends Character {
     }
 
     @Override
-    public void nextStep(EntityContext context) {
+    public void nextStep(EntityContext context ) {
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINEST, "start nextStep() of BadBeast");
