@@ -53,18 +53,18 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void tryMove() throws Exception {
-        when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
-        when(mockedGoodBeast.getEntityType()).thenReturn(EntityType.GOODBEAST);
-        when(mockedGoodBeast.getId()).thenReturn(100);
-        board.add(mockedGoodBeast);
-        flat = board.flatten();
-
-        int maxTests = 300;
-        int counter = 0;
-        Entity target = flat.getEntity(new XY(10, 15));
+        board.add(new GoodBeast(0, new XY(10, 15)));
         MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
         MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, master);
+        board.add(mini);
+        flat = board.flatten();
+
+        int maxTests = 1000;
+        int testCounter = 0;
         XY toMove;
+
+        Entity target = flat.getEntity(new XY(10, 15));
+
         for (int k = 0; k < maxTests; k++) {
 
             while ((target.getCoordinate().distanceFrom(mini.getCoordinate())) > 1) {
@@ -79,25 +79,26 @@ public class FlattenedBoardTest {
                     else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         target = flat.getEntity(new XY(i, j));
                         System.out.println(new XY(i, j));
-                        counter++;
+                        testCounter++;
                     }
                 }
             }
         }
 
-        int count = 0;
+        int counterEntitys = 0;
         for (int j = 0; j < flat.getSize().getY(); j++) {
             for (int i = 0; i < flat.getSize().getX(); i++) {
                 if (flat.getEntity(new XY(i, j)) == null)
                     continue;
                 else {
-                    count++;
+                    counterEntitys++;
                 }
             }
         }
-        System.out.println(count);
-        System.out.println(counter);
-        assertTrue(counter == maxTests);
+
+        System.out.println(counterEntitys);
+        System.out.println(testCounter);
+        assertTrue(testCounter == maxTests);
     }
 
     @org.junit.Test
