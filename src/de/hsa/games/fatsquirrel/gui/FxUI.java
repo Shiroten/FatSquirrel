@@ -87,7 +87,7 @@ public class FxUI extends Scene implements UI {
 
         fxUI.setOnKeyPressed(
                 keyEvent -> {
-                    System.out.println(keyEvent.getCode());
+                    //System.out.println(keyEvent.getCode());
                     switch (keyEvent.getCode()) {
                         case W:
                         case UP:
