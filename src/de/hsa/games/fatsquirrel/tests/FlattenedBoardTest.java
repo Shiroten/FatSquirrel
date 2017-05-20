@@ -2,17 +2,10 @@ package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser.GoodBeastChaserFactory;
-import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.BoardConfig;
-import de.hsa.games.fatsquirrel.core.FlattenedBoard;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
-import de.hsa.games.fatsquirrel.core.entity.EntitySet;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
+import de.hsa.games.fatsquirrel.core.*;
+import de.hsa.games.fatsquirrel.core.entity.*;
+import de.hsa.games.fatsquirrel.core.entity.character.*;
+import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +20,7 @@ public class FlattenedBoardTest {
     //private FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
     private GoodBeast mockedGoodBeast = mock(GoodBeast.class);
 
-    @org.junit.Test
+    @Before
     public void setUp() {
         board.add(new GoodPlant(0, new XY(20, 20)));
         when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
@@ -39,14 +32,12 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void getEntityType() throws Exception {
-        setUp();
         assertEquals(EntityType.GOODPLANT, flat.getEntityType(new XY(20, 20)));
         assertEquals(EntityType.GOODBEAST, flat.getEntityType(new XY(10, 15)));
     }
 
     @org.junit.Test
     public void getEntity() throws Exception {
-        setUp();
         Entity test = new GoodBeast(100, new XY(10, 15));
         assertEquals(test, flat.getEntity(new XY(10, 15)));
     }
@@ -119,7 +110,6 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void killEntity() throws Exception {
-        setUp();
         Entity toKill = flat.getEntity(new XY(20, 20));
         flat.killEntity(toKill);
         assertTrue(flat.getEntity(new XY(20, 20)) == null);
@@ -127,7 +117,6 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void killAndReplace() throws Exception {
-        setUp();
         int counter = 0;
         Entity toKill = flat.getEntity(new XY(10, 15));
 
@@ -135,9 +124,7 @@ public class FlattenedBoardTest {
             flat.killAndReplace(toKill);
             for (int j = 0; j < flat.getSize().getY(); j++) {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
-                    if (flat.getEntity(new XY(i, j)) == null)
-                        continue;
-                    else if (toKill.getEntityType() == flat.getEntityType(new XY(i, j))) {
+                    if (toKill.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         toKill = flat.getEntity(new XY(i, j));
                         counter++;
                     }
