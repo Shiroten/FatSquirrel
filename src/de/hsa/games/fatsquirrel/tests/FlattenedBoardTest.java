@@ -19,12 +19,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class FlattenedBoardTest {
-    EntitySet set = new EntitySet(new XY(40, 30));
-    BoardConfig config = new BoardConfig();
-    Board board = new Board(set, config);
-    FlattenedBoard flat;
+    private EntitySet set = new EntitySet(new XY(40, 30));
+    private BoardConfig config = new BoardConfig();
+    private Board board = new Board(set, config);
+    private FlattenedBoard flat;
 
-    private FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
+    //private FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
     private GoodBeast mockedGoodBeast = mock(GoodBeast.class);
 
     @org.junit.Test
@@ -63,40 +63,36 @@ public class FlattenedBoardTest {
         int counter = 0;
         XY toMove;
 
-        Entity target = flat.getEntity(new XY(10, 15));
+        Entity goodBeast = flat.getEntity(new XY(10, 15));
 
         for (int k = 0; k < maxTests; k++) {
 
-            while ((target.getCoordinate().distanceFrom(mini.getCoordinate())) > 1) {
-                toMove = target.getCoordinate().minus(mini.getCoordinate());
+            while ((goodBeast.getCoordinate().distanceFrom(mini.getCoordinate())) >= 1) {
+                toMove = goodBeast.getCoordinate().minus(mini.getCoordinate());
                 flat.tryMove(mini, toMove);
             }
 
             for (int j = 0; j < flat.getSize().getY(); j++) {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
-                    if (flat.getEntity(new XY(i, j)) == null)
-                        continue;
-                    else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
-                        target = flat.getEntity(new XY(i, j));
+                    if (goodBeast.getEntityType() == flat.getEntityType(new XY(i, j))) {
+                        goodBeast = flat.getEntity(new XY(i, j));
                         System.out.println("Test: " + new XY(i, j));
+                        System.out.println("Mini: " + mini.getCoordinate().toString());
                         counter++;
                     }
                 }
             }
         }
 
-        int counterEntitys = 0;
+        int counterEntities = 0;
         for (int j = 0; j < flat.getSize().getY(); j++) {
             for (int i = 0; i < flat.getSize().getX(); i++) {
-                if (flat.getEntity(new XY(i, j)) == null)
-                    continue;
-                else {
-                    counterEntitys++;
-                }
+                if (flat.getEntity(new XY(i, j)) != null)
+                    counterEntities++;
             }
         }
 
-        System.out.println(counterEntitys);
+        System.out.println(counterEntities);
         System.out.println(counter);
         assertTrue(counter == maxTests);
     }

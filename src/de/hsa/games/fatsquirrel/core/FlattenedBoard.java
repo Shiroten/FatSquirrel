@@ -559,8 +559,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
     @Override
     public void killAndReplace(Entity entity) {
         EntityType temp = entity.getEntityType();
-        killEntity(entity);
         Entity newE = board.addEntity(temp, randomFreePosition());
+        killEntity(entity);
         flattenedBoard[newE.getCoordinate().getY()][newE.getCoordinate().getX()] = newE;
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
@@ -598,10 +598,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
         XY xy;
         do {
             xy = new XY(randomWithRange(1, size.getX() - 1), randomWithRange(1, size.getY() - 1));
-            System.out.println("While: " + xy);
+            //System.out.println("While: " + xy);
         }
         while (flattenedBoard[xy.getY()][xy.getX()] != null);
-        System.out.println("Done: " + xy);
+        //System.out.println("Done: " + xy);
         return xy;
     }
 
