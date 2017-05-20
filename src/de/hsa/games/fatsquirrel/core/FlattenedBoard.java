@@ -452,7 +452,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
             //Todo: restliche EntiType behalden für implode falls gewünscht.
         }
 
-
     }
 
     private boolean entityFriendly(Entity e, Entity toCheck) {
