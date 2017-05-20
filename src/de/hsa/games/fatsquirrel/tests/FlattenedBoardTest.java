@@ -29,6 +29,12 @@ public class FlattenedBoardTest {
         board.add(mockedGoodBeast);
         flat = board.flatten();
     }
+    @org.junit.Test
+    public void tearDown(){
+        set = new EntitySet(new XY(40, 30));
+        config = new BoardConfig();
+        board = new Board(set, config);
+    }
 
     @org.junit.Test
     public void getEntityType() throws Exception {
@@ -47,6 +53,7 @@ public class FlattenedBoardTest {
         for (int i = 0; i < 20; i++) {
             try {
                 tryMove();
+                tearDown();
             } catch (Exception e) {
                 e.printStackTrace();
             }
