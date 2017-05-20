@@ -6,9 +6,11 @@ import de.hsa.games.fatsquirrel.botapi.*;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
+import java.lang.reflect.Proxy;
+
 public class MasterSquirrelBot extends MasterSquirrel {
 
-    static class ControllerContextImpl implements ControllerContext {
+    public static class ControllerContextImpl implements ControllerContext {
 
         private EntityContext context;
         private XY myPosition;
@@ -137,6 +139,16 @@ public class MasterSquirrelBot extends MasterSquirrel {
     @Override
     public void nextStep(EntityContext context) {
         ControllerContextImpl view = new ControllerContextImpl(context, getCoordinate(), this);
+
+        // use the general Proxy class and an InvocationHandler based on reflection
+        /*DebugHandler handler = new DebugHandler(view);
+        ControllerContextImpl view2 = (ControllerContextImpl) Proxy.newProxyInstance(
+                ControllerContextImpl.class.getClassLoader(),
+                new Class[] { ControllerContextImpl.class },
+                handler);
+
+        testIt(view2);*/
+
 
         if (moveCounter == 0) {
             if (stunTime > 0)

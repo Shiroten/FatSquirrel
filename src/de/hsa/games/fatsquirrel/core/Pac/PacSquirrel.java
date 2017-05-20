@@ -18,28 +18,28 @@ public class PacSquirrel extends HandOperatedMasterSquirrel {
         else {
             switch (command) {
                 case EAST:
-                    context.tryMove(this, XY.RIGHT);
+                    context.tryMoveMini(this, XY.RIGHT);
                     break;
                 case WEST:
-                    context.tryMove(this, XY.LEFT);
+                    context.tryMoveMini(this, XY.LEFT);
                     break;
                 case NORTH:
-                    context.tryMove(this, XY.UP);
+                    context.tryMoveMini(this, XY.UP);
                     break;
                 case SOUTH:
-                    context.tryMove(this, XY.DOWN);
+                    context.tryMoveMini(this, XY.DOWN);
                     break;
                 case NORTHEAST:
-                    context.tryMove(this, XY.RIGHT_UP);
+                    context.tryMoveMini(this, XY.RIGHT_UP);
                     break;
                 case NORTHWEST:
-                    context.tryMove(this, XY.LEFT_UP);
+                    context.tryMoveMini(this, XY.LEFT_UP);
                     break;
                 case SOUTHEAST:
-                    context.tryMove(this, XY.RIGHT_DOWN);
+                    context.tryMoveMini(this, XY.RIGHT_DOWN);
                     break;
                 case SOUTHWEST:
-                    context.tryMove(this, XY.LEFT_DOWN);
+                    context.tryMoveMini(this, XY.LEFT_DOWN);
                     break;
                 case NOWHERE:
                     break;
