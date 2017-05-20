@@ -31,7 +31,7 @@ public class Launcher extends Application {
     private static final int VIEW_DISTANCE_OF_BADBEAST = 6;
     private static int cellSize = 25;
 
-    private static final defaultNumber dn = defaultNumber.GBbreeding;
+    private static final defaultNumber dn = defaultNumber.testcase5;
 
     public enum defaultNumber {
         testcase1,

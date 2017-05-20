@@ -1,4 +1,4 @@
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
+package de.hsa.games.fatsquirrel.core.entity.character;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

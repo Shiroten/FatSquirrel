@@ -78,7 +78,7 @@ public class FlattenedBoardTest {
                         continue;
                     else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         target = flat.getEntity(new XY(i, j));
-                        System.out.println(new XY(i, j));
+                        System.out.println("Test: " + new XY(i, j));
                         counter++;
                     }
                 }
