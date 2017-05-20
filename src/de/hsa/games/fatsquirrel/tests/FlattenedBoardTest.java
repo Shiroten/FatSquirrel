@@ -29,11 +29,14 @@ public class FlattenedBoardTest {
         board.add(mockedGoodBeast);
         flat = board.flatten();
     }
+
     @org.junit.Test
-    public void tearDown(){
+    public void tearDown() {
         set = new EntitySet(new XY(40, 30));
         config = new BoardConfig();
         board = new Board(set, config);
+
+
     }
 
     @org.junit.Test
@@ -52,7 +55,8 @@ public class FlattenedBoardTest {
     public void tryMoves() {
         for (int i = 0; i < 20; i++) {
             try {
-                tryMove();
+                tearDown();
+                tryMoveMini();
                 tearDown();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -61,14 +65,14 @@ public class FlattenedBoardTest {
     }
 
     @org.junit.Test
-    public void tryMove() throws Exception {
+    public void tryMoveMini() throws Exception {
         board.add(new GoodBeast(0, new XY(10, 15)));
         MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
         MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, master);
         board.add(mini);
         flat = board.flatten();
 
-        int maxTests = 10000;
+        int maxTests = 100000;
         int counter = 0;
         XY toMove;
 
@@ -105,6 +109,7 @@ public class FlattenedBoardTest {
         System.out.println(counter);
         assertTrue(counter == maxTests);
     }
+
 
     @org.junit.Test
     public void tryMove1() throws Exception {
@@ -155,6 +160,15 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void nearestPlayerEntity() throws Exception {
+    }
+
+    @org.junit.Test
+    public void randomWithRange() {
+        int randomNumber;
+        for (int i = 0; i < 10000; i++) {
+            randomNumber = flat.randomWithRange(0, 10);
+            assertTrue(randomNumber <= 10 && randomNumber >= 0);
+        }
     }
 
 }
