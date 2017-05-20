@@ -50,7 +50,7 @@ public class FlattenedBoardTest {
         board.add(mini);
         flat = board.flatten();
 
-        int maxTests = 1000;
+        int maxTests = 100000;
         int counter = 0;
         XY toMove;
 
@@ -137,6 +137,15 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void nearestPlayerEntity() throws Exception {
+        HandOperatedMasterSquirrel one = new HandOperatedMasterSquirrel(2, new XY(2,2));
+        HandOperatedMasterSquirrel two = new HandOperatedMasterSquirrel(2, new XY(30,2));
+        board.add(one);
+        board.add(two);
+
+        flat = board.flatten();
+
+        assertEquals(one, flat.nearestPlayerEntity(new XY(15,2)));
+        assertEquals(two, flat.nearestPlayerEntity(new XY(30, 8)));
     }
 
 }
