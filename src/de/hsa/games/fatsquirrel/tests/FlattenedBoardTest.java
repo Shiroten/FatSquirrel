@@ -59,17 +59,18 @@ public class FlattenedBoardTest {
         board.add(mockedGoodBeast);
         flat = board.flatten();
 
+        int maxTests = 300;
         int counter = 0;
         Entity target = flat.getEntity(new XY(10, 15));
-        MasterSquirrel master = mock(MasterSquirrel.class);
-        when(master.getFactory().getClass().getSimpleName()).thenReturn("MasterFactory");
-        MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, null);
+        MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
+        MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, master);
+        XY toMove;
+        for (int k = 0; k < maxTests; k++) {
 
-        for (int k = 0; k < 250000; k++) {
-
-            System.out.println(target.getCoordinate().distanceFrom(mini.getCoordinate()));
-            XY toMove = target.getCoordinate().minus(mini.getCoordinate());
-            flat.tryMove(mini,toMove);
+            while ((target.getCoordinate().distanceFrom(mini.getCoordinate())) > 1) {
+                toMove = target.getCoordinate().minus(mini.getCoordinate());
+                flat.tryMove(mini, toMove);
+            }
 
             for (int j = 0; j < flat.getSize().getY(); j++) {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
@@ -77,13 +78,26 @@ public class FlattenedBoardTest {
                         continue;
                     else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         target = flat.getEntity(new XY(i, j));
+                        System.out.println(new XY(i, j));
                         counter++;
                     }
                 }
             }
         }
+
+        int count = 0;
+        for (int j = 0; j < flat.getSize().getY(); j++) {
+            for (int i = 0; i < flat.getSize().getX(); i++) {
+                if (flat.getEntity(new XY(i, j)) == null)
+                    continue;
+                else {
+                    count++;
+                }
+            }
+        }
+        System.out.println(count);
         System.out.println(counter);
-        assertTrue(counter == 250000);
+        assertTrue(counter == maxTests);
     }
 
     @org.junit.Test
