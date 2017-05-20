@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.BoardConfig;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
@@ -9,6 +10,9 @@ import de.hsa.games.fatsquirrel.core.entity.EntitySet;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
+import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
+import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
+import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,6 +53,37 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void tryMove() throws Exception {
+        when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
+        when(mockedGoodBeast.getEntityType()).thenReturn(EntityType.GOODBEAST);
+        when(mockedGoodBeast.getId()).thenReturn(100);
+        board.add(mockedGoodBeast);
+        flat = board.flatten();
+
+        int counter = 0;
+        Entity target = flat.getEntity(new XY(10, 15));
+        MasterSquirrel master = mock(MasterSquirrel.class);
+        when(master.getFactory().getClass().getSimpleName()).thenReturn("MasterFactory");
+        MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, null);
+
+        for (int k = 0; k < 250000; k++) {
+
+            System.out.println(target.getCoordinate().distanceFrom(mini.getCoordinate()));
+            XY toMove = target.getCoordinate().minus(mini.getCoordinate());
+            flat.tryMove(mini,toMove);
+
+            for (int j = 0; j < flat.getSize().getY(); j++) {
+                for (int i = 0; i < flat.getSize().getX(); i++) {
+                    if (flat.getEntity(new XY(i, j)) == null)
+                        continue;
+                    else if (target.getEntityType() == flat.getEntityType(new XY(i, j))) {
+                        target = flat.getEntity(new XY(i, j));
+                        counter++;
+                    }
+                }
+            }
+        }
+        System.out.println(counter);
+        assertTrue(counter == 250000);
     }
 
     @org.junit.Test

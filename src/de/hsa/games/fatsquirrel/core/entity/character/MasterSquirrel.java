@@ -51,7 +51,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
     public void nextStep(ControllerContext view) {
     }
 
-    protected BotControllerFactory getFactory(){
+    public BotControllerFactory getFactory(){
         return factory;
     }
 }
