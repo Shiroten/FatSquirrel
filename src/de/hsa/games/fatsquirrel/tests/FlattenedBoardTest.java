@@ -85,7 +85,7 @@ public class FlattenedBoardTest {
         int counter = 0;
         Entity toKill = flat.getEntity(new XY(10, 15));
 
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 250000; k++) {
             flat.killAndReplace(toKill);
             for (int j = 0; j < flat.getSize().getY(); j++) {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
@@ -99,7 +99,7 @@ public class FlattenedBoardTest {
             }
         }
         System.out.println(counter);
-        assertTrue(counter == 100000);
+        assertTrue(counter == 250000);
     }
 
     @org.junit.Test
