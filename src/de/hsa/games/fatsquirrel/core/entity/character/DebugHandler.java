@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot.ControllerContextImpl;
 
-public class DebugHandler implements InvocationHandler  {
+/*public class DebugHandler implements InvocationHandler  {
     private ControllerContextImpl view;
 
     public DebugHandler(ControllerContextImpl view)  { this.view = view; }
@@ -28,4 +28,4 @@ public class DebugHandler implements InvocationHandler  {
         System.out.println("* result:" + result);
         return result;
     }
-}
+}*/

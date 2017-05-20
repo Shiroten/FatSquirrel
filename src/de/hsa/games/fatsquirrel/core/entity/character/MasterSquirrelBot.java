@@ -141,13 +141,13 @@ public class MasterSquirrelBot extends MasterSquirrel {
         ControllerContextImpl view = new ControllerContextImpl(context, getCoordinate(), this);
 
         // use the general Proxy class and an InvocationHandler based on reflection
-        DebugHandler handler = new DebugHandler(view);
+        /*DebugHandler handler = new DebugHandler(view);
         ControllerContextImpl view2 = (ControllerContextImpl) Proxy.newProxyInstance(
                 ControllerContextImpl.class.getClassLoader(),
                 new Class[] { ControllerContextImpl.class },
                 handler);
 
-        testIt(view2);
+        testIt(view2);*/
 
 
         if (moveCounter == 0) {
