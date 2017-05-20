@@ -22,12 +22,6 @@ public class FlattenedBoardTest {
 
     @Before
     public void setUp() {
-        board.add(new GoodPlant(0, new XY(20, 20)));
-        when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
-        when(mockedGoodBeast.getEntityType()).thenReturn(EntityType.GOODBEAST);
-        when(mockedGoodBeast.getId()).thenReturn(100);
-        board.add(mockedGoodBeast);
-        flat = board.flatten();
     }
 
     @org.junit.Test
@@ -112,7 +106,24 @@ public class FlattenedBoardTest {
 
 
     @org.junit.Test
-    public void tryMove1() throws Exception {
+    public void tryMoveGoodBeast() throws Exception {
+        GoodBeast goodBeast = new GoodBeast(1, new XY(3,3));
+        Wall wall = new Wall(2, new XY(3,2));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(4, new XY(4,2));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(4,3), 100, handOperatedMasterSquirrel );
+
+        board.add(goodBeast);
+        board.add(wall);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(goodBeast, XY.UP);
+        assertEquals(new XY(3,3), goodBeast.getCoordinate());
+
+        flat.tryMove(goodBeast, XY.RIGHT_UP);
+        assertEquals(3, board.getSet().getNumberOfEntities());
     }
 
     @org.junit.Test

@@ -154,7 +154,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
         switch (getEntityType(newField)) {
             case WALL:
-                //System.out.println("Wallbump");
                 break;
             case BADBEAST:
                 break;

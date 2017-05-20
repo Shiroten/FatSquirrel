@@ -54,7 +54,7 @@ public class Board {
         initBoard();
     }
 
-    EntitySet getSet() {
+    public EntitySet getSet() {
         return set;
     }
 
@@ -68,7 +68,7 @@ public class Board {
 
     public FlattenedBoard flatten() {
         Entity[][] list = new Entity[config.getSize().getY()][config.getSize().getX()];
-        for (int i = 0; i < set.getNumberOfMaxEntities(); i++) {
+        for (int i = 0; i < set.getNumberOfEntities()-1; i++) {
             if (set.getEntity(i) != null) {
                 Entity dummy = set.getEntity(i);
                 try {
@@ -207,7 +207,7 @@ public class Board {
             newY = (int) ((Math.random() * size.getY()));
 
             //Durchsuchen des Entityset nach möglichen Konflikten
-            for (int i = 0; i < set.getNumberOfMaxEntities(); i++) {
+            for (int i = 0; i < set.getNumberOfEntities(); i++) {
 
                 if (set.getEntity(i) == null) {
                     return new XY(newX, newY);
