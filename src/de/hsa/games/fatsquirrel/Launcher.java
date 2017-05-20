@@ -31,7 +31,7 @@ public class Launcher extends Application {
     private static final int VIEW_DISTANCE_OF_BADBEAST = 6;
     private static int cellSize = 25;
 
-    private static final defaultNumber dn = defaultNumber.testcase5;
+    private static final defaultNumber dn = defaultNumber.GBbreeding;
 
     public enum defaultNumber {
         testcase1,
@@ -39,6 +39,7 @@ public class Launcher extends Application {
         testcase3,
         testcase4,
         testcase5,
+        GBbreeding,
         custom,
         normal,
     }
@@ -152,7 +153,12 @@ public class Launcher extends Application {
                         density/32, density/64, density/64, density/64, density/8,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 break;
+            case GBbreeding:
+                config = new BoardConfig(new XY(10, 10), 20,
+                        2, 0, 0, 0, 0,
+                        0, 20, 20, Game.GameType.SINGLE_PLAYER);
 
+                break;
             case custom:
             default:
                 config = new BoardConfig(gameSize, tickLength,

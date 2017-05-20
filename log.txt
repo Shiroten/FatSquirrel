@@ -1,2 +1,6 @@
-Mai 19, 2017 10:21:39 PM de.hsa.games.fatsquirrel.Launcher start
+Mai 20, 2017 1:04:33 PM de.hsa.games.fatsquirrel.Launcher start
 INFORMATION: Starting Game
+Mai 20, 2017 1:04:39 PM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 20, 2017 1:04:52 PM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
