@@ -29,7 +29,6 @@ public class Board {
     private BoardConfig config;
     private int idCounter = 0;
 
-    private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
     private MasterSquirrel masterSquirrel[] = new MasterSquirrel[10];
     private BotControllerFactory factoryList[] = {new BasterFactory(), new ShirotenFactory(), new GoodBeastChaserFactory()};
 
@@ -38,9 +37,9 @@ public class Board {
     public Board() {
 
         this.set = new EntitySet(new XY(20, 20));
-        this.config = new BoardConfig(new XY(20, 20), 60, 7, 7, 7, 7, 7, 4, 6, 6, Game.GameType.PACMAN);
+        this.config = new BoardConfig(new XY(20, 20), 60, 0, 0, 0, 0, 0, 0, 0, 0, Game.GameType.WITH_BOT);
 
-        initBoard();
+        //initBoard();
     }
 
     public Board(BoardConfig config) {
@@ -79,12 +78,12 @@ public class Board {
         return new FlattenedBoard(config.getSize(), this, list);
     }
 
-    public int setID() {
+    private int setID() {
 
         return idCounter++;
     }
 
-    public void initBoard() {
+    private void initBoard() {
         //Äußere Mauern
         initOuterWalls();
 
@@ -145,7 +144,6 @@ public class Board {
                 case MASTERSQUIRREL:
                     if (config.getGameType() != Game.GameType.BOT_ONLY && set.getHandOperatedMasterSquirrel() == null) {
                         entityToAdd = new HandOperatedMasterSquirrel(-100, new XY(randomX, randomY));
-                        this.handOperatedMasterSquirrel = (HandOperatedMasterSquirrel) entityToAdd;
                     } else {
                         entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), getFactory(numberOfAIs));
                         numberOfAIs++;
@@ -156,13 +154,13 @@ public class Board {
         }
     }
 
-    //TODO: Methode für Factory
     private BotControllerFactory getFactory(int aiNumber) {
         return factoryList[aiNumber % factoryList.length];
     }
 
     //Package Private
-    Entity addEntity(EntityType type, XY position) {
+    //TODO: wieder auf Package-Private setzen nach Test
+    public Entity addEntity(EntityType type, XY position) {
 
         Entity addEntity = null;
 

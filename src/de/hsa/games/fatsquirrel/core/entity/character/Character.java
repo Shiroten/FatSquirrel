@@ -31,11 +31,6 @@ public abstract class Character extends Entity {
 
     public abstract void nextStep(EntityContext context);
 
-    public XY possibleMove(EntityContext context, XY wantedDirection) {
-        //TODO: possibleMove implementieren
-        return XY.ZERO_ZERO;
-    }
-
     void implode(EntityContext context, int impactRadius) {
 
         context.implode(this, impactRadius);
