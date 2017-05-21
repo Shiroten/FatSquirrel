@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.botapi;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 public interface ControllerContext {
@@ -19,7 +20,7 @@ public interface ControllerContext {
      */
     EntityType getEntityAt(XY xy) throws OutOfViewException;
     void move(XY direction);
-    void spawnMiniBot(XY direction, int energy) throws SpawnException;
+    void spawnMiniBot(XY direction, int energy) throws SpawnException, NotEnoughEnergyException;
     XY directionOfMaster();
     long getRemainingSteps();
     default void shout(String text){};
