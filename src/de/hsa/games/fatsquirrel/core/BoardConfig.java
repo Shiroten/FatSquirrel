@@ -75,6 +75,25 @@ public class BoardConfig {
 
     }
 
+    public BoardConfig(XY size) {
+        this.size = size;
+        this.TICKLENGTH = 60;
+        this.NUMBER_OF_GB = 50;
+        this.NUMBER_OF_BB = 5;
+        this.NUMBER_OF_GP = 5;
+        this.NUMBER_OF_BP = 5;
+        this.NUMBER_OF_WA = 25;
+        this.NUMBER_OF_BOTS = 4;
+        this.SQUIRREL_STUN_TIME_IN_TICKS = (int) (TICKLENGTH * SQUIRREL_STUN_TIME_LENGTH);
+        this.BEAST_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * BEAST_MOVE_TIME_LENGTH);
+        this.MINI_SQUIRREL_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * MINI_SQUIRREL_MOVE_TIME_LENGTH);
+        this.VIEW_DISTANCE_OF_GOODBEAST = 7;
+        this.VIEW_DISTANCE_OF_BADBEAST = 6;
+        this.gameType = Game.GameType.WITH_BOT;
+        this.GAME_DURATIONE_AT_START = 1000000000;
+
+    }
+
     public BoardConfig(XY size, int NUMBER_OF_GB, int NUMBER_OF_BB, int NUMBER_OF_GP, int NUMBER_OF_BP, int NUMBER_OF_WA) {
         this(size, 60, NUMBER_OF_GB, NUMBER_OF_BB, NUMBER_OF_GP, NUMBER_OF_BP, NUMBER_OF_WA, 4, 6, 6, Game.GameType.SINGLE_PLAYER);
     }

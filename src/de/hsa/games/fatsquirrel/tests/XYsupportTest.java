@@ -48,6 +48,8 @@ public class XYsupportTest {
         assertEquals(XY.RIGHT_DOWN, XYsupport.normalizedVector(new XY(10, 10)));
         assertEquals(XY.RIGHT_DOWN, XYsupport.normalizedVector(new XY(10, 11)));
         assertEquals(XY.RIGHT, XYsupport.normalizedVector(new XY(5, 1)));
+        assertEquals(XY.RIGHT, XYsupport.normalizedVector(new XY(5,-2)));
+        assertEquals(XY.RIGHT_UP, XYsupport.normalizedVector(new XY(5,-3)));
         assertEquals(XY.ZERO_ZERO, XYsupport.normalizedVector(new XY(0,0)));
         assertEquals(XY.LEFT_UP, XYsupport.normalizedVector(new XY(-10, -11)));
     }
