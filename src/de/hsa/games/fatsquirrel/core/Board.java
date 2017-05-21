@@ -68,7 +68,7 @@ public class Board {
 
     public FlattenedBoard flatten() {
         Entity[][] list = new Entity[config.getSize().getY()][config.getSize().getX()];
-        for (int i = 0; i < set.getNumberOfEntities()-1; i++) {
+        for (int i = 0; i < set.getNumberOfEntities(); i++) {
             if (set.getEntity(i) != null) {
                 Entity dummy = set.getEntity(i);
                 try {

@@ -96,7 +96,7 @@ public class Launcher extends Application {
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
                     try {
-                        System.out.println(game.getTickLength());
+                        //System.out.println(game.getTickLength());
                         Thread.sleep(game.getTickLength());
                         game.run();
                     } catch (InterruptedException e) {

@@ -268,14 +268,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
             default:
                 //Keine Kollisionen: einfacher Move
-                //System.out.println("MS moving");
                 move(miniSquirrel, newField);
         }
         miniSquirrel.updateEnergy(-1);
-        //TODO: Check is dead
-        //moveOrKillMiniSquirrel(miniSquirrel, miniSquirrel.getCoordinate());
-
-
     }
 
     private void moveOrKillMiniSquirrel(MiniSquirrel miniSquirrel, XY newPosition) {
