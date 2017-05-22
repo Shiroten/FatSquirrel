@@ -7,13 +7,13 @@ import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 public class MiniSquirrelBot extends MiniSquirrel {
-    class ControllerContextImpl implements ControllerContext {
+    public static class ControllerContextImpl implements ControllerContext {
 
         private EntityContext context;
         private XY myPosition;
         private MiniSquirrel miniSquirrel;
 
-        ControllerContextImpl(EntityContext context, XY myPosition, MiniSquirrel miniSquirrel) {
+        public ControllerContextImpl(EntityContext context, XY myPosition, MiniSquirrel miniSquirrel) {
             this.context = context;
             this.myPosition = myPosition;
             this.miniSquirrel = miniSquirrel;

@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.*;
+import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -16,7 +17,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         private XY myPosition;
         private MasterSquirrel masterSquirrel;
 
-        ControllerContextImpl(EntityContext context, XY myPosition, MasterSquirrel masterSquirrel) {
+        public ControllerContextImpl(EntityContext context, XY myPosition, MasterSquirrel masterSquirrel) {
             this.context = context;
             this.myPosition = myPosition;
             this.masterSquirrel = masterSquirrel;
@@ -69,8 +70,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
         @Override
         public XY directionOfMaster() {
             try {
-                if (getEntityAt(locate()) == EntityType.MINISQUIRREL){
-                    MasterSquirrel ms = ((MiniSquirrel)context.getEntity(locate())).getDaddy();
+                if (getEntityAt(locate()) == EntityType.MINISQUIRREL) {
+                    MasterSquirrel ms = ((MiniSquirrel) context.getEntity(locate())).getDaddy();
                     System.out.println(ms.getCoordinate());
                     return ms.getCoordinate();
 
@@ -106,14 +107,18 @@ public class MasterSquirrelBot extends MasterSquirrel {
         }
 
         @Override
-        public void spawnMiniBot(XY direction, int energy) throws SpawnException {
-            try {
-                if (getEntityAt(locate().plus(direction)) != EntityType.NONE)
+        public void spawnMiniBot(XY direction, int energy) throws SpawnException, NotEnoughEnergyException {
+            if (masterSquirrel.getEnergy() >= energy) {
+                try {
+                    if (getEntityAt(locate().plus(direction)) != EntityType.NONE)
+                        throw new SpawnException();
+                } catch (OutOfViewException e) {
                     throw new SpawnException();
-            } catch (OutOfViewException e) {
-                throw new SpawnException();
+                }
+                context.spawnMiniSquirrel(locate().plus(direction), energy, masterSquirrel);
+            }else{
+                throw new NotEnoughEnergyException();
             }
-            context.spawnMiniSquirrel(locate().plus(direction), energy, masterSquirrel);
         }
 
         @Override
@@ -132,7 +137,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         String factoryName = factory.getClass().getSimpleName();
         CharSequence replaceChars = "Factory";
         CharSequence with = "";
-        String newName = factoryName.replace(replaceChars,with);
+        String newName = factoryName.replace(replaceChars, with);
         this.setEntityName(newName);
     }
 

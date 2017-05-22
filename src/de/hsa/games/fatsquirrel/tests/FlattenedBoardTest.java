@@ -29,8 +29,6 @@ public class FlattenedBoardTest {
         set = new EntitySet(new XY(40, 30));
         config = new BoardConfig();
         board = new Board(set, config);
-
-
     }
 
     @org.junit.Test

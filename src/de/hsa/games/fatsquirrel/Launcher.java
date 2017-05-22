@@ -31,7 +31,7 @@ public class Launcher extends Application {
     private static final int VIEW_DISTANCE_OF_BADBEAST = 6;
     private static int cellSize = 25;
 
-    private static final defaultNumber dn = defaultNumber.GBbreeding;
+    private static final defaultNumber dn = defaultNumber.normal;
 
     public enum defaultNumber {
         testcase1,
@@ -96,7 +96,6 @@ public class Launcher extends Application {
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
                     try {
-                        System.out.println(game.getTickLength());
                         Thread.sleep(game.getTickLength());
                         game.run();
                     } catch (InterruptedException e) {
@@ -120,7 +119,7 @@ public class Launcher extends Application {
         switch (dn) {
 
             case normal:
-                multiplier = 10;
+                multiplier = 2;
                 config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 100,
                         50, 7, 7, 7, 50,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);

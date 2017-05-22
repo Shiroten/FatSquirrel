@@ -87,7 +87,7 @@ public class FxUI extends Scene implements UI {
 
         fxUI.setOnKeyPressed(
                 keyEvent -> {
-                    System.out.println(keyEvent.getCode());
+                    //System.out.println(keyEvent.getCode());
                     switch (keyEvent.getCode()) {
                         case W:
                         case UP:
@@ -244,8 +244,10 @@ public class FxUI extends Scene implements UI {
 
         try {
             printImplosion(gc, view);
+
             printEntity(gc, view);
             printHeadOrTail(gc, view);
+
         } catch (Exception e) {
             Logger logger = Logger.getLogger(Launcher.class.getName());
             logger.log(Level.SEVERE, e.getMessage());
@@ -346,18 +348,18 @@ public class FxUI extends Scene implements UI {
         if (printVector == showLastVector.head || printVector == showLastVector.headAndTail) {
             gc.setFill(Color.color(0.702, 0.3098, 0.0824));
             double offset = -cellSize / 2;
-            gc.fillRect(offset, offset, 2, 10);
-            gc.fillRect(offset, offset, 10, 2);
+            gc.fillRect(offset, offset, 1 * scaleFactor, 5 * scaleFactor);
+            gc.fillRect(offset, offset, 5 * scaleFactor, 1 * scaleFactor);
         }
 
         gc.rotate(0);
         //Tail
         if (printVector == showLastVector.tail || printVector == showLastVector.headAndTail) {
             gc.setFill(Color.color(0.4275, 0.1961, 0.0431));
-            double offsetTail = cellSize / 2 - 7;
-            gc.fillRect(offsetTail, offsetTail, 4 * scaleFactor, 15 * scaleFactor);
-            gc.fillRect(offsetTail, offsetTail, 15 * scaleFactor, 4 * scaleFactor);
-            gc.fillRect(offsetTail, offsetTail, 10 * scaleFactor, 10 * scaleFactor);
+            double offsetTail = cellSize / 2 - 4 * scaleFactor;
+            gc.fillRect(offsetTail, offsetTail, 1.5 * scaleFactor, 6.5 * scaleFactor);
+            gc.fillRect(offsetTail, offsetTail, 6.5 * scaleFactor, 1.5 * scaleFactor);
+            gc.fillRect(offsetTail, offsetTail, 3.5 * scaleFactor, 3.5 * scaleFactor);
         }
         gc.restore();
     }
