@@ -22,12 +22,6 @@ public class FlattenedBoardTest {
 
     @Before
     public void setUp() {
-        board.add(new GoodPlant(0, new XY(20, 20)));
-        when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
-        when(mockedGoodBeast.getEntityType()).thenReturn(EntityType.GOODBEAST);
-        when(mockedGoodBeast.getId()).thenReturn(100);
-        board.add(mockedGoodBeast);
-        flat = board.flatten();
     }
 
     @org.junit.Test
@@ -72,7 +66,7 @@ public class FlattenedBoardTest {
         board.add(mini);
         flat = board.flatten();
 
-        int maxTests = 100000;
+        int maxTests = 1000;
         int counter = 0;
         XY toMove;
 
@@ -112,15 +106,73 @@ public class FlattenedBoardTest {
 
 
     @org.junit.Test
-    public void tryMove1() throws Exception {
+    public void tryMoveGoodBeast() throws Exception {
+        GoodBeast goodBeast = new GoodBeast(1, new XY(3,3));
+        Wall wall = new Wall(2, new XY(3,2));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(4, new XY(4,2));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(4,3), 100, handOperatedMasterSquirrel );
+
+        board.add(goodBeast);
+        board.add(wall);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(goodBeast, XY.UP);
+        assertEquals(new XY(3,3), goodBeast.getCoordinate());
+
+        flat.tryMove(goodBeast, XY.LEFT);
+        flat.tryMove(goodBeast, XY.RIGHT);
+        assertEquals(new XY(3,3), goodBeast.getCoordinate());
+
+        flat.tryMove(goodBeast, XY.RIGHT_UP);
+        assertEquals(flat.getEntityType(new XY(3,3)), EntityType.NONE);
+
     }
 
     @org.junit.Test
-    public void tryMove2() throws Exception {
+    public void tryMoveBadBeast() throws Exception {
+        BadBeast badBeast = new BadBeast(1, new XY(3,3));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+
+        board.add(badBeast);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(badBeast, XY.LEFT);
+
+        assertEquals(new XY(3,3), badBeast.getCoordinate());
+        assertEquals(handOperatedMasterSquirrel.getEnergy(), 850);
+
+        flat.tryMove(badBeast, XY.LEFT_UP);
+        assertEquals(flat.getEntityType(new XY(2,2)), EntityType.NONE);
+        assertEquals(badBeast.getLives(), 5);
     }
 
     @org.junit.Test
-    public void tryMove3() throws Exception {
+    public void tryMoveMasterSquirrel() throws Exception {
+        BadBeast badBeast = new BadBeast(1, new XY(3,3));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+
+        board.add(badBeast);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(handOperatedMasterSquirrel, XY.RIGHT);
+        assertEquals(new XY(2,3), handOperatedMasterSquirrel.getCoordinate());
+        assertEquals(850, handOperatedMasterSquirrel.getEnergy());
+
+        flat.tryMove(handOperatedMasterSquirrel, XY.UP);
+        assertEquals(flat.getEntity(new XY(2,2)), handOperatedMasterSquirrel);
+        assertEquals(950, handOperatedMasterSquirrel.getEnergy());
+
     }
 
     @org.junit.Test
