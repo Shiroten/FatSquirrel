@@ -54,8 +54,7 @@ public class MiniSquirrel extends PlayerEntity {
             else {
                 if (implode) {
                     System.out.println(implosionRadius);
-                    System.out.println("Test");
-                    implode(context, implosionRadius);
+                    context.implode(this, implosionRadius);
                 } else {
 
                     XY distance = XYsupport.randomDirection();

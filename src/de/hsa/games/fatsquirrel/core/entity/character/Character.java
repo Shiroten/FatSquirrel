@@ -37,12 +37,6 @@ public abstract class Character extends Entity {
 
     public abstract void nextStep(EntityContext context);
 
-    void implode(EntityContext context, int impactRadius) {
-
-        context.implode(this, impactRadius);
-
-    }
-
     void tryUnStuck(EntityContext context, XY direction, freeFieldMode ffm) {
         XY toMove = direction;
         toMove = goodMove(context, toMove, ffm);

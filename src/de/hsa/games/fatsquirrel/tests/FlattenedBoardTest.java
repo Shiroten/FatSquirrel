@@ -179,6 +179,9 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void implode() throws Exception {
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(20, 20));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 200, handOperatedMasterSquirrel);
+
     }
 
     @org.junit.Test
