@@ -154,7 +154,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
         switch (getEntityType(newField)) {
             case WALL:
-                //System.out.println("Wallbump");
                 break;
             case BADBEAST:
                 break;
@@ -269,14 +268,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
             default:
                 //Keine Kollisionen: einfacher Move
-                //System.out.println("MS moving");
                 move(miniSquirrel, newField);
         }
         miniSquirrel.updateEnergy(-1);
-        //TODO: Check is dead
-        //moveOrKillMiniSquirrel(miniSquirrel, miniSquirrel.getCoordinate());
-
-
     }
 
     private void moveOrKillMiniSquirrel(MiniSquirrel miniSquirrel, XY newPosition) {

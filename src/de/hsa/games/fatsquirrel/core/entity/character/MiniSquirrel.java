@@ -66,8 +66,6 @@ public class MiniSquirrel extends PlayerEntity {
             moveCounter = 0;
         else
             moveCounter++;
-
-
     }
 
     public void implode(int implosionRadius) {

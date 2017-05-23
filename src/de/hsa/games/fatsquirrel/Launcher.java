@@ -96,6 +96,7 @@ public class Launcher extends Application {
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
                     try {
+                        //System.out.println(game.getTickLength());
                         Thread.sleep(game.getTickLength());
                         game.run();
                     } catch (InterruptedException e) {
@@ -119,7 +120,7 @@ public class Launcher extends Application {
         switch (dn) {
 
             case normal:
-                multiplier = 2;
+                multiplier = 10;
                 config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 100,
                         50, 7, 7, 7, 50,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
