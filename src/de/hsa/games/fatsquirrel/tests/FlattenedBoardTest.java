@@ -182,6 +182,17 @@ public class FlattenedBoardTest {
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(20, 20));
         MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 200, handOperatedMasterSquirrel);
 
+        GoodBeast goodBeastClose = new GoodBeast(3, new XY(4,3));
+        GoodBeast goodBeastMiddle = new GoodBeast(4, new XY(7, 3));
+        GoodBeast goodBeastFar = new GoodBeast(5, new XY(13, 3));
+        GoodBeast goodBeastOut = new GoodBeast(6, new XY(13, 4));
+
+        board.add(handOperatedMasterSquirrel, miniSquirrel, goodBeastClose, goodBeastMiddle, goodBeastFar, goodBeastOut);
+
+        flat = board.flatten();
+
+        flat.implode(miniSquirrel, 10);
+
     }
 
     @org.junit.Test

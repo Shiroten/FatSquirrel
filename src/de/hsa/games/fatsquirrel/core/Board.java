@@ -54,7 +54,7 @@ public class Board {
         initBoard();
     }
 
-    EntitySet getSet() {
+    public EntitySet getSet() {
         return set;
     }
 
@@ -268,6 +268,12 @@ public class Board {
 
     public void add(Entity toAdd) {
         this.set.add(toAdd);
+    }
+
+    public void add(Entity ... entities){
+        for(Entity e : entities){
+            this.set.add(e);
+        }
     }
 
     public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
