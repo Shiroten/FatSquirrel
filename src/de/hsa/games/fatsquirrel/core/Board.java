@@ -45,6 +45,7 @@ public class Board {
     public Board(EntitySet set, BoardConfig config){
         this.set = set;
         this.config = config;
+        this.implosions = new ArrayList<>();
     }
 
     public Board(BoardConfig config) {

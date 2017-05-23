@@ -35,7 +35,12 @@ public class EntitySet {
     }
 
     public void delete(Entity toDelete) {
+        entityList.remove(toDelete);
         toRemove.add(toDelete);
+    }
+
+    public boolean contains(Entity e){
+        return entityList.contains(e);
     }
 
     public void nextStep(EntityContext flat) {
@@ -52,8 +57,6 @@ public class EntitySet {
         } catch (ConcurrentModificationException e){
             e.printStackTrace();
         }
-
-        entityList.removeAll(toRemove);
         toRemove.clear();
     }
 

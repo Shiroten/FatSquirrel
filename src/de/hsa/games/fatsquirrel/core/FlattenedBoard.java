@@ -396,12 +396,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
         float impactArea = (float) (impactRadius * impactRadius * Math.PI);
         XY position = character.getCoordinate();
 
-        for (int i = -impactRadius; i < impactRadius + 1; i++) {
-            for (int j = -impactRadius; j < impactRadius + 1; j++) {
+        for (int i = -impactRadius; i <= impactRadius; i++) {
+            for (int j = -impactRadius; j <= impactRadius; j++) {
 
                 if ((i == 0 && j == 0))
                     continue;
-                if (!(Math.round(new XY(Math.abs(j), Math.abs(i)).length()) < impactRadius + 1))
+                if (Math.round(new XY(Math.abs(j), Math.abs(i)).length()) > impactRadius)
                     continue;
 
                 Entity entityToCheck = getEntity(position.plus(new XY(j, i)));
@@ -414,6 +414,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 double distance = position.distanceFrom(entityToCheck.getCoordinate());
 
                 double energyLoss = 200 * (character.getEnergy() / impactArea) * (1 - distance / impactRadius);
+                energyLoss = energyLoss < 0 ? 0 : energyLoss;
                 collectedEnergy += calculateEnergyOfEntity(energyLoss, entityToCheck);
                 EntityType et = entityToCheck.getEntityType();
 

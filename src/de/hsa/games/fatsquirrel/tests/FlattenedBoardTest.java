@@ -180,7 +180,7 @@ public class FlattenedBoardTest {
     @org.junit.Test
     public void implode() throws Exception {
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(20, 20));
-        MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 200, handOperatedMasterSquirrel);
+        MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 400, handOperatedMasterSquirrel);
 
         GoodBeast goodBeastClose = new GoodBeast(3, new XY(4,3));
         GoodBeast goodBeastMiddle = new GoodBeast(4, new XY(7, 3));
@@ -191,7 +191,18 @@ public class FlattenedBoardTest {
 
         flat = board.flatten();
 
-        flat.implode(miniSquirrel, 10);
+        int impactRadius = 10;
+        double impactArea = (impactRadius * impactRadius) * Math.PI;
+
+        double energyLoss = 200 * (miniSquirrel.getEnergy()/impactArea) * (1.0- (4.0/impactRadius));
+
+        flat.implode(miniSquirrel, impactRadius);
+        assertTrue(!board.getSet().contains(miniSquirrel));
+        assertTrue(!board.getSet().contains(goodBeastClose));
+
+        assertEquals((200 - energyLoss), goodBeastMiddle.getEnergy(), 0.8);
+
+        assertEquals(200, goodBeastOut.getEnergy());
 
     }
 

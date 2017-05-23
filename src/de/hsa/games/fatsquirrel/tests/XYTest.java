@@ -2,16 +2,16 @@ package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class XYTest {
     private XY test1 = new XY(10,10);
     private XY test2 = new XY(20,20);
     private XY testLength1 = new XY(9,12);
     private XY testLength2 = new XY (13,17);
-    private XY testDistanceFrome1 = new XY(15,15);
-    private XY testDistanceFrome2 = new XY(23,29);
-    private XY testDistanceFrome3 = new XY(6,3);
+    private XY testDistanceFrom1 = new XY(15,15);
+    private XY testDistanceFrom2 = new XY(23,29);
+    private XY testDistanceFrom3 = new XY(6,3);
 
 
     @org.junit.Before
@@ -59,22 +59,10 @@ public class XYTest {
 
     @org.junit.Test
     public void distanceFrom() throws Exception {
-        double vectorLength1 = testDistanceFrome1.distanceFrom(testDistanceFrome3);
-        double expectedValue1 = 15;
 
-        boolean firstTest = vectorLength1 == expectedValue1;
-
-        double vectorLength2 = testDistanceFrome2.distanceFrom(testDistanceFrome3);
-        double expectedValue2 = Math.sqrt(965);
-
-        boolean secondTest = vectorLength2 == expectedValue2;
-
-        double vectorLength3 = testDistanceFrome3.distanceFrom(testDistanceFrome3);
-        double expectedValue3 = 0.0;
-
-        boolean thirdTest = vectorLength3 == expectedValue3;
-
-        assertTrue(firstTest && secondTest && thirdTest);
+        assertEquals(15.0, testDistanceFrom1.distanceFrom(testDistanceFrom3), 0.001);
+        assertEquals(Math.sqrt(965), testDistanceFrom2.distanceFrom(testDistanceFrom3), 0.001);
+        assertEquals(0.0, testDistanceFrom3.distanceFrom(testDistanceFrom3), 0.001);
     }
 
     @org.junit.Test
