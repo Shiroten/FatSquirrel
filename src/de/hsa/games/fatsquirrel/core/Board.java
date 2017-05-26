@@ -28,6 +28,15 @@ public class Board {
     private EntitySet set;
     private BoardConfig config;
     private int idCounter = 0;
+    private long remainingGameTime;
+
+    public long getRemainingGameTime() {
+        return remainingGameTime;
+    }
+
+    public void reduceRemainingGameTime() {
+        this.remainingGameTime = this.remainingGameTime - 1;
+    }
 
     private MasterSquirrel masterSquirrel[] = new MasterSquirrel[10];
     private BotControllerFactory factoryList[] = {new BasterFactory(), new ShirotenFactory(), new GoodBeastChaserFactory()};
@@ -38,7 +47,7 @@ public class Board {
 
         this.set = new EntitySet(new XY(20, 20));
         this.config = new BoardConfig(new XY(20, 20), 60, 0, 0, 0, 0, 0, 0, 0, 0, Game.GameType.WITH_BOT);
-
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         //initBoard();
     }
 
@@ -46,12 +55,14 @@ public class Board {
         this.set = set;
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
     }
 
     public Board(BoardConfig config) {
         this.set = new EntitySet(config.getSize());
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         initBoard();
     }
 

@@ -574,7 +574,6 @@ public class FxUI extends Scene implements UI {
         } else {
             addmsg = "";
         }
-
         final String outmsg = msg + addmsg;
         Platform.runLater(() -> msgLabel.setText(outmsg));
     }
