@@ -5,6 +5,7 @@ import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +49,7 @@ public class State {
         return board.flatten();
     }
 
-    public ArrayList<Entity> getEntitySet() {
+    public List<Entity> getEntitySet() {
         return board.getSet().getEntityList();
     }
 }

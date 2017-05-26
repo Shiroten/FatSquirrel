@@ -5,16 +5,12 @@ import de.hsa.games.fatsquirrel.core.entity.character.Character;
 import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.ListIterator;
+import java.util.*;
 
 public class EntitySet {
 
     private final int numberOfMaxEntities;
-    private ArrayList<Entity> entityList = new ArrayList<>();
-    private ArrayList<Entity> toRemove = new ArrayList<>();
+    private List<Entity> entityList = new ArrayList<>();
 
     public EntitySet (XY xy){
         numberOfMaxEntities = xy.getX() * xy.getY();
@@ -24,7 +20,7 @@ public class EntitySet {
         return numberOfMaxEntities;
     }
 
-    public ArrayList<Entity> getEntityList() {
+    public List<Entity> getEntityList() {
         return entityList;
     }
 
@@ -36,7 +32,6 @@ public class EntitySet {
 
     public void delete(Entity toDelete) {
         entityList.remove(toDelete);
-        toRemove.add(toDelete);
     }
 
     public boolean contains(Entity e){
@@ -47,7 +42,7 @@ public class EntitySet {
 
         try {
             for(Entity e : new ArrayList<>(entityList)){
-                if(!toRemove.contains(e)) {
+                if(entityList.contains(e)) {
                     if (e instanceof HandOperatedMasterSquirrel)
                         ((HandOperatedMasterSquirrel) e).nextStep(flat);
                     else if (e instanceof Character)
@@ -57,7 +52,6 @@ public class EntitySet {
         } catch (ConcurrentModificationException e){
             e.printStackTrace();
         }
-        toRemove.clear();
     }
 
     public MasterSquirrel getHandOperatedMasterSquirrel(){

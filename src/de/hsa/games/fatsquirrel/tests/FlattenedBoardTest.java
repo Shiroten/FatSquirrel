@@ -17,9 +17,6 @@ public class FlattenedBoardTest {
     private Board board = new Board(set, config);
     private FlattenedBoard flat;
 
-    //private FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
-    private GoodBeast mockedGoodBeast = mock(GoodBeast.class);
-
     @Before
     public void setUp() {
     }
