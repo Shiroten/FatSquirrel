@@ -2,10 +2,11 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
-import de.hsa.games.fatsquirrel.botapi.bots.Baster.BasterFactory;
-import de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser.GoodBeastChaserFactory;
-import de.hsa.games.fatsquirrel.botapi.bots.Shiroten.ShirotenFactory;
+import de.hsa.games.fatsquirrel.botimpls.BasterFactory;
+import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
+import de.hsa.games.fatsquirrel.botimpls.ShirotenFactory;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
@@ -36,8 +37,8 @@ public class Board {
 
     public Board() {
 
-        this.set = new EntitySet(new XY(20, 20));
-        this.config = new BoardConfig(new XY(20, 20), 60, 0, 0, 0, 0, 0, 0, 0, 0, Game.GameType.WITH_BOT);
+        this.set = new EntitySet();
+        this.config = new BoardConfig();
 
         //initBoard();
     }
@@ -49,7 +50,7 @@ public class Board {
     }
 
     public Board(BoardConfig config) {
-        this.set = new EntitySet(config.getSize());
+        this.set = new EntitySet();
         this.config = config;
         this.implosions = new ArrayList<>();
         initBoard();
@@ -101,7 +102,7 @@ public class Board {
         addEntity(EntityType.GOODPLANT, config.getNUMBER_OF_GP());
 
         if (config.getGameType() == Game.GameType.WITH_BOT) {
-            addEntity(EntityType.MASTERSQUIRREL, config.getNUMBER_OF_BOTS() + 1);
+            addEntity(EntityType.MASTERSQUIRREL, config.getNUMBER_OF_BOTS());
         } else {
             addEntity(EntityType.MASTERSQUIRREL, 1);
         }
@@ -149,10 +150,17 @@ public class Board {
                     break;
                 case MASTERSQUIRREL:
                     if (config.getGameType() != Game.GameType.BOT_ONLY && set.getHandOperatedMasterSquirrel() == null) {
+                        //TODO: ID auf 1 setzen, IDCounter beginnt bei 2
                         entityToAdd = new HandOperatedMasterSquirrel(-100, new XY(randomX, randomY));
                     } else {
-                        entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), getFactory(numberOfAIs));
-                        numberOfAIs++;
+                        try {
+                            Class factoryImpl = Class.forName("de.hsa.games.fatsquirrel.botimpls." + config.getBots()[numberOfAIs]);
+                            BotControllerFactory factory = (BotControllerFactory) factoryImpl.newInstance();
+                            entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), factory);
+                            numberOfAIs++;
+                        } catch(ClassNotFoundException | IllegalAccessException | InstantiationException classNotFound){
+                            classNotFound.printStackTrace();
+                        }
                     }
                     break;
             }

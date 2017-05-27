@@ -9,16 +9,7 @@ import java.util.*;
 
 public class EntitySet {
 
-    private final int numberOfMaxEntities;
     private List<Entity> entityList = new ArrayList<>();
-
-    public EntitySet (XY xy){
-        numberOfMaxEntities = xy.getX() * xy.getY();
-    }
-
-    public int getNumberOfMaxEntities() {
-        return numberOfMaxEntities;
-    }
 
     public List<Entity> getEntityList() {
         return entityList;

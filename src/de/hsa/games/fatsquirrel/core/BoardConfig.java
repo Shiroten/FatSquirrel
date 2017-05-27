@@ -31,6 +31,8 @@ public class BoardConfig {
     private final int VIEW_DISTANCE_OF_BADBEAST;
     private final Game.GameType gameType;
 
+    private final String[] bots = {"BasterFactory", "GoodBeastChaserFactory"};
+
     public BoardConfig(XY size, int TICKLENGTH,
                        int NUMBER_OF_GB, int NUMBER_OF_BB, int NUMBER_OF_GP, int NUMBER_OF_BP, int NUMBER_OF_WA,
                        int NUMBER_OF_BOTS, int VIEW_DISTANCE_OF_GOODBEAST, int VIEW_DISTANCE_OF_BADBEAST, Game.GameType gameType) {
@@ -155,7 +157,9 @@ public class BoardConfig {
     }
 
     int getNUMBER_OF_BOTS() {
-        return NUMBER_OF_BOTS;
+        return bots.length;
     }
+
+    String[] getBots(){ return bots; }
 
 }

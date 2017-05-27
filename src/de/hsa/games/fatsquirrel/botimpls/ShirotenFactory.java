@@ -1,7 +1,9 @@
-package de.hsa.games.fatsquirrel.botapi.bots.Shiroten;
+package de.hsa.games.fatsquirrel.botimpls;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
+import de.hsa.games.fatsquirrel.botimpls.Shiroten.ShirotenMaster;
+import de.hsa.games.fatsquirrel.botimpls.Shiroten.ShirotenMini;
 
 /**
  * Created by tillm on 15.05.2017.

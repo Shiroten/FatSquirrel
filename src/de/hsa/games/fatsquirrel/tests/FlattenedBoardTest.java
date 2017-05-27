@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser.GoodBeastChaserFactory;
+import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.*;
 import de.hsa.games.fatsquirrel.core.entity.*;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
@@ -9,10 +9,9 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
 
 public class FlattenedBoardTest {
-    private EntitySet set = new EntitySet(new XY(40, 30));
+    private EntitySet set = new EntitySet();
     private BoardConfig config = new BoardConfig();
     private Board board = new Board(set, config);
     private FlattenedBoard flat;
@@ -23,7 +22,7 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void tearDown() {
-        set = new EntitySet(new XY(40, 30));
+        set = new EntitySet();
         config = new BoardConfig();
         board = new Board(set, config);
     }

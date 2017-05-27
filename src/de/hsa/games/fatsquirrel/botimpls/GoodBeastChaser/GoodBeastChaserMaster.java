@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser;
+package de.hsa.games.fatsquirrel.botimpls.GoodBeastChaser;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;

@@ -13,9 +13,9 @@ public class MiniSquirrelBot extends MiniSquirrel {
         private XY myPosition;
         private MiniSquirrel miniSquirrel;
 
-        public ControllerContextImpl(EntityContext context, XY myPosition, MiniSquirrel miniSquirrel) {
+        public ControllerContextImpl(EntityContext context, MiniSquirrel miniSquirrel) {
             this.context = context;
-            this.myPosition = myPosition;
+            this.myPosition = miniSquirrel.getCoordinate();
             this.miniSquirrel = miniSquirrel;
         }
 
@@ -110,7 +110,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
     }
 
     public void nextStep(EntityContext context) {
-        ControllerContextImpl view = new ControllerContextImpl(context, getCoordinate(), this);
+        ControllerContextImpl view = new ControllerContextImpl(context, this);
 
         if (moveCounter == 0) {
             if (stunTime > 0)
