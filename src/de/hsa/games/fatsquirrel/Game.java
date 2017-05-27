@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel;
 
+import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.State;
 
 import java.util.logging.Level;
@@ -66,6 +67,10 @@ public class Game {
             processInput();
             update();
         }
+    }
+    protected void reset(){
+        Board board = new Board(state.getBoard().getConfig());
+        state = new State(board);
     }
 
     protected void processInput() {

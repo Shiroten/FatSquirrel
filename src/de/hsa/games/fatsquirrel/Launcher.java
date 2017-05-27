@@ -104,7 +104,8 @@ public class Launcher extends Application {
                             game.run();
                             game.getState().getBoard().reduceRemainingGameTime();
                         } else {
-                            Thread.sleep(1000 * 60);
+                            Thread.sleep(1000 * 5);
+                            game.reset();
                         }
 
 
