@@ -3,14 +3,19 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
+import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
+import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class State {
-    private int highscore;
+
+    private Map<String, Long> highscore = new HashMap<>();
     private Board board;
 
     public State() {
@@ -22,7 +27,7 @@ public class State {
         this.board = board;
     }
 
-    public State(Object ... params) {
+    public State(Object... params) {
         //this.board = new Board(new BoardConfig(params));
     }
 
@@ -30,7 +35,7 @@ public class State {
         return board;
     }
 
-    public int getHighscore() {
+    public Map<String, Long> getHighscore() {
         return highscore;
     }
 
@@ -43,6 +48,22 @@ public class State {
         FlattenedBoard flat = board.flatten();
         flat.tickImplosions();
         board.getSet().nextStep(flat);
+
+        calcHighscore();
+    }
+
+    private void calcHighscore() {
+        for (MasterSquirrel ms : board.getMasterSquirrel()) {
+            if (ms != null)
+                highscore.put(ms.getEntityName(), (long) ms.getEnergy());
+        }
+
+        if (board.getRemainingGameTime() % 20 == 0) {
+            for (Map.Entry<String, Long> entry : highscore.entrySet()) {
+                System.out.printf("%s: %d%n", entry.getKey(), entry.getValue());
+            }
+            System.out.println();
+        }
     }
 
     public FlattenedBoard flattenBoard() {

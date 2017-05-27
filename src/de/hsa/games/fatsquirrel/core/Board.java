@@ -21,6 +21,8 @@ import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Board {
@@ -165,9 +167,19 @@ public class Board {
                         entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), getFactory(numberOfAIs));
                         numberOfAIs++;
                     }
+                    addToMasterSquirrelList((MasterSquirrel)entityToAdd);
                     break;
             }
             set.add(entityToAdd);
+        }
+    }
+
+    private void addToMasterSquirrelList(MasterSquirrel ms){
+        for(int i = 0 ; i < masterSquirrel.length; i++){
+            if(masterSquirrel[i] == null){
+                masterSquirrel[i] = ms;
+                return;
+            }
         }
     }
 

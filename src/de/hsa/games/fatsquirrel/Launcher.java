@@ -72,6 +72,7 @@ public class Launcher extends Application {
                 commandTest();
                 break;
         }
+
     }
 
     private static void commandTest() {
