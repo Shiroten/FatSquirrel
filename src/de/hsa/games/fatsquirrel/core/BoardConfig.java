@@ -50,7 +50,7 @@ public class BoardConfig {
         this.VIEW_DISTANCE_OF_GOODBEAST = VIEW_DISTANCE_OF_GOODBEAST;
         this.VIEW_DISTANCE_OF_BADBEAST = VIEW_DISTANCE_OF_BADBEAST;
         this.gameType = gameType;
-        this.GAME_DURATIONE_AT_START = 1000000000;
+        this.GAME_DURATIONE_AT_START = 300;
     }
 
 
@@ -73,7 +73,7 @@ public class BoardConfig {
         this.VIEW_DISTANCE_OF_GOODBEAST = 7;
         this.VIEW_DISTANCE_OF_BADBEAST = 6;
         this.gameType = Game.GameType.WITH_BOT;
-        this.GAME_DURATIONE_AT_START = 1000000000;
+        this.GAME_DURATIONE_AT_START = 300;
 
     }
 
@@ -92,7 +92,7 @@ public class BoardConfig {
         this.VIEW_DISTANCE_OF_GOODBEAST = 7;
         this.VIEW_DISTANCE_OF_BADBEAST = 6;
         this.gameType = Game.GameType.WITH_BOT;
-        this.GAME_DURATIONE_AT_START = 1000000000;
+        this.GAME_DURATIONE_AT_START = 300;
 
     }
 

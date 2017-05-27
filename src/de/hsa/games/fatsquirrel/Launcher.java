@@ -17,7 +17,7 @@ import java.util.logging.*;
 
 public class Launcher extends Application {
 
-    private static final int tickLength = 60;
+    private static final int tickLength = 100;
     private static final Game.GameType gameType = Game.GameType.SINGLE_PLAYER;
     private static final Level logLevel = Level.FINER;
     private static final XY gameSize = new XY(40, 30);
@@ -72,6 +72,7 @@ public class Launcher extends Application {
                 commandTest();
                 break;
         }
+
     }
 
     private static void commandTest() {
@@ -98,7 +99,16 @@ public class Launcher extends Application {
                     try {
                         //System.out.println(game.getTickLength());
                         Thread.sleep(game.getTickLength());
-                        game.run();
+
+                        if (game.getState().getBoard().getRemainingGameTime() != 0) {
+                            game.run();
+                            game.getState().getBoard().reduceRemainingGameTime();
+                        } else {
+                            game.run();
+                            Thread.sleep(1000 * 3);
+                            game.reset();
+                        }
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -148,9 +158,9 @@ public class Launcher extends Application {
                 break;
             case testcase5:
                 multiplier = 10;
-                density = 14*8*multiplier;
+                density = 14 * 8 * multiplier;
                 config = new BoardConfig(new XY(14 * multiplier, 8 * multiplier), 40,
-                        density/32, density/64, density/64, density/64, density/8,
+                        density / 32, density / 64, density / 64, density / 64, density / 8,
                         NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT);
                 break;
             case GBbreeding:
