@@ -55,7 +55,8 @@ public class State {
         if (board.getRemainingGameTime() % 20 == 0) {
             SortedMap sm = new TreeMap();
             for (Map.Entry<String, Long> entry : highscore.entrySet()) {
-                sm.put(entry.getKey(),entry.getValue());
+                sm.put(entry.getKey(), entry.getValue());
+
             }
             System.out.printf(sm.toString());
             System.out.println();
