@@ -37,7 +37,6 @@ public class Board {
 
         this.set = new EntitySet();
         this.config = new BoardConfig();
-
         this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         //initBoard();
     }
@@ -46,12 +45,14 @@ public class Board {
         this.set = set;
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
     }
 
     public Board(BoardConfig config) {
         this.set = new EntitySet();
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         initBoard();
     }
 

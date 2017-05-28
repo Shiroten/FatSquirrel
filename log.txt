@@ -1,2 +1,38 @@
-Mai 27, 2017 2:46:28 PM de.hsa.games.fatsquirrel.Launcher start
+Mai 28, 2017 8:28:49 AM de.hsa.games.fatsquirrel.Launcher start
 INFORMATION: Starting Game
+Mai 28, 2017 8:28:56 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:28:56 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:28:56 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:28:57 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:28:57 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:01 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:02 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:02 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:02 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:02 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:02 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:03 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:03 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:03 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:03 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:09 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:14 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini
+Mai 28, 2017 8:29:15 AM de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel spawnMini
+FEIN: Spawning Mini

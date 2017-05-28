@@ -11,14 +11,13 @@ import de.hsa.games.fatsquirrel.util.ui.Command;
 
 public class FxGameImpl extends Game {
 
-    private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
+
     private Command imploadMiniSquirrel = null;
 
     protected FxGameImpl() {
     }
 
     public FxGameImpl(FxUI fxUI, State state) {
-
         this.setUi(fxUI);
         this.setState(state);
         this.handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();
