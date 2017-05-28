@@ -143,7 +143,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
     @Override
     public void nextStep(EntityContext context) {
-        ControllerContextImpl view = new ControllerContextImpl(context, getCoordinate(), this);
+        ControllerContextImpl view = new ControllerContextImpl(context, this);
         DebugHandler handler = new DebugHandler(view);
         ControllerContext proxyView = (ControllerContext) Proxy.newProxyInstance(
                 ControllerContext.class.getClassLoader(),
