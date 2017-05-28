@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel;
 
 import de.hsa.games.fatsquirrel.console.GameImpl;
 import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.BoardConfig;
 import de.hsa.games.fatsquirrel.core.Settings;
 import de.hsa.games.fatsquirrel.core.State;
 import de.hsa.games.fatsquirrel.gui.FxGameImpl;
@@ -81,6 +80,7 @@ public class Launcher extends Application {
                             game.getState().getBoard().reduceRemainingGameTime();
                         } else {
                             game.run();
+                            System.out.println(game.getState().printFinalHighscore());
                             Thread.sleep(1000 * 3);
                             game.reset();
                         }
@@ -99,10 +99,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Settings.defaultSettings ds = Settings.defaultSettings.GBbreeding;
-        BoardConfig config = Settings.getDefaultBoardConfig(ds);
-        Board board = new Board(config);
-        State state = new State(board);
+        State state = new State(new Board(Settings.getDefaultBoardConfig()));
 
         FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), Settings.cellSize);
         final Game game = new FxGameImpl(fxUI, state);

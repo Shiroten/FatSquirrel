@@ -73,7 +73,7 @@ public class Game {
     }
     protected void reset(){
         Board board = new Board(state.getBoard().getConfig());
-        state = new State(board);
+        state.setBoard(board);
         handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();
 
     }

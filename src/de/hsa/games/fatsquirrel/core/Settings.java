@@ -1,10 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
-
 import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.XY;
-
-import java.util.logging.Level;
 
 public class Settings {
 
@@ -21,6 +18,7 @@ public class Settings {
     public static final int VIEW_DISTANCE_OF_BADBEAST = 6;
     public static int cellSize = 25;
     public static final int GAME_DURATION = 1800;
+    public static final defaultSettings ds = defaultSettings.normal;
 
     public enum defaultSettings {
         testcase1,
@@ -33,7 +31,7 @@ public class Settings {
         normal,
     }
 
-    public static BoardConfig getDefaultBoardConfig(defaultSettings ds) {
+    public static BoardConfig getDefaultBoardConfig() {
         int multiplier;
         int density;
         BoardConfig config;
@@ -78,7 +76,6 @@ public class Settings {
                 config = new BoardConfig(new XY(10, 10), 20,
                         2, 0, 0, 0, 0,
                         0, 20, 20, Game.GameType.SINGLE_PLAYER, 1800);
-
                 break;
             case custom:
             default:
@@ -87,7 +84,6 @@ public class Settings {
                         NUMBER_OF_BP, NUMBER_OF_WA, NUMBER_OF_BOTS,
                         VIEW_DISTANCE_OF_GOODBEAST, VIEW_DISTANCE_OF_BADBEAST,
                         gameType, GAME_DURATION);
-
         }
         return config;
     }
