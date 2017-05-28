@@ -67,7 +67,6 @@ public class CharacterTest {
             master.nextStep(flat);
             viewMaster = new MasterSquirrelBot.ControllerContextImpl(flat, master);
         }
-
     }
 
     @org.junit.Test
