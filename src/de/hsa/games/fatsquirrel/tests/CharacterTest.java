@@ -56,9 +56,8 @@ public class CharacterTest {
         XY toMove = XY.UP;
         viewMaster.move(toMove);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             assertEquals(3 - i, master.getStunTime());
-            assertEquals(masterSpawnLocation, master.getCoordinate());
 
             toMove = XY.DOWN;
             viewMaster.move(toMove);
@@ -67,6 +66,8 @@ public class CharacterTest {
             master.nextStep(flat);
             viewMaster = new MasterSquirrelBot.ControllerContextImpl(flat, master);
         }
+
+
     }
 
     @org.junit.Test
