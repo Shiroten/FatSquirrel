@@ -116,7 +116,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
                     throw new SpawnException();
                 }
                 context.spawnMiniSquirrel(locate().plus(direction), energy, masterSquirrel);
-            }else{
+            } else {
                 throw new NotEnoughEnergyException();
             }
         }
@@ -147,9 +147,9 @@ public class MasterSquirrelBot extends MasterSquirrel {
         DebugHandler handler = new DebugHandler(view);
         ControllerContext proxyView = (ControllerContext) Proxy.newProxyInstance(
                 ControllerContext.class.getClassLoader(),
-                new Class[] { ControllerContext.class },
+                new Class[]{ControllerContext.class},
                 handler);
-
+        /*
         if (moveCounter == 0) {
             if (stunTime > 0)
                 stunTime--;
@@ -161,7 +161,12 @@ public class MasterSquirrelBot extends MasterSquirrel {
             moveCounter = 0;
         else
             moveCounter++;
+        */
 
+        if (stunTime > 0)
+            stunTime--;
+        else{
+            masterBotController.nextStep(proxyView);
+        }
     }
-
 }

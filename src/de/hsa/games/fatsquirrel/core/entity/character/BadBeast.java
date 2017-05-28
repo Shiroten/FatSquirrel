@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class BadBeast extends Character {
     public static final int START_ENERGY = -150;
     public static final EntityType type = EntityType.BADBEAST;
-    private int moveCounter = 0;
+    public int moveCounter = 0;
     private int lives;
 
     public BadBeast(int id, XY coordinate) {
