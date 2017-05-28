@@ -1,6 +1,8 @@
-package de.hsa.games.fatsquirrel.botapi.bots.Baster;
+package de.hsa.games.fatsquirrel.botimpls;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botimpls.Baster.BasterMaster;
+import de.hsa.games.fatsquirrel.botimpls.Baster.BasterMini;
 
 public class BasterFactory implements de.hsa.games.fatsquirrel.botapi.BotControllerFactory{
 

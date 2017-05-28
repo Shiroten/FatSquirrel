@@ -17,9 +17,9 @@ public class MasterSquirrelBot extends MasterSquirrel {
         private XY myPosition;
         private MasterSquirrel masterSquirrel;
 
-        public ControllerContextImpl(EntityContext context, XY myPosition, MasterSquirrel masterSquirrel) {
+        public ControllerContextImpl(EntityContext context, MasterSquirrel masterSquirrel) {
             this.context = context;
-            this.myPosition = myPosition;
+            this.myPosition = masterSquirrel.getCoordinate();
             this.masterSquirrel = masterSquirrel;
         }
 
@@ -143,23 +143,18 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
     @Override
     public void nextStep(EntityContext context) {
-        ControllerContextImpl view = new ControllerContextImpl(context, getCoordinate(), this);
-
-        // use the general Proxy class and an InvocationHandler based on reflection
-        /*DebugHandler handler = new DebugHandler(view);
-        ControllerContextImpl view2 = (ControllerContextImpl) Proxy.newProxyInstance(
-                ControllerContextImpl.class.getClassLoader(),
-                new Class[] { ControllerContextImpl.class },
+        ControllerContextImpl view = new ControllerContextImpl(context, this);
+        DebugHandler handler = new DebugHandler(view);
+        ControllerContext proxyView = (ControllerContext) Proxy.newProxyInstance(
+                ControllerContext.class.getClassLoader(),
+                new Class[] { ControllerContext.class },
                 handler);
-
-        testIt(view2);*/
-
 
         if (moveCounter == 0) {
             if (stunTime > 0)
                 stunTime--;
             else {
-                masterBotController.nextStep(view);
+                masterBotController.nextStep(proxyView);
             }
             moveCounter++;
         } else if (moveCounter == 2)

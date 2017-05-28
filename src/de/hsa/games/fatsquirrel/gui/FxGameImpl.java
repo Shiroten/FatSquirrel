@@ -11,14 +11,13 @@ import de.hsa.games.fatsquirrel.util.ui.Command;
 
 public class FxGameImpl extends Game {
 
-    private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
+
     private Command imploadMiniSquirrel = null;
 
     protected FxGameImpl() {
     }
 
     public FxGameImpl(FxUI fxUI, State state) {
-
         this.setUi(fxUI);
         this.setState(state);
         this.handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();
@@ -79,7 +78,12 @@ public class FxGameImpl extends Game {
 
         getState().update();
         FxUI fxUI = (FxUI) this.getUi();
-        fxUI.message("MasterSquirrel Energy: " + Integer.toString(handOperatedMasterSquirrel.getEnergy()));
+        String msg = "";
+        msg = msg + String.format("FrameRate: %2.0f", 1000.0/this.getTickLength());
+        msg = msg + String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime());
+        msg = msg + String.format(" | MasterSquirrel Energy: " + Integer.toString(handOperatedMasterSquirrel.getEnergy()));
+
+        fxUI.message(msg);
     }
 
 

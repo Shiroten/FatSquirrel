@@ -1,12 +1,16 @@
 package de.hsa.games.fatsquirrel;
 
+import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.State;
+import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
+import de.hsa.games.fatsquirrel.gui.FxGameImpl;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Game {
 
+    protected HandOperatedMasterSquirrel handOperatedMasterSquirrel;
     private double gameSpeed;
     private double gameSpeedScaleFactor = 1.3;
     private UI ui;
@@ -66,6 +70,12 @@ public class Game {
             processInput();
             update();
         }
+    }
+    protected void reset(){
+        Board board = new Board(state.getBoard().getConfig());
+        state.setBoard(board);
+        handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();
+
     }
 
     protected void processInput() {

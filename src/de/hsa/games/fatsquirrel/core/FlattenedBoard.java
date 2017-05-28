@@ -154,7 +154,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
         switch (getEntityType(newField)) {
             case WALL:
-                //System.out.println("Wallbump");
                 break;
             case BADBEAST:
                 break;
@@ -269,14 +268,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
             default:
                 //Keine Kollisionen: einfacher Move
-                //System.out.println("MS moving");
                 move(miniSquirrel, newField);
         }
         miniSquirrel.updateEnergy(-1);
-        //TODO: Check is dead
-        //moveOrKillMiniSquirrel(miniSquirrel, miniSquirrel.getCoordinate());
-
-
     }
 
     private void moveOrKillMiniSquirrel(MiniSquirrel miniSquirrel, XY newPosition) {
@@ -396,30 +390,31 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     @Override
-    public void implode(Entity e, int impactRadius) {
+    public void implode(Character character, int impactRadius) {
 
         int collectedEnergy = 0;
         float impactArea = (float) (impactRadius * impactRadius * Math.PI);
-        XY position = e.getCoordinate();
+        XY position = character.getCoordinate();
 
-        for (int i = -impactRadius; i < impactRadius + 1; i++) {
-            for (int j = -impactRadius; j < impactRadius + 1; j++) {
+        for (int i = -impactRadius; i <= impactRadius; i++) {
+            for (int j = -impactRadius; j <= impactRadius; j++) {
 
                 if ((i == 0 && j == 0))
                     continue;
-                if (!(Math.round(new XY(Math.abs(j), Math.abs(i)).length()) < impactRadius + 1))
+                if (Math.round(new XY(Math.abs(j), Math.abs(i)).length()) > impactRadius)
                     continue;
 
                 Entity entityToCheck = getEntity(position.plus(new XY(j, i)));
 
                 if (entityToCheck == null)
                     continue;
-                if (entityFriendly(e, entityToCheck))
+                if (entityFriendly(character, entityToCheck))
                     continue;
 
                 double distance = position.distanceFrom(entityToCheck.getCoordinate());
 
-                double energyLoss = 200 * (e.getEnergy() / impactArea) * (1 - distance / impactRadius);
+                double energyLoss = 200 * (character.getEnergy() / impactArea) * (1 - distance / impactRadius);
+                energyLoss = energyLoss < 0 ? 0 : energyLoss;
                 collectedEnergy += calculateEnergyOfEntity(energyLoss, entityToCheck);
                 EntityType et = entityToCheck.getEntityType();
 
@@ -442,12 +437,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
             }
         }
 
-        double energyLoss = 200 * (e.getEnergy() / impactArea);
+        double energyLoss = 200 * (character.getEnergy() / impactArea);
         implosions.add(new ImplosionContext((int) energyLoss, impactRadius, position));
 
-        if (e.getEntityType() == EntityType.MINISQUIRREL) {
-            ((MiniSquirrel) e).getDaddy().updateEnergy(collectedEnergy);
-            killEntity(e);
+        if (character.getEntityType() == EntityType.MINISQUIRREL) {
+            ((MiniSquirrel) character).getDaddy().updateEnergy(collectedEnergy);
+            killEntity(character);
         } else {
             //Todo: restliche EntiType behalden für implode falls gewünscht.
         }

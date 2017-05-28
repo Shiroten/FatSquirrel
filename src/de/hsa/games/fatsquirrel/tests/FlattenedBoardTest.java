@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.botapi.bots.GoodBeastChaser.GoodBeastChaserFactory;
+import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.*;
 import de.hsa.games.fatsquirrel.core.entity.*;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
@@ -9,30 +9,20 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
 
 public class FlattenedBoardTest {
-    private EntitySet set = new EntitySet(new XY(40, 30));
+    private EntitySet set = new EntitySet();
     private BoardConfig config = new BoardConfig();
     private Board board = new Board(set, config);
     private FlattenedBoard flat;
 
-    //private FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
-    private GoodBeast mockedGoodBeast = mock(GoodBeast.class);
-
     @Before
     public void setUp() {
-        board.add(new GoodPlant(0, new XY(20, 20)));
-        when(mockedGoodBeast.getCoordinate()).thenReturn(new XY(10, 15));
-        when(mockedGoodBeast.getEntityType()).thenReturn(EntityType.GOODBEAST);
-        when(mockedGoodBeast.getId()).thenReturn(100);
-        board.add(mockedGoodBeast);
-        flat = board.flatten();
     }
 
     @org.junit.Test
     public void tearDown() {
-        set = new EntitySet(new XY(40, 30));
+        set = new EntitySet();
         config = new BoardConfig();
         board = new Board(set, config);
     }
@@ -70,7 +60,7 @@ public class FlattenedBoardTest {
         board.add(mini);
         flat = board.flatten();
 
-        int maxTests = 100000;
+        int maxTests = 1000;
         int counter = 0;
         XY toMove;
 
@@ -110,15 +100,73 @@ public class FlattenedBoardTest {
 
 
     @org.junit.Test
-    public void tryMove1() throws Exception {
+    public void tryMoveGoodBeast() throws Exception {
+        GoodBeast goodBeast = new GoodBeast(1, new XY(3,3));
+        Wall wall = new Wall(2, new XY(3,2));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(4, new XY(4,2));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(4,3), 100, handOperatedMasterSquirrel );
+
+        board.add(goodBeast);
+        board.add(wall);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(goodBeast, XY.UP);
+        assertEquals(new XY(3,3), goodBeast.getCoordinate());
+
+        flat.tryMove(goodBeast, XY.LEFT);
+        flat.tryMove(goodBeast, XY.RIGHT);
+        assertEquals(new XY(3,3), goodBeast.getCoordinate());
+
+        flat.tryMove(goodBeast, XY.RIGHT_UP);
+        assertEquals(flat.getEntityType(new XY(3,3)), EntityType.NONE);
+
     }
 
     @org.junit.Test
-    public void tryMove2() throws Exception {
+    public void tryMoveBadBeast() throws Exception {
+        BadBeast badBeast = new BadBeast(1, new XY(3,3));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+
+        board.add(badBeast);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(badBeast, XY.LEFT);
+
+        assertEquals(new XY(3,3), badBeast.getCoordinate());
+        assertEquals(handOperatedMasterSquirrel.getEnergy(), 850);
+
+        flat.tryMove(badBeast, XY.LEFT_UP);
+        assertEquals(flat.getEntityType(new XY(2,2)), EntityType.NONE);
+        assertEquals(badBeast.getLives(), 5);
     }
 
     @org.junit.Test
-    public void tryMove3() throws Exception {
+    public void tryMoveMasterSquirrel() throws Exception {
+        BadBeast badBeast = new BadBeast(1, new XY(3,3));
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+
+        board.add(badBeast);
+        board.add(handOperatedMasterSquirrel);
+        board.add(miniSquirrel);
+
+        flat = board.flatten();
+
+        flat.tryMove(handOperatedMasterSquirrel, XY.RIGHT);
+        assertEquals(new XY(2,3), handOperatedMasterSquirrel.getCoordinate());
+        assertEquals(850, handOperatedMasterSquirrel.getEnergy());
+
+        flat.tryMove(handOperatedMasterSquirrel, XY.UP);
+        assertEquals(flat.getEntity(new XY(2,2)), handOperatedMasterSquirrel);
+        assertEquals(950, handOperatedMasterSquirrel.getEnergy());
+
     }
 
     @org.junit.Test
@@ -127,6 +175,31 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void implode() throws Exception {
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(20, 20));
+        MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 400, handOperatedMasterSquirrel);
+
+        GoodBeast goodBeastClose = new GoodBeast(3, new XY(4,3));
+        GoodBeast goodBeastMiddle = new GoodBeast(4, new XY(7, 3));
+        GoodBeast goodBeastFar = new GoodBeast(5, new XY(13, 3));
+        GoodBeast goodBeastOut = new GoodBeast(6, new XY(13, 4));
+
+        board.add(handOperatedMasterSquirrel, miniSquirrel, goodBeastClose, goodBeastMiddle, goodBeastFar, goodBeastOut);
+
+        flat = board.flatten();
+
+        int impactRadius = 10;
+        double impactArea = (impactRadius * impactRadius) * Math.PI;
+
+        double energyLoss = 200 * (miniSquirrel.getEnergy()/impactArea) * (1.0- (4.0/impactRadius));
+
+        flat.implode(miniSquirrel, impactRadius);
+        assertTrue(!board.getSet().contains(miniSquirrel));
+        assertTrue(!board.getSet().contains(goodBeastClose));
+
+        assertEquals((200 - energyLoss), goodBeastMiddle.getEnergy(), 0.8);
+
+        assertEquals(200, goodBeastOut.getEnergy());
+
     }
 
     @org.junit.Test
