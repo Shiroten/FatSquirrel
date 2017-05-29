@@ -171,6 +171,21 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void spawnMiniSquirrel() throws Exception {
+        HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(3,3));
+        Wall wall = new Wall(2, new XY(3,2));
+        board.add(handOperatedMasterSquirrel, wall);
+        flat = board.flatten();
+        flat.spawnMiniSquirrel(XY.UP, 100, handOperatedMasterSquirrel);
+        flat.spawnMiniSquirrel(XY.RIGHT, -100, handOperatedMasterSquirrel);
+        flat.spawnMiniSquirrel(XY.DOWN, 100, handOperatedMasterSquirrel);
+
+        int numberOfMiniSquirrels = 0;
+        for(Entity e : board.getSet().getEntityList()){
+            if(e.getEntityType() == EntityType.MINISQUIRREL)
+                numberOfMiniSquirrels++;
+        }
+
+        assertTrue(numberOfMiniSquirrels == 1);
     }
 
     @org.junit.Test
