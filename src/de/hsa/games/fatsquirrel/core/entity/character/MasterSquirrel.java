@@ -13,7 +13,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
 
     private static final int START_ENERGY = 1000;
     public static final EntityType type = EntityType.MASTERSQUIRREL;
-    protected int moveCounter;
+    int moveCounter;
 
     public EntityType getEntityType() {
         return type;
@@ -28,7 +28,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
     }
 
     public void nextStep(EntityContext context) {
-
+        /*
         if (moveCounter == 0) {
             if (stunTime > 0)
                 stunTime--;
@@ -37,11 +37,17 @@ public abstract class MasterSquirrel extends PlayerEntity {
                 context.tryMove(this, distance);
             }
             moveCounter++;
-        } else if (moveCounter == 2)
+        } else if (moveCounter == 1)
             moveCounter = 0;
         else
             moveCounter++;
-
+        */
+        if (stunTime > 0)
+            stunTime--;
+        else {
+            XY distance = XYsupport.randomDirection();
+            context.tryMove(this, distance);
+        }
     }
 
     public boolean mySquirrel(MiniSquirrel squirrelToCheck) {
@@ -51,7 +57,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
     public void nextStep(ControllerContext view) {
     }
 
-    public BotControllerFactory getFactory(){
+    public BotControllerFactory getFactory() {
         return factory;
     }
 }

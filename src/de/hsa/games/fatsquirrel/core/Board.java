@@ -18,6 +18,7 @@ import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
 import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
+
 import java.util.ArrayList;
 
 
@@ -37,21 +38,22 @@ public class Board {
 
         this.set = new EntitySet();
         this.config = new BoardConfig();
-
         this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         //initBoard();
     }
 
-    public Board(EntitySet set, BoardConfig config){
+    public Board(EntitySet set, BoardConfig config) {
         this.set = set;
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
     }
 
     public Board(BoardConfig config) {
         this.set = new EntitySet();
         this.config = config;
         this.implosions = new ArrayList<>();
+        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
         initBoard();
     }
 
@@ -152,16 +154,26 @@ public class Board {
                         entityToAdd = new HandOperatedMasterSquirrel(-100, new XY(randomX, randomY));
                     } else {
                         try {
-                            BotControllerFactory factory = (BotControllerFactory) Class.forName("de.hsa.games.fatsquirrel.botimpls." +config.getBots()[numberOfAIs]).newInstance();
+                            BotControllerFactory factory = (BotControllerFactory) Class.forName("de.hsa.games.fatsquirrel.botimpls." + config.getBots()[numberOfAIs]).newInstance();
                             entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), factory);
                             numberOfAIs++;
-                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e){
+                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                             e.printStackTrace();
                         }
                     }
+                    addToMasterSquirrelList((MasterSquirrel) entityToAdd);
                     break;
             }
             set.add(entityToAdd);
+        }
+    }
+
+    private void addToMasterSquirrelList(MasterSquirrel ms) {
+        for (int i = 0; i < masterSquirrel.length; i++) {
+            if (masterSquirrel[i] == null) {
+                masterSquirrel[i] = ms;
+                return;
+            }
         }
     }
 
@@ -272,8 +284,8 @@ public class Board {
         this.set.add(toAdd);
     }
 
-    public void add(Entity ... entities){
-        for(Entity e : entities){
+    public void add(Entity... entities) {
+        for (Entity e : entities) {
             this.set.add(e);
         }
     }
@@ -286,7 +298,11 @@ public class Board {
         return masterSquirrel;
     }
 
-    public long getRemainingGameTime(){ return remainingGameTime; }
+    public long getRemainingGameTime() {
+        return remainingGameTime;
+    }
 
-    public void reduceRemainingGameTime(){ remainingGameTime--;}
+    public void reduceRemainingGameTime() {
+        remainingGameTime--;
+    }
 }

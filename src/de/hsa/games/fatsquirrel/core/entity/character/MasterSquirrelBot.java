@@ -116,7 +116,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
                     throw new SpawnException();
                 }
                 context.spawnMiniSquirrel(locate().plus(direction), energy, masterSquirrel);
-            }else{
+            } else {
                 throw new NotEnoughEnergyException();
             }
         }
@@ -144,29 +144,29 @@ public class MasterSquirrelBot extends MasterSquirrel {
     @Override
     public void nextStep(EntityContext context) {
         ControllerContextImpl view = new ControllerContextImpl(context, this);
-
-        // use the general Proxy class and an InvocationHandler based on reflection
-        /*DebugHandler handler = new DebugHandler(view);
-        ControllerContextImpl view2 = (ControllerContextImpl) Proxy.newProxyInstance(
-                ControllerContextImpl.class.getClassLoader(),
-                new Class[] { ControllerContextImpl.class },
+        DebugHandler handler = new DebugHandler(view);
+        ControllerContext proxyView = (ControllerContext) Proxy.newProxyInstance(
+                ControllerContext.class.getClassLoader(),
+                new Class[]{ControllerContext.class},
                 handler);
-
-        testIt(view2);*/
-
-
+        /*
         if (moveCounter == 0) {
             if (stunTime > 0)
                 stunTime--;
             else {
-                masterBotController.nextStep(view);
+                masterBotController.nextStep(proxyView);
             }
             moveCounter++;
         } else if (moveCounter == 2)
             moveCounter = 0;
         else
             moveCounter++;
+        */
 
+        if (stunTime > 0)
+            stunTime--;
+        else{
+            masterBotController.nextStep(proxyView);
+        }
     }
-
 }

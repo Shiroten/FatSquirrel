@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class State {
 
-    private Map<String, Long> highscore = new HashMap<>();
+    private Map<String, ArrayList<Long>> highscore = new HashMap<>();
     private Board board;
 
     public State() {
@@ -24,13 +24,12 @@ public class State {
         this.board = board;
     }
 
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     public Board getBoard() {
         return board;
-    }
-
-    public Map<String, Long> getHighscore() {
-        return highscore;
     }
 
     public void update() {
@@ -43,23 +42,39 @@ public class State {
         flat.tickImplosions();
         board.getSet().nextStep(flat);
 
-        calcHighscore();
     }
 
-    private void calcHighscore() {
+    public String printFinalHighscore() {
         for (MasterSquirrel ms : board.getMasterSquirrel()) {
-            if (ms != null)
-                highscore.put(ms.getEntityName(), (long) ms.getEnergy());
+            if (ms == null) {
+                continue;
+            }
+            ArrayList longArrayList;
+            if (highscore.get(ms.getEntityName()) != null) {
+                longArrayList = highscore.get(ms.getEntityName());
+            } else {
+                longArrayList = new ArrayList();
+            }
+            longArrayList.add((long) ms.getEnergy());
+            highscore.put(ms.getEntityName(), longArrayList);
         }
 
+        String output = "";
         if (board.getRemainingGameTime() % 20 == 0) {
-            SortedMap sm = new TreeMap();
-            for (Map.Entry<String, Long> entry : highscore.entrySet()) {
-                sm.put(entry.getKey(),entry.getValue());
+            for (ArrayList<Long> entry : highscore.values()) {
+                Collections.sort(entry);
             }
-            System.out.printf(sm.toString());
-            System.out.println();
+            for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
+                long average = 0;
+                output = output + pairs.getKey() + ": ";
+                for (Long entry : pairs.getValue()) {
+                    output = output + entry + " | ";
+                    average = average + entry;
+                }
+                output = output + "Average: " + average / pairs.getValue().size() + String.format("%n");
+            }
         }
+        return output;
     }
 
     public FlattenedBoard flattenBoard() {
