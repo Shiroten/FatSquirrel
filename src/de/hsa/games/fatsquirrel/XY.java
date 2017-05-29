@@ -52,9 +52,6 @@ public class XY {
         return Math.sqrt(Math.pow(xy.getX() - x, 2) + Math.pow(xy.getY() - y, 2));
     }
 
-    //TODO: hashCode
-    //Bisher keine sinnvolle Implementierungsmöglichkeit gefunden
-
     @Override
     public boolean equals(Object obj) {
         try {

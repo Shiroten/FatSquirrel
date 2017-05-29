@@ -34,9 +34,7 @@ public class EntitySet {
         try {
             for(Entity e : new ArrayList<>(entityList)){
                 if(entityList.contains(e)) {
-                    if (e instanceof HandOperatedMasterSquirrel)
-                        ((HandOperatedMasterSquirrel) e).nextStep(flat);
-                    else if (e instanceof Character)
+                    if (e instanceof Character)
                         ((Character) e).nextStep(flat);
                 }
             }

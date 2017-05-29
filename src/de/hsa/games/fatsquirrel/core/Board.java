@@ -123,39 +123,38 @@ public class Board {
         }
     }
 
-    private void addEntity(EntityType type, int ammount) {
+    private void addEntity(EntityType type, int amount) {
 
         int numberOfAIs = 0;
 
         Entity entityToAdd = null;
-        for (int i = 0; i < ammount; i++) {
+        for (int i = 0; i < amount; i++) {
 
             XY position = randomPosition(config.getSize());
-            int randomX = position.getX(), randomY = position.getY();
 
             switch (type) {
                 case WALL:
-                    entityToAdd = new Wall(setID(), new XY(randomX, randomY));
+                    entityToAdd = new Wall(setID(), position);
                     break;
                 case BADBEAST:
-                    entityToAdd = new BadBeast(setID(), new XY(randomX, randomY));
+                    entityToAdd = new BadBeast(setID(), position);
                     break;
                 case BADPLANT:
-                    entityToAdd = new BadPlant(setID(), new XY(randomX, randomY));
+                    entityToAdd = new BadPlant(setID(), position);
                     break;
                 case GOODBEAST:
-                    entityToAdd = new GoodBeast(setID(), new XY(randomX, randomY));
+                    entityToAdd = new GoodBeast(setID(), position);
                     break;
                 case GOODPLANT:
-                    entityToAdd = new GoodPlant(setID(), new XY(randomX, randomY));
+                    entityToAdd = new GoodPlant(setID(), position);
                     break;
                 case MASTERSQUIRREL:
                     if (config.getGameType() != Game.GameType.BOT_ONLY && set.getHandOperatedMasterSquirrel() == null) {
-                        entityToAdd = new HandOperatedMasterSquirrel(-100, new XY(randomX, randomY));
+                        entityToAdd = new HandOperatedMasterSquirrel(-100, position);
                     } else {
                         try {
                             BotControllerFactory factory = (BotControllerFactory) Class.forName("de.hsa.games.fatsquirrel.botimpls." + config.getBots()[numberOfAIs]).newInstance();
-                            entityToAdd = new MasterSquirrelBot(setID(), new XY(randomX, randomY), factory);
+                            entityToAdd = new MasterSquirrelBot(setID(), position, factory);
                             numberOfAIs++;
                         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                             e.printStackTrace();

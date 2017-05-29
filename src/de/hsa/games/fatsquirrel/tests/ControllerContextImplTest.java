@@ -118,7 +118,7 @@ public class ControllerContextImplTest {
         assertEquals(spawnPositionOfMaster1, viewMaster.locate());
     }
 
-    @Test
+    @Test(expected = OutOfViewException.class)
     public void isMine() throws Exception {
         //Master Mini Tests
         viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);

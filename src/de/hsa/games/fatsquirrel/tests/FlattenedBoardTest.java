@@ -186,6 +186,7 @@ public class FlattenedBoardTest {
         }
 
         assertTrue(numberOfMiniSquirrels == 1);
+        assertEquals(900, handOperatedMasterSquirrel.getEnergy());
     }
 
     @org.junit.Test

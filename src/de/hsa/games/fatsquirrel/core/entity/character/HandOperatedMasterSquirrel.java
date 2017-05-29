@@ -100,7 +100,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
                 if (context.getEntityType(locationOfMaster.plus(xy)) == EntityType.NONE) {
 
                     //Füge neues MiniSquirreBot hinzu zum Board
-                    updateEnergy(-energy);
+                    //updateEnergy(-energy);
                     context.spawnMiniSquirrel(getCoordinate().plus(xy), energy, this);
                     return;
                 }

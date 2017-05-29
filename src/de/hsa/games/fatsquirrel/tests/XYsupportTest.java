@@ -19,17 +19,9 @@ public class XYsupportTest {
 
     @Test
     public void rotate() throws Exception {
-        XY rotatedOneTimeClockwise = XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 1);
-        XY rotatedThreeTimeClockwise = XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 3);
-        XY rotatedFiveTimeClockwise = XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 5);
-        XY rotatedOneTimeAntiClockwise = XYsupport.rotate(XYsupport.Rotation.anticlockwise, XY.UP, 1);
-        XY rotatedThreeTimeAntiClockwise = XYsupport.rotate(XYsupport.Rotation.anticlockwise, XY.UP, 3);
-        XY rotatedFiveTimeAntiClockwise = XYsupport.rotate(XYsupport.Rotation.anticlockwise, XY.UP, 5);
-
-        boolean firstTest = rotatedOneTimeClockwise.equals(XY.RIGHT_UP) && rotatedOneTimeAntiClockwise.equals(XY.LEFT_UP);
-        boolean secondTest = rotatedThreeTimeClockwise.equals(XY.RIGHT_DOWN) && rotatedThreeTimeAntiClockwise.equals(XY.LEFT_DOWN);
-        boolean thirdTest = rotatedFiveTimeClockwise.equals(XY.LEFT_DOWN) && rotatedFiveTimeAntiClockwise.equals((XY.RIGHT_DOWN));
-        assertTrue(firstTest && secondTest && thirdTest);
+        assertEquals(XY.RIGHT_UP, XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 1));
+        assertEquals(XY.RIGHT_DOWN, XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 3));
+        assertEquals(XY.LEFT_DOWN, XYsupport.rotate(XYsupport.Rotation.anticlockwise, XY.UP, 3));
     }
 
     @Test

@@ -13,48 +13,26 @@ public class XYTest {
     private XY testDistanceFrom2 = new XY(23,29);
     private XY testDistanceFrom3 = new XY(6,3);
 
-
-    @org.junit.Before
-    public void testSetUp() throws Exception {
-
-    }
-
     @org.junit.Test
     public void plus() throws Exception {
-    XY expectedValue = new XY (30,30);
-    XY addedValue = test1.plus(test2);
-
-    assertTrue(expectedValue.equals(addedValue));
+        assertEquals(new XY(30, 30), test1.plus(test2));
     }
 
     @org.junit.Test
     public void minus() throws Exception {
-        XY expectedValue = new XY (10,10);
-        XY subtractedValue = test2.minus(test1);
-
-        assertTrue(expectedValue.equals(subtractedValue));
+        assertEquals(new XY(10, 10), test2.minus(test1));
     }
 
     @org.junit.Test
     public void times() throws Exception {
-        XY expectedValue = new XY (70,70);
-        XY multipliedValue = test1.times(7);
-        assertTrue(expectedValue.equals(multipliedValue));
+        assertEquals(new XY(70,70), test1.times(7));
     }
 
     @org.junit.Test
     public void length() throws Exception {
-        double vectorLength1 = testLength1.length();
-        double expectedValue1 = 15;
 
-        boolean firstTest = vectorLength1 == expectedValue1;
-
-        double vectorLength2 = testLength2.length();
-        double expectedValue2 = Math.sqrt(458);
-
-        boolean secondTest = vectorLength2 == expectedValue2;
-
-        assertTrue(firstTest && secondTest);
+        assertEquals(15, testLength1.length(), 0.01);
+        assertEquals(Math.sqrt(458), testLength2.length(), 0.001);
     }
 
     @org.junit.Test
@@ -67,10 +45,10 @@ public class XYTest {
 
     @org.junit.Test
     public void equals() throws Exception {
-        boolean isEquals = test1.equals(new XY (10,10));
-        boolean isNotEquals = test1.equals(new XY (11,11));
+        assertTrue(test1.equals(new XY(10, 10)));
+        assertFalse(test1.equals(new XY(11, 10)));
 
-        assertTrue(isEquals && !isNotEquals);
+
     }
 
     @org.junit.Test

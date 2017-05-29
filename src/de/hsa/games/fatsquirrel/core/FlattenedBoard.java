@@ -117,10 +117,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     private void move(Entity en, XY newPosition) {
         ((Character) en).setLastVector(en.getCoordinate().minus(newPosition));
-        if (en.getEntityType() == EntityType.MINISQUIRREL) {
-            //Todo: Entfernen nach dem Finden des MiniSquirrels Bug
-            //System.out.println(((Character) en).getLastVector().toString());
-        }
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINEST,
