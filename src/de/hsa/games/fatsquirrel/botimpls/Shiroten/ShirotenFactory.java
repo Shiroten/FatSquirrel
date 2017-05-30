@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.botimpls;
+package de.hsa.games.fatsquirrel.botimpls.Shiroten;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;

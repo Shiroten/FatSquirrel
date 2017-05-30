@@ -91,6 +91,16 @@ public class Game {
     }
 
     public enum GameType {
-        SINGLE_PLAYER, WITH_BOT, BOT_ONLY, PACMAN;
+        SINGLE_PLAYER, WITH_BOT, BOT_ONLY;
+
+        public static GameType getGameType(String s){
+            s = s.toUpperCase();
+            switch (s){
+                case "SINGLE_PLAYER": return SINGLE_PLAYER;
+                case "WITH_BOT": return WITH_BOT;
+                case "BOT_ONLY": return BOT_ONLY;
+                default: return null;
+            }
+        }
     }
 }

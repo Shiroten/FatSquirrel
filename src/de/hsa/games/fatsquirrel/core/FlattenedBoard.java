@@ -92,7 +92,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public long getRemainingTime() {
-        return board.getConfig().getGAME_DURATIONE_AT_START();
+        return board.getConfig().getGAME_DURATION_AT_START();
     }
 
     @Override

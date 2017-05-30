@@ -4,7 +4,7 @@ import de.hsa.games.fatsquirrel.ActionCommand;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.botimpls.PlayerFactory;
+import de.hsa.games.fatsquirrel.botimpls.Player.PlayerFactory;
 import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;

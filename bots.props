@@ -1,0 +1,16 @@
+#FatSquirrel
+#Tue May 30 14:50:20 CEST 2017
+View_Distance_BadBeast=7
+MiniSquirrel_Move_Time_Ticks=1
+Ticklength=100
+Game_Duration=1800
+View_Distance_GoodBeast=7
+Beast_Move_Time_Ticks=4
+Size=x\: 80 y\: 45
+Number_Walls=50
+Number_GoodPlants=7
+Number_BadPlants=7
+Number_BadBeasts=7
+Points_For_MiniSquirrel=150
+Squirrel_Stun_Time_Ticks=3
+Number_GoodBeasts=50

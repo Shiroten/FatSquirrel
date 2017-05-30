@@ -178,7 +178,7 @@ public class ControllerContextImplTest {
     @Test
     public void getRemainingSteps() throws Exception {
         viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(board.getConfig().getGAME_DURATIONE_AT_START(), viewMaster.getRemainingSteps());
+        assertEquals(board.getConfig().getGAME_DURATION_AT_START(), viewMaster.getRemainingSteps());
     }
 
     @Test

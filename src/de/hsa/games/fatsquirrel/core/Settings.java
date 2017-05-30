@@ -40,9 +40,9 @@ public class Settings {
 
             case normal:
                 multiplier = 5;
-                config = new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 100,
+                config = new BoardConfig("default.props");/*new BoardConfig(new XY(16 * multiplier, 9 * multiplier), 100,
                         50, 7, 7, 7, 50,
-                        NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT, 1800);
+                        NUMBER_OF_BOTS, 7, 7, Game.GameType.WITH_BOT, 1800);*/
                 cellSize = 10;
                 break;
             case testcase1:

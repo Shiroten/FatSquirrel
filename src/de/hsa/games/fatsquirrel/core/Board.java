@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
@@ -38,7 +37,7 @@ public class Board {
 
         this.set = new EntitySet();
         this.config = new BoardConfig();
-        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
+        this.remainingGameTime = config.getGAME_DURATION_AT_START();
         //initBoard();
     }
 
@@ -46,14 +45,14 @@ public class Board {
         this.set = set;
         this.config = config;
         this.implosions = new ArrayList<>();
-        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
+        this.remainingGameTime = config.getGAME_DURATION_AT_START();
     }
 
     public Board(BoardConfig config) {
         this.set = new EntitySet();
         this.config = config;
         this.implosions = new ArrayList<>();
-        this.remainingGameTime = config.getGAME_DURATIONE_AT_START();
+        this.remainingGameTime = config.getGAME_DURATION_AT_START();
         initBoard();
     }
 

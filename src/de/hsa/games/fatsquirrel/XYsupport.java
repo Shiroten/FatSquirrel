@@ -96,4 +96,9 @@ public class XYsupport {
         else
             return 0;
     }
+
+    public static XY stringToXY(String s){
+        String[] splitted = s.split(" ");
+        return new XY(Integer.parseInt(splitted[1]), Integer.parseInt(splitted[3]));
+    }
 }
