@@ -3,13 +3,16 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The badbeast chases squirrels and bites them, reducing their points
+ * Extends Character
+ */
 public class BadBeast extends Character {
     public static final int START_ENERGY = -150;
     public static final EntityType type = EntityType.BADBEAST;

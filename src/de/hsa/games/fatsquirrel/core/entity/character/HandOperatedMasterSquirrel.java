@@ -33,20 +33,18 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     }
 
     @Override
-    public void nextStep(EntityContext context){
-        if(stunTime > 0)
+    public void nextStep(EntityContext context) {
+        if (stunTime > 0)
             stunTime--;
-        if(stunTime == 0 && spawnMiniSquirrel){
+        if (stunTime == 0 && spawnMiniSquirrel) {
             spawnMiniSquirrel = false;
-            try{
+            try {
                 spawnMini(miniSquirrelSpawnEnergy, context);
-            } catch (NotEnoughEnergyException e){
+            } catch (NotEnoughEnergyException e) {
                 Logger logger = Logger.getLogger(Launcher.class.getName());
                 logger.log(Level.FINEST, "Cant spawn Mini");
             }
-        }
-
-        else {
+        } else {
             switch (command) {
                 case SPAWN:
                     spawnMiniSquirrel = true;
@@ -67,19 +65,17 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         logger.log(Level.FINE, "Spawning Mini");
 
         XY locationOfMaster = getCoordinate();
-        for (XY xy : XYsupport.directions()) {
-            //Wenn dieses Feld leer ist....
-            //TODO: Keine Abfrage, ob Feld leer ist
-            if (getEnergy() >= energy) {
+        if (getEnergy() >= energy) {
+            for (XY xy : XYsupport.directions()) {
+                //Wenn dieses Feld leer ist...
                 if (context.getEntityType(locationOfMaster.plus(xy)) == EntityType.NONE) {
-
                     //Füge neues MiniSquirreBot hinzu zum Board
                     context.spawnMiniSquirrel(getCoordinate().plus(xy), energy, this);
                     return;
                 }
-            } else {
-                throw new NotEnoughEnergyException();
             }
+        } else {
+            throw new NotEnoughEnergyException();
         }
     }
 
