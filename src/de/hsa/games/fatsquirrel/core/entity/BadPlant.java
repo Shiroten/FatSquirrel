@@ -12,8 +12,4 @@ public class BadPlant extends Entity {
     public EntityType getEntityType() {
         return type;
     }
-
-    public String toString() {
-        return ("BadPlant: " + super.toString());
-    }
 }

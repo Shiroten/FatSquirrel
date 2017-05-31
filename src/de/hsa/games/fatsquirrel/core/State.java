@@ -20,6 +20,7 @@ public class State {
         this.board = new Board(config);
     }
 
+    //TODO: So schachteln, dass nur noch über State das Board erzeugt wird
     public State(Board board) {
         this.board = board;
     }

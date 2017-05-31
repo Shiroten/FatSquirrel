@@ -15,11 +15,9 @@ import static org.junit.Assert.*;
 
 public class CharacterTest {
     private XY size = new XY(180, 80);
-    private EntitySet set = new EntitySet();
     private BoardConfig config = new BoardConfig(size);
-    private Board board = new Board(set, config);
+    private Board board = new Board(config);
     private FlattenedBoard flat;
-    private EntityContext context;
 
     private GoodBeast gb;
     private BadBeast bb;

@@ -129,6 +129,7 @@ public class BoardConfig {
         }
     }
 
+    //TODO: Dies den einzigen Konstruktor machen
     public BoardConfig(String filename){
         Properties properties = new Properties();
         try {

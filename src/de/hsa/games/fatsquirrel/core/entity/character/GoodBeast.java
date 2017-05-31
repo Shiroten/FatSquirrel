@@ -42,8 +42,4 @@ public class GoodBeast extends Character {
         else
             moveCounter++;
     }
-
-    public String toString() {
-        return ("GoodBeast: " + super.toString());
-    }
 }

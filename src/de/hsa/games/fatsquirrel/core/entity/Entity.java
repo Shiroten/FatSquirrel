@@ -22,11 +22,6 @@ public abstract class Entity {
         this.energy = energy;
         this.id = id;
         this.coordinate = coordinate;
-
-    }
-
-    public Entity() {
-        this.id = 0;
     }
 
     public int getId() {
@@ -55,7 +50,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return ("[ID: " + id + ", Energy: " + energy
+        return (getEntityType().toString() + " [ID: " + id + ", Energy: " + energy
                 + ", Coordinate: (X: " + coordinate.getX() + ", Y: " + coordinate.getY() + ")]");
     }
 

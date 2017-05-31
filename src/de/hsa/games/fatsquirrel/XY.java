@@ -52,10 +52,8 @@ public class XY {
         return Math.sqrt(Math.pow(xy.getX() - x, 2) + Math.pow(xy.getY() - y, 2));
     }
 
-    @Override
-    public boolean equals(Object obj) {
+    public boolean equals(XY xy) {
         try {
-            XY xy = (XY) obj;
             if (xy.getX() == x && xy.getY() == y)
                 return true;
         } catch (Exception e) {

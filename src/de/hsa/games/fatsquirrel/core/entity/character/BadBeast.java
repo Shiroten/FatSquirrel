@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
+import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -21,8 +22,23 @@ public class BadBeast extends Character {
     }
 
     @Override
-    public EntityType getEntityType() {
+    public EntityType getEntityType(){
         return type;
+    }
+
+    /**
+     * reduces the lives of the beast by one
+     */
+    public void bites() {
+        lives--;
+    }
+
+    /**
+     * Lifes left
+     * @return current number of lifes
+     */
+    public int getLives() {
+        return this.lives;
     }
 
     @Override
@@ -44,19 +60,6 @@ public class BadBeast extends Character {
             moveCounter = 0;
         else
             moveCounter++;
-    }
-
-
-    public String toString() {
-        return ("BadBeast: " + super.toString());
-    }
-
-    public void bites() {
-        lives--;
-    }
-
-    public int getLives() {
-        return this.lives;
     }
 
 }

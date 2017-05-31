@@ -14,15 +14,17 @@ import java.util.logging.Logger;
 
 public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
-    public static final EntityType type = EntityType.MASTERSQUIRREL;
     private ActionCommand command = ActionCommand.NOWHERE;
     private boolean spawnMiniSquirrel = false;
+    private int miniSquirrelSpawnEnergy = 100;
 
     public void setMiniSquirrelSpawnEnergy(int miniSquirrelSpawnEnergy) {
         this.miniSquirrelSpawnEnergy = miniSquirrelSpawnEnergy;
     }
 
-    private  int miniSquirrelSpawnEnergy = 100;
+    public void setCommand(ActionCommand command) {
+        this.command = command;
+    }
 
     public HandOperatedMasterSquirrel(int id, XY coordinate) {
         super(id, coordinate);
@@ -30,14 +32,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         this.setEntityName("Player");
     }
 
-    public void setCommand(ActionCommand command) {
-        this.command = command;
-    }
-
-    public EntityType getEntityType() {
-        return type;
-    }
-
+    @Override
     public void nextStep(EntityContext context){
         if(stunTime > 0)
             stunTime--;
@@ -46,42 +41,20 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
             try{
                 spawnMini(miniSquirrelSpawnEnergy, context);
             } catch (NotEnoughEnergyException e){
-
+                Logger logger = Logger.getLogger(Launcher.class.getName());
+                logger.log(Level.FINEST, "Cant spawn Mini");
             }
         }
 
         else {
             switch (command) {
-                case EAST:
-                    context.tryMove(this, XY.RIGHT);
-                    break;
-                case WEST:
-                    context.tryMove(this, XY.LEFT);
-                    break;
-                case NORTH:
-                    context.tryMove(this, XY.UP);
-                    break;
-                case SOUTH:
-                    context.tryMove(this, XY.DOWN);
-                    break;
-                case NORTHEAST:
-                    context.tryMove(this, XY.RIGHT_UP);
-                    break;
-                case NORTHWEST:
-                    context.tryMove(this, XY.LEFT_UP);
-                    break;
-                case SOUTHEAST:
-                    context.tryMove(this, XY.RIGHT_DOWN);
-                    break;
-                case SOUTHWEST:
-                    context.tryMove(this, XY.LEFT_DOWN);
-                    break;
                 case SPAWN:
                     spawnMiniSquirrel = true;
                     break;
                 case NOWHERE:
                     break;
                 default:
+                    context.tryMove(this, command.getDirection());
                     break;
             }
             command = ActionCommand.NOWHERE;
@@ -96,11 +69,11 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         XY locationOfMaster = getCoordinate();
         for (XY xy : XYsupport.directions()) {
             //Wenn dieses Feld leer ist....
+            //TODO: Keine Abfrage, ob Feld leer ist
             if (getEnergy() >= energy) {
                 if (context.getEntityType(locationOfMaster.plus(xy)) == EntityType.NONE) {
 
                     //Füge neues MiniSquirreBot hinzu zum Board
-                    //updateEnergy(-energy);
                     context.spawnMiniSquirrel(getCoordinate().plus(xy), energy, this);
                     return;
                 }

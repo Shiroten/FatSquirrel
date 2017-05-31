@@ -101,12 +101,10 @@ public class MiniSquirrelBot extends MiniSquirrel {
     }
 
     private BotController miniBotController;
-    private BotControllerFactory factory;
 
     public MiniSquirrelBot(int id, XY position, int energy, MasterSquirrel daddy) {
         super(id, position, energy, daddy);
-        factory = daddy.getFactory();
-        this.miniBotController = factory.createMiniBotController();
+        this.miniBotController = daddy.getFactory().createMiniBotController();
     }
 
     public void nextStep(EntityContext context) {

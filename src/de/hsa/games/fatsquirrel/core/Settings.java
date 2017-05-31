@@ -5,6 +5,7 @@ import de.hsa.games.fatsquirrel.XY;
 
 public class Settings {
 
+    //TODO: Settings gänzlich eleminieren
     public static final int tickLength = 100;
     public static final Game.GameType gameType = Game.GameType.SINGLE_PLAYER;
     public static final XY gameSize = new XY(40, 30);

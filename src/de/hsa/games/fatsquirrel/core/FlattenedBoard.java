@@ -116,7 +116,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     private void move(Entity en, XY newPosition) {
-        ((Character) en).setLastVector(en.getCoordinate().minus(newPosition));
+        ((Character) en).setLastDirection(en.getCoordinate().minus(newPosition));
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINEST,
@@ -443,7 +443,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
             ((MiniSquirrel) character).getDaddy().updateEnergy(collectedEnergy);
             killEntity(character);
         } else {
-            //Todo: restliche EntiType behalden für implode falls gewünscht.
+            //Todo: restliche EntiType behalten für implode falls gewünscht.
         }
 
     }

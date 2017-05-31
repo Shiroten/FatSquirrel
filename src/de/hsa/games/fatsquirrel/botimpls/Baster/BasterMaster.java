@@ -17,8 +17,6 @@ public class BasterMaster implements BotController {
                 view.spawnMiniBot(XY.RIGHT, 250);
             } catch (SpawnException e){
 
-            } catch (NotEnoughEnergyException e1){
-
             }
         }
         view.move(basterSupport.preferredDirection(view));

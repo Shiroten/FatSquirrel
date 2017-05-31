@@ -7,7 +7,7 @@ import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 public abstract class Character extends Entity {
-    private XY lastVector = XY.ZERO_ZERO;
+    private XY lastDirection = XY.ZERO_ZERO;
 
     enum freeFieldMode {
         master,
@@ -16,12 +16,20 @@ public abstract class Character extends Entity {
         badBeast,
     }
 
-    public XY getLastVector() {
-        return lastVector;
+    /**
+     *
+     * @return The last direction the character was going
+     */
+    public XY getLastDirection() {
+        return lastDirection;
     }
 
-    public void setLastVector(XY lastVector) {
-        this.lastVector = lastVector;
+    /**
+     *
+     * @param lastDirection the last direction the character was going
+     */
+    public void setLastDirection(XY lastDirection) {
+        this.lastDirection = lastDirection;
     }
 
     Character(int energy, int id, XY coordinate) {
@@ -32,15 +40,13 @@ public abstract class Character extends Entity {
         super(id, coordinate);
     }
 
-    Character() {
-    }
-
     public abstract void nextStep(EntityContext context);
 
     void tryUnStuck(EntityContext context, XY direction, freeFieldMode ffm) {
         XY toMove = direction;
         toMove = goodMove(context, toMove, ffm);
 
+        //TODO: Wofür braucht man das Switch-konstrukt?
         switch (this.getEntityType()) {
             case MINISQUIRREL:
                 context.tryMove((MiniSquirrel) this, toMove);
@@ -57,16 +63,15 @@ public abstract class Character extends Entity {
     private XY goodMove(EntityContext view, XY directionVector, freeFieldMode ffm) {
         XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
         int nor = 1;
-        boolean stuck = true;
-        XY checkPostion = getCoordinate().plus(directionVector);
-        if (freeField(view, checkPostion, ffm)) {
+        XY checkPosition = getCoordinate().plus(directionVector);
+        if (freeField(view, checkPosition, ffm)) {
             return directionVector;
         }
         XY newVector;
-        while (stuck) {
+        while (true) {
             newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPostion = getCoordinate().plus(newVector);
-            if (freeField(view, checkPostion, ffm)) {
+            checkPosition = getCoordinate().plus(newVector);
+            if (freeField(view, checkPosition, ffm)) {
                 return newVector;
             } else {
                 if (rotation == XYsupport.Rotation.clockwise) {
@@ -79,7 +84,6 @@ public abstract class Character extends Entity {
                     return XYsupport.oppositeVector(directionVector);
             }
         }
-        return null;
     }
 
     private boolean freeField(EntityContext view, XY location, freeFieldMode ffm) {
@@ -127,7 +131,4 @@ public abstract class Character extends Entity {
         return false;
     }
 
-    boolean gotStuck(XY xy) {
-        return this.getCoordinate().getX() == xy.getX() && this.getCoordinate().getY() == xy.getY();
-    }
 }

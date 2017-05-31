@@ -281,7 +281,7 @@ public class FxUI extends Scene implements UI {
                     case BADPLANT:
                         break;
                     default:
-                        XY lastVector = ((Character) view.getEntity(new XY(x, y))).getLastVector();
+                        XY lastVector = ((Character) view.getEntity(new XY(x, y))).getLastDirection();
                         if (lastVector.equals(XY.ZERO_ZERO)) {
                         } else if (lastVector.equals(XY.RIGHT_UP)) {
                             printVector(gc, x, y, 4);

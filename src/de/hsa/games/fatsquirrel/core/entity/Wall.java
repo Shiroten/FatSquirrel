@@ -13,11 +13,4 @@ public class Wall extends Entity {
     public Wall(int id, XY coordinate) {
         super(START_ENERGY, id, coordinate);
     }
-
-    public void nextStep() {
-    }
-
-    public String toString() {
-        return ("Wall: " + super.toString());
-    }
 }

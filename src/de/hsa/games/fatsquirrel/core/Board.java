@@ -19,6 +19,7 @@ import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Board {
@@ -28,23 +29,13 @@ public class Board {
     private int idCounter = 0;
     private long remainingGameTime;
 
-    private MasterSquirrel masterSquirrel[] = new MasterSquirrel[10];
-    //private BotControllerFactory factoryList[] = {new BasterFactory(), new ShirotenFactory(), new GoodBeastChaserFactory()};
-
+    private List<MasterSquirrel> masterSquirrel = new ArrayList<>();
     private ArrayList<ImplosionContext> implosions;
 
     public Board() {
 
         this.set = new EntitySet();
         this.config = new BoardConfig();
-        this.remainingGameTime = config.getGAME_DURATION_AT_START();
-        //initBoard();
-    }
-
-    public Board(EntitySet set, BoardConfig config) {
-        this.set = set;
-        this.config = config;
-        this.implosions = new ArrayList<>();
         this.remainingGameTime = config.getGAME_DURATION_AT_START();
     }
 
@@ -86,7 +77,6 @@ public class Board {
     }
 
     private int setID() {
-
         return idCounter++;
     }
 
@@ -131,6 +121,7 @@ public class Board {
 
             XY position = randomPosition(config.getSize());
 
+            //TODO: Überlegen, ob man das per Intro-/Reflection lösen kann
             switch (type) {
                 case WALL:
                     entityToAdd = new Wall(setID(), position);
@@ -159,28 +150,18 @@ public class Board {
                             e.printStackTrace();
                         }
                     }
-                    addToMasterSquirrelList((MasterSquirrel) entityToAdd);
+                    masterSquirrel.add((MasterSquirrel) entityToAdd);
                     break;
             }
             set.add(entityToAdd);
         }
     }
 
-    private void addToMasterSquirrelList(MasterSquirrel ms) {
-        for (int i = 0; i < masterSquirrel.length; i++) {
-            if (masterSquirrel[i] == null) {
-                masterSquirrel[i] = ms;
-                return;
-            }
-        }
-    }
-
-    //Package Private
-    //TODO: wieder auf Package-Private setzen nach Test
-    public Entity addEntity(EntityType type, XY position) {
+    Entity addEntity(EntityType type, XY position) {
 
         Entity addEntity = null;
 
+        //TODO: Per Reflection/Introspection lösen
         switch (type) {
             case WALL:
                 addEntity = new Wall(setID(), position);
@@ -292,7 +273,7 @@ public class Board {
         return (HandOperatedMasterSquirrel) set.getHandOperatedMasterSquirrel();
     }
 
-    public MasterSquirrel[] getMasterSquirrel() {
+    List<MasterSquirrel> getMasterSquirrel() {
         return masterSquirrel;
     }
 

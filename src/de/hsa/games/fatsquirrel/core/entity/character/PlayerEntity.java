@@ -6,10 +6,6 @@ public abstract class PlayerEntity extends Character {
     protected int stunTime = 0;
 
     //Package Private
-    PlayerEntity(){
-        super();
-    }
-    //Package Private
     PlayerEntity(int id, XY coordinate){
         super(id, coordinate);
     }

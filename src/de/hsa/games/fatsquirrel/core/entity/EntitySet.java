@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
-import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.character.Character;
 import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;

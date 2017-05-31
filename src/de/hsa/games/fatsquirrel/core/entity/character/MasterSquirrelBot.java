@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.*;
-import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -107,7 +106,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         }
 
         @Override
-        public void spawnMiniBot(XY direction, int energy) throws SpawnException, NotEnoughEnergyException {
+        public void spawnMiniBot(XY direction, int energy) throws SpawnException{
             if (masterSquirrel.getEnergy() >= energy) {
                 try {
                     if (getEntityAt(locate().plus(direction)) != EntityType.NONE)
@@ -117,7 +116,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 }
                 context.spawnMiniSquirrel(locate().plus(direction), energy, masterSquirrel);
             } else {
-                throw new NotEnoughEnergyException();
+                throw new SpawnException();
             }
         }
 
@@ -149,19 +148,6 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 ControllerContext.class.getClassLoader(),
                 new Class[]{ControllerContext.class},
                 handler);
-        /*
-        if (moveCounter == 0) {
-            if (stunTime > 0)
-                stunTime--;
-            else {
-                masterBotController.nextStep(proxyView);
-            }
-            moveCounter++;
-        } else if (moveCounter == 2)
-            moveCounter = 0;
-        else
-            moveCounter++;
-        */
 
         if (stunTime > 0)
             stunTime--;

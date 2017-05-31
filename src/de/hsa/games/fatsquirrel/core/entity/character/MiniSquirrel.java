@@ -40,7 +40,7 @@ public class MiniSquirrel extends PlayerEntity {
     }
 
     public String toString() {
-        return ("MiniSquirrel: " + super.toString() + "Luke, wer ist dein Vater? ParentID:" + daddy.getId());
+        return (super.toString() + "ParentID:" + daddy.getId());
     }
 
     public void nextStep(EntityContext context) {

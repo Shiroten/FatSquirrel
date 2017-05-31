@@ -13,7 +13,6 @@ public abstract class MasterSquirrel extends PlayerEntity {
 
     private static final int START_ENERGY = 1000;
     public static final EntityType type = EntityType.MASTERSQUIRREL;
-    int moveCounter;
 
     public EntityType getEntityType() {
         return type;
@@ -24,24 +23,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
         this.energy = START_ENERGY;
     }
 
-    public MasterSquirrel() {
-    }
-
     public void nextStep(EntityContext context) {
-        /*
-        if (moveCounter == 0) {
-            if (stunTime > 0)
-                stunTime--;
-            else {
-                XY distance = XYsupport.randomDirection();
-                context.tryMove(this, distance);
-            }
-            moveCounter++;
-        } else if (moveCounter == 1)
-            moveCounter = 0;
-        else
-            moveCounter++;
-        */
         if (stunTime > 0)
             stunTime--;
         else {

@@ -39,8 +39,6 @@ public class GoodBeastChaserMaster implements BotController {
             }
         } catch (SpawnException e) {
             e.printStackTrace();
-        } catch (NotEnoughEnergyException e) {
-            e.printStackTrace();
         }
 
     }

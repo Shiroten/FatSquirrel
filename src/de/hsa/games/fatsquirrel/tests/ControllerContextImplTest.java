@@ -21,9 +21,8 @@ import static org.junit.Assert.*;
  */
 public class ControllerContextImplTest {
     private XY size = new XY(180, 80);
-    private EntitySet set = new EntitySet();
     private BoardConfig config = new BoardConfig(size);
-    private Board board = new Board(set, config);
+    private Board board = new Board(config);
     private FlattenedBoard flat;
     private EntityContext context;
     private MasterSquirrelBot.ControllerContextImpl viewMaster;
@@ -246,14 +245,6 @@ public class ControllerContextImplTest {
             notFreeTest = true;
         }
         assertTrue(notFreeTest);
-
-        boolean notEnoughEnergyTest = false;
-        try {
-            viewMaster.spawnMiniBot(XY.LEFT, viewMaster.getEnergy() + 1);
-        } catch (NotEnoughEnergyException neee) {
-            notEnoughEnergyTest = true;
-        }
-        assertTrue(notEnoughEnergyTest);
 
     }
 
