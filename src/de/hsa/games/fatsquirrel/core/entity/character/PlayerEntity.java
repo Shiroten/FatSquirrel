@@ -17,4 +17,6 @@ public abstract class PlayerEntity extends Character {
     public int getStunTime(){
         return this.stunTime;
     }
+
+    //TODO: GetName implementieren (siehe TODO MasterSquirrelBot)
 }

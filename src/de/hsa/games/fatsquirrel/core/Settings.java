@@ -78,6 +78,7 @@ public class Settings {
                         2, 0, 0, 0, 0,
                         0, 20, 20, Game.GameType.SINGLE_PLAYER, 1800);
                 break;
+            //TODO: In file schieben
             case custom:
             default:
                 config = new BoardConfig(gameSize, tickLength,

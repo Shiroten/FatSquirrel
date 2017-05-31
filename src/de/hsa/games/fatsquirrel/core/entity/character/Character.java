@@ -42,11 +42,11 @@ public abstract class Character extends Entity {
 
     public abstract void nextStep(EntityContext context);
 
-    void tryUnStuck(EntityContext context, XY direction, freeFieldMode ffm) {
+    //TODO: Dijkstra implementieren und zu XY ändern.
+    void findIdealPath(EntityContext context, XY direction, freeFieldMode ffm) {
         XY toMove = direction;
         toMove = goodMove(context, toMove, ffm);
 
-        //TODO: Wofür braucht man das Switch-konstrukt?
         switch (this.getEntityType()) {
             case MINISQUIRREL:
                 context.tryMove((MiniSquirrel) this, toMove);

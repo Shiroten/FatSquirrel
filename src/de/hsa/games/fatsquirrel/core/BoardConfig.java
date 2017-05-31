@@ -17,26 +17,19 @@ public class BoardConfig {
     private final int NUMBER_OF_BP;
     private final int NUMBER_OF_WA;
 
-    private final int NUMBER_OF_BOTS;
-
     private final int POINTS_FOR_MINI_SQUIRREL = 150;
 
     private final long GAME_DURATION_AT_START;
     private final int TICKLENGTH;
-    //private final float SQUIRREL_STUN_TIME_LENGTH = 0.2f;
     private final int SQUIRREL_STUN_TIME_IN_TICKS = 3;
-    //private final float BEAST_MOVE_TIME_LENGTH = 0.1f;
     private final int BEAST_MOVE_TIME_IN_TICKS = 4;
-    //private final float MINI_SQUIRREL_MOVE_TIME_LENGTH = 0.07f;
     private final int MINI_SQUIRREL_MOVE_TIME_IN_TICKS = 1;
 
     private final int VIEW_DISTANCE_OF_GOODBEAST;
     private final int VIEW_DISTANCE_OF_BADBEAST;
 
     private final Game.GameType gameType;
-    private final String[] bots = {"BasterFactory", "GoodBeastChaserFactory"};
-
-    public static final defaultSettings ds = defaultSettings.normal;
+    private final String[] bots;
 
     public BoardConfig(XY size, int tickLength, int gb, int bb, int gp, int bp, int wa, int NUMBER_OF_BOTS
             , int viewGB, int viewBB, Game.GameType gameType, int gameDuration) {
@@ -50,13 +43,12 @@ public class BoardConfig {
         //this.SQUIRREL_STUN_TIME_IN_TICKS = (int) (tickLength * SQUIRREL_STUN_TIME_LENGTH);
         //this.BEAST_MOVE_TIME_IN_TICKS = (int) (tickLength * BEAST_MOVE_TIME_LENGTH);
         //this.MINI_SQUIRREL_MOVE_TIME_IN_TICKS = (int) (tickLength * MINI_SQUIRREL_MOVE_TIME_LENGTH);
-        this.NUMBER_OF_BOTS = NUMBER_OF_BOTS;
         this.VIEW_DISTANCE_OF_GOODBEAST = viewGB;
         this.VIEW_DISTANCE_OF_BADBEAST = viewBB;
         this.gameType = gameType;
         this.GAME_DURATION_AT_START = gameDuration;
 
-        saveConfig();
+        bots = getBots();
     }
 
     public BoardConfig() {
@@ -67,7 +59,6 @@ public class BoardConfig {
         this.NUMBER_OF_GP = 5;
         this.NUMBER_OF_BP = 5;
         this.NUMBER_OF_WA = 25;
-        this.NUMBER_OF_BOTS = 4;
         //this.SQUIRREL_STUN_TIME_IN_TICKS = (int) (TICKLENGTH * SQUIRREL_STUN_TIME_LENGTH);
         //this.BEAST_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * BEAST_MOVE_TIME_LENGTH);
         //this.MINI_SQUIRREL_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * MINI_SQUIRREL_MOVE_TIME_LENGTH);
@@ -76,7 +67,7 @@ public class BoardConfig {
         this.gameType = Game.GameType.WITH_BOT;
         this.GAME_DURATION_AT_START = 300;
 
-        saveConfig();
+        bots = getBots();
     }
 
     public BoardConfig(XY size) {
@@ -87,7 +78,6 @@ public class BoardConfig {
         this.NUMBER_OF_GP = 5;
         this.NUMBER_OF_BP = 5;
         this.NUMBER_OF_WA = 25;
-        this.NUMBER_OF_BOTS = 4;
         //this.SQUIRREL_STUN_TIME_IN_TICKS = (int) (TICKLENGTH * SQUIRREL_STUN_TIME_LENGTH);
         //this.BEAST_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * BEAST_MOVE_TIME_LENGTH);
         //this.MINI_SQUIRREL_MOVE_TIME_IN_TICKS = (int) (TICKLENGTH * MINI_SQUIRREL_MOVE_TIME_LENGTH);
@@ -96,7 +86,7 @@ public class BoardConfig {
         this.gameType = Game.GameType.WITH_BOT;
         this.GAME_DURATION_AT_START = 1800;
 
-        saveConfig();
+        bots = getBots();
     }
 
     private void saveConfig(){
@@ -161,22 +151,11 @@ public class BoardConfig {
 
         gameType = Game.GameType.getGameType(properties.getProperty("GameMode", "WITH_BOT"));
 
-        NUMBER_OF_BOTS = 2;
+        bots = getBots();
     }
 
     public BoardConfig(XY size, int NUMBER_OF_GB, int NUMBER_OF_BB, int NUMBER_OF_GP, int NUMBER_OF_BP, int NUMBER_OF_WA) {
         this(size, 60, NUMBER_OF_GB, NUMBER_OF_BB, NUMBER_OF_GP, NUMBER_OF_BP, NUMBER_OF_WA, 4, 6, 6, Game.GameType.SINGLE_PLAYER,1800);
-    }
-
-    public enum defaultSettings {
-        testcase1,
-        testcase2,
-        testcase3,
-        testcase4,
-        testcase5,
-        GBbreeding,
-        custom,
-        normal,
     }
 
     Game.GameType getGameType() {
@@ -244,24 +223,17 @@ public class BoardConfig {
     }
 
     String[] getBots(){
-        System.out.println("Aufruf");
+        //System.out.println("Aufruf");
         File folder = new File("src\\de\\hsa\\games\\fatsquirrel\\botimpls");
-        //C:\Users\tillm\IdeaProjects\FatSquirrel\src\
-        File[] listOfBots = folder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.substring(name.length()-4, name.length()).equals("java");
-            }
-        });
+        File[] listOfBots = folder.listFiles((dir, name) -> name.substring(name.length()-4, name.length()).equals("java"));
         String[] bots;
 
         if(listOfBots != null) {
             bots = new String[listOfBots.length];
             for (int i = 0; i < listOfBots.length; i++) {
                 if (listOfBots[i].isFile()) {
-                    //System.out.println(listOfBots[i].toString());
+                    // \\\\ = \
                     String s = listOfBots[i].toString().split("\\\\")[6];
-                    System.out.println(s.substring(0, s.length()-5));
                     bots[i] = s.substring(0, s.length()-5);
                 }
             }

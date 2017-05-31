@@ -15,6 +15,7 @@ public class DebugHandler implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
+        //TODO: String durch StringBuilder ersetzen (oder durch Outputstream)
         String output = "* calling method " + method + " with params ";
         if (args != null) {
             for (int i = 0; i < args.length; i++)
@@ -28,7 +29,6 @@ public class DebugHandler implements InvocationHandler {
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
         } catch (InvocationTargetException ex) {
-            output = output + "* exception:" + ex.getTargetException();
             throw ex.getTargetException();
         }
         output = output + "* result:" + result;

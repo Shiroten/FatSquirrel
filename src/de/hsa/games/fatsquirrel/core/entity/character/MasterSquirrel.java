@@ -23,20 +23,11 @@ public abstract class MasterSquirrel extends PlayerEntity {
         this.energy = START_ENERGY;
     }
 
-    public void nextStep(EntityContext context) {
-        if (stunTime > 0)
-            stunTime--;
-        else {
-            XY distance = XYsupport.randomDirection();
-            context.tryMove(this, distance);
-        }
-    }
+    @Override
+    public void nextStep(EntityContext context) {}
 
     public boolean mySquirrel(MiniSquirrel squirrelToCheck) {
         return this == squirrelToCheck.getDaddy();
-    }
-
-    public void nextStep(ControllerContext view) {
     }
 
     public BotControllerFactory getFactory() {

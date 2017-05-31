@@ -61,16 +61,8 @@ public class Board {
 
     public FlattenedBoard flatten() {
         Entity[][] list = new Entity[config.getSize().getY()][config.getSize().getX()];
-        for (int i = 0; i < set.getNumberOfEntities(); i++) {
-            if (set.getEntity(i) != null) {
-                Entity dummy = set.getEntity(i);
-                try {
-                    list[dummy.getCoordinate().getY()][dummy.getCoordinate().getX()] = dummy;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println(dummy.toString());
-                }
-            }
+        for (Entity e : set.getEntityList()) {
+            list[e.getCoordinate().getY()][e.getCoordinate().getX()] = e;
         }
 
         return new FlattenedBoard(config.getSize(), this, list);
@@ -100,15 +92,14 @@ public class Board {
     }
 
     private void initOuterWalls() {
-        int WallIDs = setID();
         int x = config.getSize().getX(), y = config.getSize().getY();
         for (int i = 0; i < x; i++) {
-            set.add(new Wall(WallIDs, new XY(i, 0)));
-            set.add(new Wall(WallIDs, new XY(i, y - 1)));
+            set.add(new Wall(setID(), new XY(i, 0)));
+            set.add(new Wall(setID(), new XY(i, y - 1)));
         }
         for (int i = 1; i < y - 1; i++) {
-            set.add(new Wall(WallIDs, new XY(0, i)));
-            set.add(new Wall(WallIDs, new XY(x - 1, i)));
+            set.add(new Wall(setID(), new XY(0, i)));
+            set.add(new Wall(setID(), new XY(x - 1, i)));
         }
     }
 
@@ -200,11 +191,8 @@ public class Board {
             newY = (int) ((Math.random() * size.getY()));
 
             //Durchsuchen des Entityset nach möglichen Konflikten
-            for (int i = 0; i < set.getNumberOfEntities(); i++) {
-
-                if (set.getEntity(i) == null) {
-                    return new XY(newX, newY);
-                } else if (newX == set.getEntity(i).getCoordinate().getX() && newY == set.getEntity(i).getCoordinate().getY()) {
+            for (Entity e: set.getEntityList()) {
+                if (newX == e.getCoordinate().getX() && newY == e.getCoordinate().getY()) {
                     collision = true;
                     break;
                 }
@@ -217,46 +205,6 @@ public class Board {
     //Package Private
     void killEntity(Entity e) {
         this.set.delete(e);
-    }
-
-    private void initPac() {
-        if (this.config.getSize().getX() == 20 && this.getConfig().getSize().getY() == 20) {
-            initOuterWalls();
-            String field =
-                    "000X0000000000X000|" +
-                            "0X0X0XXXX0XXX0X0X0|" +
-                            "0X0x0xxxx0xxx0x0x0|" +
-                            "00000x000000x000x0|" +
-                            "xxxx0x0xxxx0x0x0x0|" +
-                            "00000x0x00000000x0|" +
-                            "0xxx000x0xxxxxx000|" +
-                            "0x000xxx0xxxxxx0xx|" +
-                            "0x0x0x00000000x000|" +
-                            "000X000xx0xxx0X000|" +
-                            "0X0X0XXXX0XXX0X0X0|" +
-                            "0X0x0xxxx0xxx0x0x0|" +
-                            "00000x000000x000x0|" +
-                            "xxxx0x0xxxx0x0x0x0|" +
-                            "00000x0x00000000x0|" +
-                            "0xx0000x0xx0x0x000|" +
-                            "0xx0xxxx0xx0x0x0xx|" +
-                            "000000000000x00000|";
-            parseWalls(field);
-        }
-    }
-
-    private void parseWalls(String field) {
-        int x = 0, y = 1;
-        field = field.toUpperCase();
-        for (char c : field.toCharArray()) {
-            x++;
-            if (c == 'X') {
-                addEntity(EntityType.WALL, new XY(x, y));
-            } else if (c == '|') {
-                x = 0;
-                y++;
-            }
-        }
     }
 
     public void add(Entity toAdd) {

@@ -114,7 +114,10 @@ public class MiniSquirrelBot extends MiniSquirrel {
             if (stunTime > 0)
                 stunTime--;
             else {
-                miniBotController.nextStep(view);
+                if(implode)
+                    view.implode(implosionRadius);
+                else
+                    miniBotController.nextStep(view);
             }
             moveCounter++;
         } else if (moveCounter == context.getMINI_SQUIRREL_MOVE_TIME_IN_TICKS())

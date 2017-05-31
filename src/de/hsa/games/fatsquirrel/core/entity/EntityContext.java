@@ -1,7 +1,6 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.core.Pac.PacSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
 import de.hsa.games.fatsquirrel.core.entity.character.Character;
 
@@ -15,8 +14,6 @@ public interface EntityContext {
     void tryMove(BadBeast badBeast, XY xy);
 
     void tryMove(MasterSquirrel masterSquirrel, XY xy);
-
-    void tryMove(PacSquirrel pacSquirrel, XY xy);
 
     void implode(Character e, int impactradius);
 

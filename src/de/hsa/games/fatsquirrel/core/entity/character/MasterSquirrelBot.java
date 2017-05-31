@@ -13,21 +13,20 @@ public class MasterSquirrelBot extends MasterSquirrel {
     public static class ControllerContextImpl implements ControllerContext {
 
         private EntityContext context;
-        private XY myPosition;
         private MasterSquirrel masterSquirrel;
+        private static final int VIEW_DISTANCE = 15;
 
         public ControllerContextImpl(EntityContext context, MasterSquirrel masterSquirrel) {
             this.context = context;
-            this.myPosition = masterSquirrel.getCoordinate();
             this.masterSquirrel = masterSquirrel;
         }
 
         @Override
         public XY getViewLowerLeft() {
-            int x = locate().getX() - 15;
+            int x = locate().getX() - VIEW_DISTANCE;
             if (x < 0)
                 x = 0;
-            int y = locate().getY() + 15;
+            int y = locate().getY() + VIEW_DISTANCE;
             if (y > context.getSize().getY())
                 y = context.getSize().getY();
             return new XY(x, y);
@@ -35,10 +34,10 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY getViewUpperRight() {
-            int x = locate().getX() + 15;
+            int x = locate().getX() + VIEW_DISTANCE;
             if (x > context.getSize().getX())
                 x = context.getSize().getX();
-            int y = locate().getY() - 15;
+            int y = locate().getY() - VIEW_DISTANCE;
             if (y < 0)
                 y = 0;
             return new XY(x, y);
@@ -46,7 +45,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY locate() {
-            return myPosition;
+            return masterSquirrel.getCoordinate();
         }
 
         @Override
@@ -68,17 +67,6 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY directionOfMaster() {
-            try {
-                if (getEntityAt(locate()) == EntityType.MINISQUIRREL) {
-                    MasterSquirrel ms = ((MiniSquirrel) context.getEntity(locate())).getDaddy();
-                    System.out.println(ms.getCoordinate());
-                    return ms.getCoordinate();
-
-                }
-
-            } catch (OutOfViewException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 
@@ -133,6 +121,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         this.factory = factory;
         this.masterBotController = factory.createMasterBotController();
 
+        //TODO: An Nameskonvention siehe 10.1 anpassen mit substring
         String factoryName = factory.getClass().getSimpleName();
         CharSequence replaceChars = "Factory";
         CharSequence with = "";
