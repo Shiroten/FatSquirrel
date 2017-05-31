@@ -27,11 +27,6 @@ public class XY {
         this.y = y;
     }
 
-    public XY(XY end, XY start) {
-        this.x = end.getX() - start.getX();
-        this.y = end.getY() - start.getY();
-    }
-
     public XY plus(XY xy) {
         return new XY(x + xy.getX(), y + xy.getY());
     }

@@ -30,7 +30,7 @@ public class GoodBeast extends Character {
 
         if (moveCounter == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
-            XY distance = new XY(pe.getCoordinate(), this.getCoordinate());
+            XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getGOODBEAST_VIEW_DISTANCE()) {
                 tryUnStuck(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), freeFieldMode.goodBeast);

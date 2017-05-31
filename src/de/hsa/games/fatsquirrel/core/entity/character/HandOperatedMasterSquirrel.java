@@ -72,7 +72,6 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
             //TODO: Keine Abfrage, ob Feld leer ist
             if (getEnergy() >= energy) {
                 if (context.getEntityType(locationOfMaster.plus(xy)) == EntityType.NONE) {
-
                     //Füge neues MiniSquirreBot hinzu zum Board
                     context.spawnMiniSquirrel(getCoordinate().plus(xy), energy, this);
                     return;

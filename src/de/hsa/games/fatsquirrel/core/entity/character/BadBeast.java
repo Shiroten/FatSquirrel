@@ -49,7 +49,7 @@ public class BadBeast extends Character {
 
         if (moveCounter == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
-            XY distance = new XY(pe.getCoordinate(), this.getCoordinate());
+            XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getBADBEAST_VIEW_DISTANCE()) {
                 tryUnStuck(context, XYsupport.normalizedVector(distance), freeFieldMode.badBeast);
