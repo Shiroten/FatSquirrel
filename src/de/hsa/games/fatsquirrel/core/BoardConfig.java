@@ -223,7 +223,6 @@ public class BoardConfig {
     }
 
     String[] getBots(){
-        //System.out.println("Aufruf");
         File folder = new File("src\\de\\hsa\\games\\fatsquirrel\\botimpls");
         File[] listOfBots = folder.listFiles((dir, name) -> name.substring(name.length()-4, name.length()).equals("java"));
         String[] bots;
@@ -232,15 +231,13 @@ public class BoardConfig {
             bots = new String[listOfBots.length];
             for (int i = 0; i < listOfBots.length; i++) {
                 if (listOfBots[i].isFile()) {
-                    // \\\\ = \
+                    // \\\\ = \   | Beim Regex muss ein Backslash mit drei Backslashes escaped werden
                     String s = listOfBots[i].toString().split("\\\\")[6];
                     bots[i] = s.substring(0, s.length()-5);
                 }
             }
-
             return bots;
         }
-
         return null;
     }
 

@@ -17,6 +17,7 @@ public class Settings {
     public static final int NUMBER_OF_BOTS = 4;
     public static final int VIEW_DISTANCE_OF_GOODBEAST = 6;
     public static final int VIEW_DISTANCE_OF_BADBEAST = 6;
+    //Dont delete
     public static int cellSize = 25;
     public static final int GAME_DURATION = 1800;
     public static final defaultSettings ds = defaultSettings.normal;

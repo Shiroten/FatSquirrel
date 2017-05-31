@@ -60,6 +60,7 @@ public class State {
             highscore.put(ms.getEntityName(), longArrayList);
         }
 
+        //TODO: StringBuilder
         String output = "";
         if (board.getRemainingGameTime() % 20 == 0) {
             for (ArrayList<Long> entry : highscore.values()) {

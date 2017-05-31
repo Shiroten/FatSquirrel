@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.core.Pac.PacSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
@@ -54,10 +53,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public ArrayList<ImplosionContext> getImplosions() {
-
         return implosions;
     }
 
+    //TODO: In die UI verlagern, dann aus Board entfernen
     @Override
     public void tickImplosions() {
         ImplosionContext icToDelete = null;
@@ -69,7 +68,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
         if (icToDelete != null)
             implosions.remove(icToDelete);
-
     }
 
     @Override
@@ -92,9 +90,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public long getRemainingTime() {
-        return board.getConfig().getGAME_DURATION_AT_START();
+        return board.getRemainingGameTime();
     }
 
+    //TODO: In Board kapseln
     @Override
     public int getBEAST_MOVE_TIME_IN_TICKS() {
         return board.getConfig().getBEAST_MOVE_TIME_IN_TICKS();
@@ -146,23 +145,15 @@ public class FlattenedBoard implements BoardView, EntityContext {
     public void tryMove(GoodBeast goodBeast, XY xy) {
 
         XY newField = goodBeast.getCoordinate().plus(xy);
-        //System.out.println(goodBeast.toString() + vector.toString());
 
         switch (getEntityType(newField)) {
             case WALL:
-                break;
             case BADBEAST:
-                break;
             case BADPLANT:
-                break;
             case GOODBEAST:
-                break;
             case GOODPLANT:
                 break;
             case MINISQUIRREL:
-                getEntity(newField).updateEnergy(goodBeast.getEnergy());
-                killAndReplace(goodBeast);
-                break;
             case MASTERSQUIRREL:
                 getEntity(newField).updateEnergy(goodBeast.getEnergy());
                 killAndReplace(goodBeast);
@@ -178,22 +169,17 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
         XY newField = badBeast.getCoordinate().plus(xy);
 
-        //System.out.println(badBeast.toString() + vector.toString());
 
         switch (getEntityType(newField)) {
             case WALL:
-                //System.out.println("Running into wall");
-                break;
             case BADBEAST:
-                break;
             case BADPLANT:
-                break;
             case GOODBEAST:
-                break;
             case GOODPLANT:
                 break;
             case MINISQUIRREL:
                 getEntity(newField).updateEnergy(badBeast.getEnergy());
+                //TODO: Nicht moveOrKill verwenden
                 moveOrKillMiniSquirrel((MiniSquirrel) getEntity(newField), getEntity(newField).getCoordinate());
 
                 badBeast.bites();
@@ -201,11 +187,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
                     killAndReplace(badBeast);
                 break;
             case MASTERSQUIRREL:
-                //System.out.println("Squirrel wurde gebissen.%n");
                 getEntity(newField).updateEnergy(badBeast.getEnergy());
                 badBeast.bites();
                 if (badBeast.getLives() == 0)
                     killAndReplace(badBeast);
+                //TODO: check vielleicht in MasterSquirrel schachteln
                 checkMasterSquirrel((MasterSquirrel) getEntity(newField));
                 break;
             default:
@@ -239,12 +225,9 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 break;
 
             case MINISQUIRREL:
-                if (miniSquirrel.getDaddy() !=
-                        ((MiniSquirrel) getEntity(newField)).getDaddy()) {
-
+                if (miniSquirrel.getDaddy() != ((MiniSquirrel) getEntity(newField)).getDaddy()) {
                     killEntity(miniSquirrel);
                     killEntity(getEntity(newField));
-
                 }
                 break;
 
@@ -269,6 +252,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         miniSquirrel.updateEnergy(-1);
     }
 
+    //TODO: Überarbeiten
     private void moveOrKillMiniSquirrel(MiniSquirrel miniSquirrel, XY newPosition) {
 
         if (miniSquirrel.getEnergy() <= 0) {
@@ -329,54 +313,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 move(masterSquirrel, newField);
         }
         checkMasterSquirrel(masterSquirrel);
-    }
-
-    public void tryMove(PacSquirrel pacSquirrel, XY xy) {
-        XY newField = pacSquirrel.getCoordinate().plus(xy);
-        switch (getEntityType(newField)) {
-            case WALL:
-                break;
-            case BADBEAST:
-                pacSquirrel.updateEnergy(BadBeast.START_ENERGY);
-                ((BadBeast) getEntity(newField)).bites();
-                if (((BadBeast) getEntity(newField)).getLives() == 0)
-                    killAndReplace(getEntity(newField));
-                break;
-            case BADPLANT:
-                moveAndKill(pacSquirrel, BadPlant.START_ENERGY, newField);
-                break;
-            case GOODBEAST:
-                moveAndKill(pacSquirrel, GoodBeast.START_ENERGY, newField);
-                break;
-            case GOODPLANT:
-                pacSquirrel.updateEnergy(GoodPlant.START_ENERGY);
-                killEntity(getEntity(newField));
-                break;
-            case MINISQUIRREL:
-
-                MiniSquirrel squirrel = (MiniSquirrel) getEntity(newField);
-                int energy;
-
-                if (pacSquirrel.mySquirrel(squirrel)) {
-                    //Eigener MiniSquirrel wird absorbiert
-                    energy = squirrel.getEnergy();
-                } else {
-                    //Fremder MiniSquirrel wird gerammt
-                    energy = board.getConfig().getPOINTS_FOR_MINI_SQUIRREL();
-                }
-
-                pacSquirrel.updateEnergy(energy);
-                killEntity(squirrel);
-                move(pacSquirrel, newField);
-                break;
-
-            case MASTERSQUIRREL:
-                //Stößen nur mit den Köpfen Zusammen
-                break;
-            default:
-                move(pacSquirrel, newField);
-        }
-        checkMasterSquirrel(pacSquirrel);
     }
 
     public void spawnMiniSquirrel(XY direction, int energy, MasterSquirrel daddy) {
@@ -442,10 +378,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         if (character.getEntityType() == EntityType.MINISQUIRREL) {
             ((MiniSquirrel) character).getDaddy().updateEnergy(collectedEnergy);
             killEntity(character);
-        } else {
-            //Todo: restliche EntiType behalten für implode falls gewünscht.
         }
-
     }
 
     private boolean entityFriendly(Entity e, Entity toCheck) {
@@ -467,10 +400,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
             }
         }
 
-
         return true;
     }
 
+    //TODO: Überarbeiten
     private int calculateEnergyOfEntity(double energyLoss, Entity e) {
 
         int energyDifference;
@@ -538,15 +471,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public void killEntity(Entity entity) {
-        for (int i = 0; i < size.getY(); i++) {
-            for (int j = 0; j < size.getX(); j++) {
-                if (flattenedBoard[i][j] == entity) {
-                    flattenedBoard[i][j] = null;
-                    board.killEntity(entity);
-                    return;
-                }
-            }
-        }
+        flattenedBoard[entity.getCoordinate().getY()][entity.getCoordinate().getX()] = null;
+        board.killEntity(entity);
     }
 
     @Override
@@ -572,29 +498,28 @@ public class FlattenedBoard implements BoardView, EntityContext {
         //Aus dem Board alle Player-E's ziehen
         //Abstand von pos zu PEs berechnen
         //nächste PE zurückgeben
-        PlayerEntity nPE = null;
-        for (Entity e : board.getSet().getEntityList()) {
-            if (e instanceof PlayerEntity) {
-                if (nPE == null)
-                    nPE = (PlayerEntity) e;
+        PlayerEntity nearestPlayerEntity = null;
+        for (Entity entity : board.getSet().getEntityList()) {
+            if (entity instanceof PlayerEntity) {
+                if (nearestPlayerEntity == null)
+                    nearestPlayerEntity = (PlayerEntity) entity;
                 else {
-                    double distanceToNew = pos.distanceFrom(e.getCoordinate());
-                    if (distanceToNew < pos.distanceFrom(nPE.getCoordinate()))
-                        nPE = (PlayerEntity) e;
+                    double distanceToNew = pos.distanceFrom(entity.getCoordinate());
+                    if (distanceToNew < pos.distanceFrom(nearestPlayerEntity.getCoordinate()))
+                        nearestPlayerEntity = (PlayerEntity) entity;
                 }
             }
         }
-        return nPE;
+        return nearestPlayerEntity;
     }
 
+    //TODO: Volles Board abfangen
     private XY randomFreePosition() {
         XY xy;
         do {
             xy = new XY(randomWithRange(1, size.getX() - 1), randomWithRange(1, size.getY() - 1));
-            //System.out.println("While: " + xy);
         }
         while (flattenedBoard[xy.getY()][xy.getX()] != null);
-        //System.out.println("Done: " + xy);
         return xy;
     }
 
