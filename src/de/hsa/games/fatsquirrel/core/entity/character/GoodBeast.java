@@ -18,7 +18,6 @@ public class GoodBeast extends Character {
     private static final EntityType type = EntityType.GOODBEAST;
     public int moveCounter = 0;
 
-
     public GoodBeast(int id, XY coordinate) {
         super(START_ENERGY, id, coordinate);
     }

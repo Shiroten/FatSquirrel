@@ -19,11 +19,6 @@ public class State {
         this.board = new Board("default.props");
     }
 
-    //TODO: So schachteln, dass nur noch über State das Board erzeugt wird
-    public State(Board board) {
-        this.board = board;
-    }
-
     public State(String configName){
         this.board = new Board(configName);
     }

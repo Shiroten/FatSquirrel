@@ -25,6 +25,7 @@ public class FxGameImpl extends Game {
 
     protected void processInput() {
 
+        //TODO: Per Reflection lösen
         if (handOperatedMasterSquirrel != null) {
             Command cmd = this.getUi().getCommand();
             switch (cmd.getCommandTypeInfo().getName()) {
@@ -71,7 +72,7 @@ public class FxGameImpl extends Game {
     protected void update() {
 
         if (imploadMiniSquirrel != null) {
-            int implosionRadius = (Integer)(imploadMiniSquirrel.getParams())[0];
+            int implosionRadius = (Integer) (imploadMiniSquirrel.getParams())[0];
             imploadMiniSquirrel(implosionRadius);
             imploadMiniSquirrel = null;
         }
@@ -79,7 +80,7 @@ public class FxGameImpl extends Game {
         getState().update();
         FxUI fxUI = (FxUI) this.getUi();
         String msg = "";
-        msg = msg + String.format("FrameRate: %2.0f", 1000.0/this.getTickLength());
+        msg = msg + String.format("FrameRate: %2.0f", 1000.0 / this.getTickLength());
         msg = msg + String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime());
         msg = msg + String.format(" | MasterSquirrel Energy: " + Integer.toString(handOperatedMasterSquirrel.getEnergy()));
 
@@ -89,14 +90,13 @@ public class FxGameImpl extends Game {
 
     private void imploadMiniSquirrel(int implosionRadius) {
         for (Entity e : getState().getEntitySet()) {
-            if (e != null) {
-                if (e.getEntityType() == EntityType.MINISQUIRREL) {
-                    if (((MiniSquirrel) e).getDaddy() == handOperatedMasterSquirrel) {
-                        ((MiniSquirrel) e).implode(implosionRadius);
-                    }
-
+            if (e.getEntityType() == EntityType.MINISQUIRREL) {
+                if (((MiniSquirrel) e).getDaddy() == handOperatedMasterSquirrel) {
+                    ((MiniSquirrel) e).implode(implosionRadius);
                 }
+
             }
         }
     }
+
 }

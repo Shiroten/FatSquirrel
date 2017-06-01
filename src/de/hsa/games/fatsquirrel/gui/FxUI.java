@@ -88,7 +88,6 @@ public class FxUI extends Scene implements UI {
 
         fxUI.setOnKeyPressed(
                 keyEvent -> {
-                    //System.out.println(keyEvent.getCode());
                     switch (keyEvent.getCode()) {
                         case W:
                         case UP:
@@ -314,9 +313,9 @@ public class FxUI extends Scene implements UI {
             if (opacity < 0)
                 opacity = 0;
 
-            Color implisionColor = Color.color(1, 0, 0, opacity);
+            Color implosionColor = Color.color(1, 0, 0, opacity);
 
-            gc.setFill(implisionColor);
+            gc.setFill(implosionColor);
             gc.fillOval(ic.getPosition().getX() * cellSize - cellSize * ic.getRadius() + (cellSize / 2),
                     ic.getPosition().getY() * cellSize - cellSize * ic.getRadius() + (cellSize / 2),
                     cellSize * ic.getRadius() * 2,
