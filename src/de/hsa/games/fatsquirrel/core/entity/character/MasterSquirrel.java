@@ -43,4 +43,11 @@ public abstract class MasterSquirrel extends PlayerEntity {
     public BotControllerFactory getFactory() {
         return factory;
     }
+
+    @Override
+    public void updateEnergy(int energyDifference){
+        this.energy += energyDifference;
+        if(energy < 0)
+            energy = 0;
+    }
 }

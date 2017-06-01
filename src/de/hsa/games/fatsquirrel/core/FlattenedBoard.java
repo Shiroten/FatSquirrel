@@ -84,7 +84,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return board.getRemainingGameTime();
     }
 
-    //TODO: In Board kapseln
     @Override
     public int getBEAST_MOVE_TIME_IN_TICKS() {
         return board.getConfig().getBEAST_MOVE_TIME_IN_TICKS();
@@ -182,8 +181,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 badBeast.bites();
                 if (badBeast.getLives() == 0)
                     killAndReplace(badBeast);
-                //TODO: check vielleicht in MasterSquirrel schachteln
-                checkMasterSquirrel((MasterSquirrel) getEntity(newField));
                 break;
             default:
                 move(badBeast, newField);
@@ -303,7 +300,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
             default:
                 move(masterSquirrel, newField);
         }
-        checkMasterSquirrel(masterSquirrel);
     }
 
     public void spawnMiniSquirrel(XY direction, int energy, MasterSquirrel daddy) {
@@ -409,7 +405,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
         } else if (e.getEntityType() == EntityType.MASTERSQUIRREL) {
             energyDifference = (int) energyLoss;
             e.updateEnergy(-(int) energyLoss);
-            checkMasterSquirrel((MasterSquirrel) e);
 
         } else {
 
@@ -446,11 +441,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 }
         }
         return energyCollected;
-    }
-
-    private void checkMasterSquirrel(MasterSquirrel ms) {
-        if (ms.getEnergy() < 0)
-            ms.updateEnergy(-ms.getEnergy());
     }
 
     private void moveAndKill(Entity en, int energy, XY newField) {
