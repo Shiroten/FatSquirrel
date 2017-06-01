@@ -387,33 +387,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return true;
     }
 
-    //TODO: Überarbeiten
     private int collectedEnergyOfEntity(double energyLoss, Entity e) {
-
-        int energyDifference;
-
-        if (e.getEnergy() <= 0) {
-            energyDifference = 0;
-            ceoeHelper(energyLoss, e);
-
-        } else if (e.getEnergy() > (int) energyLoss) {
-
-            energyDifference = ceoeHelper(energyLoss, e);
-
-        } else if (e.getEntityType() == EntityType.MASTERSQUIRREL) {
-            energyDifference = (int) energyLoss;
-            e.updateEnergy(-(int) energyLoss);
-
-        } else {
-
-            energyDifference = e.getEnergy();
-            e.updateEnergy(-e.getEnergy());
-
-        }
-        return energyDifference;
-    }
-
-    private int ceoeHelper(double energyLoss, Entity e) {
 
         int energyCollected;
         EntityType et = e.getEntityType();
@@ -426,9 +400,13 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case WALL:
                 energyCollected = 0;
                 break;
+            case MASTERSQUIRREL:
+                energyCollected = (int) energyLoss;
+                e.updateEnergy(-(int) energyLoss);
+                break;
             default:
                 //Fall Energy Positiv
-                energyCollected = (int) energyLoss;
+                energyCollected = (int) energyLoss > e.getEnergy() ? e.getEnergy() : (int) energyLoss;
                 e.updateEnergy(-(int) energyLoss);
         }
         return energyCollected;

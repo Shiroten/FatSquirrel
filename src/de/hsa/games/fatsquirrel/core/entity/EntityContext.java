@@ -2,7 +2,6 @@ package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
-import de.hsa.games.fatsquirrel.core.entity.character.Character;
 
 /**
  * Allows access to information about the board as well as manipulation of the board
