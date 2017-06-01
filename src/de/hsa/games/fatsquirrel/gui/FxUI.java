@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -245,7 +244,7 @@ public class FxUI extends Scene implements UI {
         try {
             printImplosion(gc, view);
 
-            printEntity(gc, view);
+            printAllEntity(gc, view);
             printHeadOrTail(gc, view);
 
         } catch (Exception e) {
@@ -254,7 +253,7 @@ public class FxUI extends Scene implements UI {
         }
     }
 
-    private void printEntity(GraphicsContext gc, BoardView view) {
+    private void printAllEntity(GraphicsContext gc, BoardView view) {
 
         for (int x = 0; x < boardCanvas.getWidth(); x++) {
             for (int y = 0; y < boardCanvas.getHeight(); y++) {
@@ -282,8 +281,7 @@ public class FxUI extends Scene implements UI {
                         break;
                     default:
                         XY lastVector = ((Character) view.getEntity(new XY(x, y))).getLastDirection();
-                        if (lastVector.equals(XY.ZERO_ZERO)) {
-                        } else if (lastVector.equals(XY.RIGHT_UP)) {
+                        if (lastVector.equals(XY.RIGHT_UP)) {
                             printVector(gc, x, y, 4);
                         } else if (lastVector.equals(XY.RIGHT)) {
                             printVector(gc, x, y, 5);
@@ -583,7 +581,6 @@ public class FxUI extends Scene implements UI {
         Command temp = cmd;
         cmd = new Command(GameCommandType.NOTHING, new Object[0]);
         return temp;
-
     }
 
     private static void calcInput(int input) {

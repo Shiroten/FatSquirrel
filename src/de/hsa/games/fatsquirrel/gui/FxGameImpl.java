@@ -5,7 +5,6 @@ import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.core.State;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
 import de.hsa.games.fatsquirrel.util.ui.Command;
 
@@ -13,9 +12,6 @@ public class FxGameImpl extends Game {
 
 
     private Command imploadMiniSquirrel = null;
-
-    protected FxGameImpl() {
-    }
 
     public FxGameImpl(FxUI fxUI, State state) {
         this.setUi(fxUI);
