@@ -12,6 +12,10 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The Squirrel the player can control. Gets its commands from the UI.
+ * Extends MasterSquirrel
+ */
 public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
     private ActionCommand command = ActionCommand.NOWHERE;
@@ -34,9 +38,9 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
     @Override
     public void nextStep(EntityContext context) {
-        if (stunTime > 0)
-            stunTime--;
-        if (stunTime == 0 && spawnMiniSquirrel) {
+        if (getStunTime() > 0)
+            reduceStunTime();
+        else if (getStunTime() == 0 && spawnMiniSquirrel) {
             spawnMiniSquirrel = false;
             try {
                 spawnMini(miniSquirrelSpawnEnergy, context);
@@ -59,6 +63,12 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         }
     }
 
+    /**
+     * Spawn a new MiniSquirrel. Tries to spawn to an empty field next to the MasterSquirrel
+     * @param energy The startEnergy of the MiniSquirrel
+     * @param context The fields the MasterSquirrel can see
+     * @throws NotEnoughEnergyException If the MasterSquirrels energy is greater than the specified energy
+     */
     private void spawnMini(int energy, EntityContext context) throws NotEnoughEnergyException {
 
         Logger logger = Logger.getLogger(Launcher.class.getName());

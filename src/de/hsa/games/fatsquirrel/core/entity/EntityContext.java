@@ -4,23 +4,68 @@ import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
 import de.hsa.games.fatsquirrel.core.entity.character.Character;
 
+/**
+ * Allows access to information about the board as well as manipulation of the board
+ */
 public interface EntityContext {
+    /**
+     *
+     * @return The size of the board
+     */
     XY getSize();
 
+    /**
+     * Try to move a MiniSquirrel and manipulate the board accordingly, i.e. update energies, entities, stunTime etc
+     * @param miniSquirrel The squirrel that tries to move
+     * @param xy The direction in which the squirrel want to move
+     */
     void tryMove(MiniSquirrel miniSquirrel, XY xy);
 
+    /**
+     * Try to move a GoodBeast and manipulate the board accordingly, i.e. update energies, entities etc
+     * @param goodBeast The GoodBeast that tries to move
+     * @param xy The direction in which the GoodBeast want to move
+     */
     void tryMove(GoodBeast goodBeast, XY xy);
 
+    /**
+     * Try to move a BadBeast and manipulate the board accordingly, i.e. update energies, entities etc
+     * @param badBeast The BadBeast that tries to move
+     * @param xy The direction in which the BadBeast wants to move
+     */
     void tryMove(BadBeast badBeast, XY xy);
 
+    /**
+     * Try to move a MasterSquirrel and manipulate the board accordingly, i.e. update energies, entities, stunTime etc
+     * @param masterSquirrel The MasterSquirrel that tries to move
+     * @param xy The direction in which the MasterSquirrel wants to move
+     */
     void tryMove(MasterSquirrel masterSquirrel, XY xy);
 
-    void implode(Character e, int impactradius);
+    /**
+     * Implode a miniSquirrel, damaging neutral and enemy entities in the vicinity
+     * @param miniSquirrel The MiniSquirrel that implodes
+     * @param impactRadius The radius of the implosion. The bigger, the less impact it has on the entities
+     */
+    void implode(MiniSquirrel miniSquirrel, int impactRadius);
 
-    PlayerEntity nearestPlayerEntity(XY pos);
+    /**
+     *
+     * @param referencePoint The coordinate that serves as point of reference
+     * @return The PlayerEntity that is closest to the referencePoint
+     */
+    PlayerEntity nearestPlayerEntity(XY referencePoint);
 
+    /**
+     * Remove the specified entity from the board
+     * @param entity The entity that should be removed
+     */
     void killEntity(Entity entity);
 
+    /**
+     * Removes the specified entity and creates a new one of the same EntityType at a random position
+     * @param entity The entity that should be removed
+     */
     void killAndReplace(Entity entity);
 
     Entity getEntity(XY xy);

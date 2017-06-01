@@ -6,6 +6,10 @@ import de.hsa.games.fatsquirrel.botapi.*;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
+/**
+ * A MiniSquirrel controlled by an AI, which is specified by the BotController
+ * Extends MiniSquirrel
+ */
 public class MiniSquirrelBot extends MiniSquirrel {
     public static class ControllerContextImpl implements ControllerContext {
 
@@ -111,8 +115,8 @@ public class MiniSquirrelBot extends MiniSquirrel {
         ControllerContextImpl view = new ControllerContextImpl(context, this);
 
         if (moveCounter == 0) {
-            if (stunTime > 0)
-                stunTime--;
+            if (getStunTime() > 0)
+                reduceStunTime();
             else {
                 if(implode)
                     view.implode(implosionRadius);

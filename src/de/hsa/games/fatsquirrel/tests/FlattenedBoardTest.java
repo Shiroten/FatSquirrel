@@ -54,7 +54,7 @@ public class FlattenedBoardTest {
     public void tryMoveMini() throws Exception {
         board.add(new GoodBeast(0, new XY(10, 15)));
         MasterSquirrelBot master = new MasterSquirrelBot(105, new XY(0, 0), new GoodBeastChaserFactory());
-        MiniSquirrel mini = new MiniSquirrel(101, new XY(10, 10), 20000, master);
+        MiniSquirrelBot mini = new MiniSquirrelBot(101, new XY(10, 10), 20000, master);
         board.add(mini);
         flat = board.flatten();
 
@@ -102,7 +102,7 @@ public class FlattenedBoardTest {
         GoodBeast goodBeast = new GoodBeast(1, new XY(3,3));
         Wall wall = new Wall(2, new XY(3,2));
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(4, new XY(4,2));
-        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(4,3), 100, handOperatedMasterSquirrel );
+        MiniSquirrelBot miniSquirrel = new MiniSquirrelBot(3, new XY(4,3), 100, handOperatedMasterSquirrel );
 
         board.add(goodBeast);
         board.add(wall);
@@ -127,7 +127,7 @@ public class FlattenedBoardTest {
     public void tryMoveBadBeast() throws Exception {
         BadBeast badBeast = new BadBeast(1, new XY(3,3));
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
-        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+        MiniSquirrelBot miniSquirrel = new MiniSquirrelBot(3, new XY(2,2), 100, handOperatedMasterSquirrel);
 
         board.add(badBeast);
         board.add(handOperatedMasterSquirrel);
@@ -149,7 +149,7 @@ public class FlattenedBoardTest {
     public void tryMoveMasterSquirrel() throws Exception {
         BadBeast badBeast = new BadBeast(1, new XY(3,3));
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(2, new XY(2,3));
-        MiniSquirrel miniSquirrel = new MiniSquirrel(3, new XY(2,2), 100, handOperatedMasterSquirrel);
+        MiniSquirrelBot miniSquirrel = new MiniSquirrelBot(3, new XY(2,2), 100, handOperatedMasterSquirrel);
 
         board.add(badBeast);
         board.add(handOperatedMasterSquirrel);
@@ -190,7 +190,7 @@ public class FlattenedBoardTest {
     @org.junit.Test
     public void implode() throws Exception {
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(20, 20));
-        MiniSquirrel miniSquirrel = new MiniSquirrel(2, new XY(3,3), 400, handOperatedMasterSquirrel);
+        MiniSquirrelBot miniSquirrel = new MiniSquirrelBot(2, new XY(3,3), 400, handOperatedMasterSquirrel);
 
         GoodBeast goodBeastClose = new GoodBeast(3, new XY(4,3));
         GoodBeast goodBeastMiddle = new GoodBeast(4, new XY(7, 3));

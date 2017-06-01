@@ -14,8 +14,8 @@ import java.util.logging.Logger;
  * Extends Character
  */
 public class BadBeast extends Character {
-    public static final int START_ENERGY = -150;
-    public static final EntityType type = EntityType.BADBEAST;
+    private static final int START_ENERGY = -150;
+    private static final EntityType type = EntityType.BADBEAST;
     public int moveCounter = 0;
     private int lives;
 

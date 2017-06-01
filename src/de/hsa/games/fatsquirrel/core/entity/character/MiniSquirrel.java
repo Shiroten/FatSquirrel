@@ -4,9 +4,12 @@ import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
-
+/**
+ * The parent class of all MiniSquirrels
+ * Extends PlayerEntity
+ */
 public abstract class MiniSquirrel extends PlayerEntity {
-    public static final EntityType type = EntityType.MINISQUIRREL;
+    private static final EntityType type = EntityType.MINISQUIRREL;
     private MasterSquirrel daddy;
     int moveCounter = 0;
     int implosionRadius = 5;
@@ -22,12 +25,7 @@ public abstract class MiniSquirrel extends PlayerEntity {
         this.daddy = daddy;
         this.energy = startEnergy;
 
-        String factoryName = daddy.getFactory().getClass().getSimpleName();
-        CharSequence replaceChars = "Factory";
-        CharSequence with = "";
-        String newName = factoryName.replace(replaceChars,with);
-        newName = newName + "Mini";
-        this.setEntityName(newName);
+        this.setEntityName(getName(daddy.getFactory()));
 
     }
 
@@ -42,6 +40,10 @@ public abstract class MiniSquirrel extends PlayerEntity {
     @Override
     public void nextStep(EntityContext context) {}
 
+    /**
+     * Set the flag to implode in the next nextStep()
+     * @param implosionRadius How far the implosion should spread. Between 1 and 10.
+     */
     public void implode(int implosionRadius) {
         this.implode = true;
         this.implosionRadius = implosionRadius;

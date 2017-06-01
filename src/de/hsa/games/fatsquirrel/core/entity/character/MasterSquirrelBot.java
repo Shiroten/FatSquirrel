@@ -8,8 +8,15 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 import java.lang.reflect.Proxy;
 
+/**
+ * A MasterSquirrel controlled by an AI, which is specified by the BotController
+ * Extends MasterSquirrel
+ */
 public class MasterSquirrelBot extends MasterSquirrel {
 
+    /**
+     * The information a squirrel can get and the actions it can do
+     */
     public static class ControllerContextImpl implements ControllerContext {
 
         private EntityContext context;
@@ -121,12 +128,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         this.factory = factory;
         this.masterBotController = factory.createMasterBotController();
 
-        //TODO: An Nameskonvention siehe 10.1 anpassen mit substring
-        String factoryName = factory.getClass().getSimpleName();
-        CharSequence replaceChars = "Factory";
-        CharSequence with = "";
-        String newName = factoryName.replace(replaceChars, with);
-        this.setEntityName(newName);
+        this.setEntityName(getName(factory));
     }
 
     @Override
@@ -138,8 +140,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 new Class[]{ControllerContext.class},
                 handler);
 
-        if (stunTime > 0)
-            stunTime--;
+        if (getStunTime() > 0)
+            reduceStunTime();
         else{
             masterBotController.nextStep(proxyView);
         }

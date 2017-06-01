@@ -16,8 +16,6 @@ import static org.mockito.Mockito.mock;
  */
 public class MasterSquirrelBotTest {
 
-    FlattenedBoard mockedfBoard = mock(FlattenedBoard.class);
-    MasterSquirrelBot mockedMaster = mock(MasterSquirrelBot.class);
     @Test
     public void nextStep() throws Exception {
 
@@ -26,6 +24,7 @@ public class MasterSquirrelBotTest {
     @Test
     public void getEntityTest(){
         HandOperatedMasterSquirrel handOperatedMasterSquirrel = new HandOperatedMasterSquirrel(1, new XY(1,1));
+        System.out.println(handOperatedMasterSquirrel.getEntityName());
         assertEquals(EntityType.MASTERSQUIRREL, handOperatedMasterSquirrel.getEntityType());
     }
 

@@ -316,8 +316,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     public void spawnMiniSquirrel(XY direction, int energy, MasterSquirrel daddy) {
-        if(getEntityType(daddy.getCoordinate().plus(direction)) == EntityType.NONE) {
-            if(energy <= daddy.getEnergy() && energy >= 0) {
+        if (getEntityType(daddy.getCoordinate().plus(direction)) == EntityType.NONE) {
+            if (energy <= daddy.getEnergy() && energy >= 0) {
                 daddy.updateEnergy(-energy);
                 board.addMiniSquirrel(direction, energy, daddy);
             }
@@ -325,11 +325,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     @Override
-    public void implode(Character character, int impactRadius) {
+    public void implode(MiniSquirrel miniSquirrel, int impactRadius) {
 
         int collectedEnergy = 0;
         float impactArea = (float) (impactRadius * impactRadius * Math.PI);
-        XY position = character.getCoordinate();
+        XY position = miniSquirrel.getCoordinate();
 
         for (int i = -impactRadius; i <= impactRadius; i++) {
             for (int j = -impactRadius; j <= impactRadius; j++) {
@@ -343,12 +343,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
                 if (entityToCheck == null)
                     continue;
-                if (entityFriendly(character, entityToCheck))
+                if (entityFriendly(miniSquirrel, entityToCheck))
                     continue;
 
                 double distance = position.distanceFrom(entityToCheck.getCoordinate());
 
-                double energyLoss = 200 * (character.getEnergy() / impactArea) * (1 - distance / impactRadius);
+                double energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea) * (1 - distance / impactRadius);
                 energyLoss = energyLoss < 0 ? 0 : energyLoss;
                 collectedEnergy += calculateEnergyOfEntity(energyLoss, entityToCheck);
                 EntityType et = entityToCheck.getEntityType();
@@ -372,13 +372,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
             }
         }
 
-        double energyLoss = 200 * (character.getEnergy() / impactArea);
+        double energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea);
         implosions.add(new ImplosionContext((int) energyLoss, impactRadius, position));
 
-        if (character.getEntityType() == EntityType.MINISQUIRREL) {
-            ((MiniSquirrel) character).getDaddy().updateEnergy(collectedEnergy);
-            killEntity(character);
-        }
+        miniSquirrel.getDaddy().updateEnergy(collectedEnergy);
+        killEntity(miniSquirrel);
+
     }
 
     private boolean entityFriendly(Entity e, Entity toCheck) {
@@ -493,10 +492,10 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     @Override
-    public PlayerEntity nearestPlayerEntity(XY pos) {
+    public PlayerEntity nearestPlayerEntity(XY referencePoint) {
 
         //Aus dem Board alle Player-E's ziehen
-        //Abstand von pos zu PEs berechnen
+        //Abstand von referencePoint zu PEs berechnen
         //nächste PE zurückgeben
         PlayerEntity nearestPlayerEntity = null;
         for (Entity entity : board.getSet().getEntityList()) {
@@ -504,8 +503,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 if (nearestPlayerEntity == null)
                     nearestPlayerEntity = (PlayerEntity) entity;
                 else {
-                    double distanceToNew = pos.distanceFrom(entity.getCoordinate());
-                    if (distanceToNew < pos.distanceFrom(nearestPlayerEntity.getCoordinate()))
+                    double distanceToNew = referencePoint.distanceFrom(entity.getCoordinate());
+                    if (distanceToNew < referencePoint.distanceFrom(nearestPlayerEntity.getCoordinate()))
                         nearestPlayerEntity = (PlayerEntity) entity;
                 }
             }

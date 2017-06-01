@@ -9,9 +9,13 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Entity that the player can catch to get points. Runs away from squirrels
+ * Extends Character
+ */
 public class GoodBeast extends Character {
     public static final int START_ENERGY = 200;
-    public static final EntityType type = EntityType.GOODBEAST;
+    private static final EntityType type = EntityType.GOODBEAST;
     public int moveCounter = 0;
 
 

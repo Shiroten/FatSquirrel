@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot.ControllerContextImpl;
 
+/**
+ * Used as proxy to log the calling of methods
+ */
 public class DebugHandler implements InvocationHandler {
     private ControllerContextImpl view;
 

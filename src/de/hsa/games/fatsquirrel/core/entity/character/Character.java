@@ -6,8 +6,20 @@ import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
+/**
+ * The parent class for all entities that can make an action, i.e. have a nextStep()
+ * Extends Entity
+ */
 public abstract class Character extends Entity {
     private XY lastDirection = XY.ZERO_ZERO;
+
+    Character(int energy, int id, XY coordinate) {
+        super(energy, id, coordinate);
+    }
+
+    Character(int id, XY coordinate) {
+        super(id, coordinate);
+    }
 
     enum freeFieldMode {
         master,
@@ -30,14 +42,6 @@ public abstract class Character extends Entity {
      */
     public void setLastDirection(XY lastDirection) {
         this.lastDirection = lastDirection;
-    }
-
-    Character(int energy, int id, XY coordinate) {
-        super(energy, id, coordinate);
-    }
-
-    Character(int id, XY coordinate) {
-        super(id, coordinate);
     }
 
     public abstract void nextStep(EntityContext context);

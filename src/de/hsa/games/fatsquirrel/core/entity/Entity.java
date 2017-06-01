@@ -3,6 +3,9 @@ package de.hsa.games.fatsquirrel.core.entity;
 import de.hsa.games.fatsquirrel.XY;
 import javafx.scene.paint.Color;
 
+/**
+ * Everything that is on the board
+ */
 public abstract class Entity {
     private final int id;
     protected int energy;
