@@ -110,7 +110,12 @@ public class Board {
         Entity entityToAdd = null;
         for (int i = 0; i < amount; i++) {
 
-            XY position = randomPosition(config.getSize());
+            XY position;
+            try {
+                position = randomPosition(config.getSize());
+            } catch (FullFieldException e){
+                return;
+            }
 
             //TODO: Überlegen, ob man das per Intro-/Reflection lösen kann
             switch (type) {
@@ -180,11 +185,13 @@ public class Board {
         set.add(msb);
     }
 
-    private XY randomPosition(XY size) {
+    private XY randomPosition(XY size) throws FullFieldException{
 
         boolean collision;
         int newX, newY;
 
+        if(set.getEntityList().size() == size.getY() * size.getX())
+            throw new FullFieldException();
         do {
             collision = false;
             newX = (int) ((Math.random() * size.getX()));

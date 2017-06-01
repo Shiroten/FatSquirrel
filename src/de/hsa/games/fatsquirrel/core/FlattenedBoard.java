@@ -210,7 +210,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case GOODPLANT:
                 miniSquirrel.updateEnergy(getEntity(newField).getEnergy());
                 killAndReplace(getEntity(newField));
-                if (!checkEnergyOfMiniSquirrel((MiniSquirrel) miniSquirrel)){
+                if (!checkEnergyOfMiniSquirrel(miniSquirrel)){
                     move(miniSquirrel, newField);
                 }
                 break;
@@ -456,18 +456,22 @@ public class FlattenedBoard implements BoardView, EntityContext {
     @Override
     public void killAndReplace(Entity entity) {
         EntityType temp = entity.getEntityType();
-        Entity newE = board.addEntity(temp, randomFreePosition());
-        killEntity(entity);
-        flattenedBoard[newE.getCoordinate().getY()][newE.getCoordinate().getX()] = newE;
+        try {
+            Entity newE = board.addEntity(temp, randomFreePosition());
+            flattenedBoard[newE.getCoordinate().getY()][newE.getCoordinate().getX()] = newE;
 
-        Logger logger = Logger.getLogger(Launcher.class.getName());
-        logger.log(Level.FINER,
-                String.format("killAndReplace %s at X: %d, Y: %d to X: %d, Y: %d",
-                        newE.getEntityType().toString(),
-                        entity.getCoordinate().getX(),
-                        entity.getCoordinate().getY(),
-                        newE.getCoordinate().getX(),
-                        newE.getCoordinate().getY()));
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINER,
+                    String.format("killAndReplace %s at X: %d, Y: %d to X: %d, Y: %d",
+                            newE.getEntityType().toString(),
+                            entity.getCoordinate().getX(),
+                            entity.getCoordinate().getY(),
+                            newE.getCoordinate().getX(),
+                            newE.getCoordinate().getY()));
+        } catch (FullFieldException e){
+            e.printStackTrace();
+        }
+        killEntity(entity);
     }
 
     @Override
@@ -491,9 +495,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return nearestPlayerEntity;
     }
 
-    //TODO: Volles Board abfangen
-    private XY randomFreePosition() {
+    private XY randomFreePosition() throws FullFieldException{
         XY xy;
+        if(board.getSet().getEntityList().size() == size.getX() * size.getY())
+            throw new FullFieldException();
+
         do {
             xy = new XY(randomWithRange(1, size.getX() - 1), randomWithRange(1, size.getY() - 1));
         }
