@@ -169,8 +169,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 break;
             case MINISQUIRREL:
                 getEntity(newField).updateEnergy(badBeast.getEnergy());
-                //TODO: Nicht moveOrKill verwenden
-                moveOrKillMiniSquirrel((MiniSquirrel) getEntity(newField), getEntity(newField).getCoordinate());
+                checkEnergyOfMiniSquirrel((MiniSquirrel) getEntity(newField));
 
                 badBeast.bites();
                 if (badBeast.getLives() == 0)
@@ -195,12 +194,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case WALL:
                 miniSquirrel.updateEnergy(Wall.START_ENERGY);
                 miniSquirrel.setStunTime(board.getConfig().getSQUIRREL_STUN_TIME_IN_TICKS());
-                moveOrKillMiniSquirrel(miniSquirrel, miniSquirrel.getCoordinate());
+                checkEnergyOfMiniSquirrel(miniSquirrel);
                 break;
 
             case BADBEAST:
                 miniSquirrel.updateEnergy(getEntity(newField).getEnergy());
-                moveOrKillMiniSquirrel(miniSquirrel, miniSquirrel.getCoordinate());
+                checkEnergyOfMiniSquirrel(miniSquirrel);
                 ((BadBeast) getEntity(newField)).bites();
                 if (((BadBeast) getEntity(newField)).getLives() == 0)
                     killAndReplace(getEntity(newField));
@@ -209,7 +208,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case BADPLANT:
             case GOODBEAST:
             case GOODPLANT:
-                moveAndKillMiniSquirrel(miniSquirrel, getEntity(newField).getEnergy(), newField);
+                miniSquirrel.updateEnergy(getEntity(newField).getEnergy());
+                killAndReplace(getEntity(newField));
+                if (!checkEnergyOfMiniSquirrel((MiniSquirrel) miniSquirrel)){
+                    move(miniSquirrel, newField);
+                }
                 break;
 
             case MINISQUIRREL:
@@ -235,25 +238,20 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
             default:
                 //Keine Kollisionen: einfacher Move
+                checkEnergyOfMiniSquirrel(miniSquirrel);
                 move(miniSquirrel, newField);
         }
         miniSquirrel.updateEnergy(-1);
     }
 
-    //TODO: Überarbeiten
-    private void moveOrKillMiniSquirrel(MiniSquirrel miniSquirrel, XY newPosition) {
 
-        if (miniSquirrel.getEnergy() <= 0) {
-            killEntity(miniSquirrel);
-        } else {
-            move(miniSquirrel, newPosition);
+    private boolean checkEnergyOfMiniSquirrel(MiniSquirrel mini){
+        if (mini.getEnergy() <= 0){
+            killEntity(mini);
+            return true;
+        } else{
+            return false;
         }
-    }
-
-    private void moveAndKillMiniSquirrel(Entity en, int energy, XY newField) {
-        en.updateEnergy(energy);
-        killAndReplace(getEntity(newField));
-        moveOrKillMiniSquirrel((MiniSquirrel) en, newField);
     }
 
     @Override
