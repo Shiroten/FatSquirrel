@@ -16,13 +16,16 @@ public class State {
     private Board board;
 
     public State() {
-        BoardConfig config = new BoardConfig(new XY(12, 12), 1, 1, 4, 3, 3);
-        this.board = new Board(config);
+        this.board = new Board("default.props");
     }
 
     //TODO: So schachteln, dass nur noch über State das Board erzeugt wird
     public State(Board board) {
         this.board = board;
+    }
+
+    public State(String configName){
+        this.board = new Board(configName);
     }
 
     public void setBoard(Board board) {

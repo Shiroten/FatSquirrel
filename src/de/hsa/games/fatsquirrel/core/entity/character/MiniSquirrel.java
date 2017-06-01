@@ -21,9 +21,8 @@ public abstract class MiniSquirrel extends PlayerEntity {
 
 
     public MiniSquirrel(int id, XY coordinate, int startEnergy, MasterSquirrel daddy) {
-        super(id, coordinate);
+        super(startEnergy, id, coordinate);
         this.daddy = daddy;
-        this.energy = startEnergy;
 
         this.setEntityName(getName(daddy.getFactory()));
 

@@ -11,8 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class FlattenedBoardTest {
-    private BoardConfig config = new BoardConfig();
-    private Board board = new Board(config);
+    private Board board = new Board();
     private FlattenedBoard flat;
 
     @Before
@@ -21,8 +20,7 @@ public class FlattenedBoardTest {
 
     @org.junit.Test
     public void tearDown() {
-        config = new BoardConfig();
-        board = new Board(config);
+        board = new Board();
     }
 
     @org.junit.Test

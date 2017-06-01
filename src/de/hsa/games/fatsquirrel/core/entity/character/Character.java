@@ -12,13 +12,21 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
  */
 public abstract class Character extends Entity {
     private XY lastDirection = XY.ZERO_ZERO;
+    private final int viewDistance;
+    private final int waitDuration;
 
     Character(int energy, int id, XY coordinate) {
         super(energy, id, coordinate);
+        viewDistance = 10;
+        waitDuration = 1;
     }
 
-    Character(int id, XY coordinate) {
-        super(id, coordinate);
+    /*TODO: Überlegen, ob diesen Konstruktor verwendet werden soll. Erheblicher Arbeitsaufwand, da von allen
+    Characters die Aufrufe angepasst werden müssen*/
+    Character(int energy, int id, XY coordinate, int viewDistance, int waitDuration){
+        super(energy, id, coordinate);
+        this.viewDistance = viewDistance;
+        this.waitDuration = waitDuration;
     }
 
     enum freeFieldMode {

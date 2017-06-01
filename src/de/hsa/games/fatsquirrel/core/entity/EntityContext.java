@@ -68,12 +68,32 @@ public interface EntityContext {
      */
     void killAndReplace(Entity entity);
 
+    /**
+     *
+     * @param xy A field on the board
+     * @return the Entity at the position, null if empty
+     */
     Entity getEntity(XY xy);
 
+    /**
+     * Spawn a new MiniSquirrel
+     * @param direction The direction from the master in which the MiniSquirrel should be spawned
+     * @param energy The startEnergy of the MiniSquirrel
+     * @param daddy The father of the MiniSquirrel
+     */
     void spawnMiniSquirrel(XY direction, int energy, MasterSquirrel daddy);
 
+    /**
+     *
+     * @return The ticks that remain before the game ends
+     */
     long getRemainingTime();
 
+    /**
+     *
+     * @param xy The position on the field
+     * @return The EntityType of the entity on the field, NONE if empty or OutOfBounds
+     */
     EntityType getEntityType(XY xy);
 
     int getBEAST_MOVE_TIME_IN_TICKS();

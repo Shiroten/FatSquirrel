@@ -3,18 +3,9 @@ package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.core.entity.Wall;
-import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.BadPlant;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
+import de.hsa.games.fatsquirrel.core.entity.*;
+import de.hsa.games.fatsquirrel.core.entity.character.*;
 import de.hsa.games.fatsquirrel.core.entity.character.Character;
-import de.hsa.games.fatsquirrel.core.entity.character.PlayerEntity;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
-import de.hsa.games.fatsquirrel.core.entity.EntityContext;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
 import java.util.ArrayList;

@@ -1,8 +1,6 @@
 package de.hsa.games.fatsquirrel;
 
 import de.hsa.games.fatsquirrel.console.GameImpl;
-import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.Settings;
 import de.hsa.games.fatsquirrel.core.State;
 import de.hsa.games.fatsquirrel.gui.FxGameImpl;
 import de.hsa.games.fatsquirrel.gui.FxUI;
@@ -99,9 +97,9 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        State state = new State(new Board(Settings.getDefaultBoardConfig()));
+        State state = new State("bots.props");
 
-        FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), Settings.cellSize);
+        FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), state.getBoard().getConfig().getSELLSIZE());
         final Game game = new FxGameImpl(fxUI, state);
 
         primaryStage.setScene(fxUI);

@@ -21,8 +21,7 @@ public abstract class MasterSquirrel extends PlayerEntity {
     }
 
     public MasterSquirrel(int id, XY coordinate) {
-        super(id, coordinate);
-        this.energy = START_ENERGY;
+        super(START_ENERGY, id, coordinate);
     }
 
     @Override

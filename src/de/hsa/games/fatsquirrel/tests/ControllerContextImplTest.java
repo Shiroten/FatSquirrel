@@ -20,9 +20,8 @@ import static org.junit.Assert.*;
  * Created by tillm on 19.05.2017.
  */
 public class ControllerContextImplTest {
-    private XY size = new XY(180, 80);
-    private BoardConfig config = new BoardConfig(size);
-    private Board board = new Board(config);
+
+    private Board board = new Board("test.props");
     private FlattenedBoard flat;
     private EntityContext context;
     private MasterSquirrelBot.ControllerContextImpl viewMaster;

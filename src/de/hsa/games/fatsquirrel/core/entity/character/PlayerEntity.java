@@ -10,8 +10,8 @@ public abstract class PlayerEntity extends Character {
     private int stunTime = 0;
 
     //Package Private
-    PlayerEntity(int id, XY coordinate){
-        super(id, coordinate);
+    PlayerEntity(int startEnergy, int id, XY coordinate){
+        super(startEnergy, id, coordinate);
     }
 
     public void setStunTime(int stunTime){

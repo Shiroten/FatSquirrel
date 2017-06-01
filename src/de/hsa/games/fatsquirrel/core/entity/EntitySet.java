@@ -49,8 +49,4 @@ public class EntitySet {
         }
         return null;
     }
-
-    public int getNumberOfEntities(){
-        return entityList.size();
-    }
 }
