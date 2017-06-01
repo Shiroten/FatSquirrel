@@ -15,4 +15,11 @@ public class BadPlant extends Entity {
     public EntityType getEntityType() {
         return type;
     }
+
+    @Override
+    public void updateEnergy(int energyDifference){
+        this.energy += energyDifference;
+        if(energy > 0)
+            energy = 0;
+    }
 }

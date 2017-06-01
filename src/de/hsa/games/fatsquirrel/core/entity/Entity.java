@@ -35,8 +35,10 @@ public abstract class Entity {
         return energy;
     }
 
-    public void updateEnergy(int energyDifference) {
+    public void updateEnergy(int energyDifference){
         this.energy += energyDifference;
+        if(energy < 0)
+            energy = 0;
     }
 
     public XY getCoordinate() {

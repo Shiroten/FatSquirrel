@@ -64,5 +64,10 @@ public class BadBeast extends Character {
         else
             moveCounter++;
     }
-
+    @Override
+    public void updateEnergy(int energyDifference){
+        this.energy += energyDifference;
+        if(energy > 0)
+            energy = 0;
+    }
 }

@@ -335,7 +335,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
                 double energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea) * (1 - distance / impactRadius);
                 energyLoss = energyLoss < 0 ? 0 : energyLoss;
-                collectedEnergy += calculateEnergyOfEntity(energyLoss, entityToCheck);
+                collectedEnergy += collectedEnergyOfEntity(energyLoss, entityToCheck);
                 EntityType et = entityToCheck.getEntityType();
 
                 switch (et) {
@@ -388,7 +388,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
     }
 
     //TODO: Überarbeiten
-    private int calculateEnergyOfEntity(double energyLoss, Entity e) {
+    private int collectedEnergyOfEntity(double energyLoss, Entity e) {
 
         int energyDifference;
 
@@ -423,10 +423,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
             case BADPLANT:
                 //Fall Energy Negativ
                 e.updateEnergy((int) energyLoss);
-                if (e.getEnergy() >= 0) {
-                    //Energy auf Null setzen
-                    e.updateEnergy(-e.getEnergy());
-                }
             case WALL:
                 energyCollected = 0;
                 break;
@@ -434,9 +430,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
                 //Fall Energy Positiv
                 energyCollected = (int) energyLoss;
                 e.updateEnergy(-(int) energyLoss);
-                if (e.getEnergy() <= 0) {
-                    e.updateEnergy(-e.getEnergy());
-                }
         }
         return energyCollected;
     }
