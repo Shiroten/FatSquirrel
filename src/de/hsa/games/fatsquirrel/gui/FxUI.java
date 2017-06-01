@@ -105,7 +105,6 @@ public class FxUI extends Scene implements UI {
                             cmd = new Command(GameCommandType.RIGHT, new Object[0]);
                             break;
                         case F:
-                            //Todo: Spawn Mini Energy in Config setzen oder per menü
                             cmd = new Command(GameCommandType.SPAWN_MINI,
                                     new Object[]{miniSquirrelEnergy});
                             break;
