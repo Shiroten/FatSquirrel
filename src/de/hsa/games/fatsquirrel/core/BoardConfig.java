@@ -69,7 +69,6 @@ public class BoardConfig {
         try {
             Reader reader = new FileReader(filename);
             properties.load(reader);
-            properties.getProperty("GameMode");
         } catch (IOException e){
             e.printStackTrace();
         }

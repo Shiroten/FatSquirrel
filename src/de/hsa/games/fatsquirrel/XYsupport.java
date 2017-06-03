@@ -101,4 +101,11 @@ public class XYsupport {
         String[] splitted = s.split(" ");
         return new XY(Integer.parseInt(splitted[1]), Integer.parseInt(splitted[3]));
     }
+
+    public static int distanceInSteps(XY start, XY destination){
+        int distanceX = Math.abs(destination.getX() - start.getX());
+        int distanceY = Math.abs(destination.getY() - start.getY());
+
+        return distanceX > distanceY ? distanceX : distanceY;
+    }
 }

@@ -46,4 +46,10 @@ public class XYsupportTest {
         assertEquals(XY.LEFT_UP, XYsupport.normalizedVector(new XY(-10, -11)));
     }
 
+    @Test
+    public void distanceInStepsTest(){
+        XY one = new XY(2,2), two = new XY(7,5);
+        assertEquals(5, XYsupport.distanceInSteps(one, two));
+    }
+
 }
