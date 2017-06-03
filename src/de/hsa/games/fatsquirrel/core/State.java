@@ -6,6 +6,7 @@ import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 
+import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ public class State {
         this.board = new Board("default.props");
     }
 
-    public State(String configName){
+    public State(String configName) {
         this.board = new Board(configName);
     }
 
@@ -84,4 +85,46 @@ public class State {
     public List<Entity> getEntitySet() {
         return board.getSet().getEntityList();
     }
+
+    public void saveHighScore(String path) {
+
+        Properties properties = new Properties();
+        for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
+            properties.setProperty(pairs.getKey(), pairs.getValue().toString());
+        }
+        try {
+            Writer writer = new FileWriter(path);
+            properties.store(writer, "FatSquirrel Highscore");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadHighScore(String path) {
+        Properties properties = new Properties();
+        try {
+            Reader reader = new FileReader(path);
+            properties.load(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String propertiesString;
+        String[] valuesToParse;
+
+        for (Object o: properties.stringPropertyNames()) {
+            propertiesString = properties.getProperty(o.toString(),"");
+            propertiesString = propertiesString.substring(1, propertiesString.length() - 1);
+            propertiesString = propertiesString.replaceAll(" ", "");
+            valuesToParse = propertiesString.split(",");
+
+            ArrayList values = new ArrayList();
+            for(int i = 0;i < valuesToParse.length; i++){
+                values.add(Long.parseLong(valuesToParse[i]));
+                //System.out.println(Long.parseLong(valuesToParse[i]));
+            }
+            highscore.put(o.toString(), values);
+        }
+    }
 }
+

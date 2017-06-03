@@ -60,6 +60,8 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
+        game.getState().loadHighScore("HighScore.props");
+        System.out.println(game.getState().printFinalHighscore());
         game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
         try {
             Timer timer = new Timer();
@@ -70,14 +72,13 @@ public class Launcher extends Application {
                     logger.log(Level.FINEST, "start game.processInput()");
                     game.processInput();
                     try {
-                        //System.out.println(game.getTickLength());
                         Thread.sleep(game.getTickLength());
-
                         if (game.getState().getBoard().getRemainingGameTime() != 0) {
                             game.run();
                             game.getState().getBoard().reduceRemainingGameTime();
                         } else {
                             game.run();
+                            game.getState().saveHighScore("HighScore.props");
                             System.out.println(game.getState().printFinalHighscore());
                             Thread.sleep(1000 * 3);
                             game.reset();

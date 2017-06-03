@@ -10,12 +10,20 @@ public class EntitySet {
 
     private List<Entity> entityList = new ArrayList<>();
 
+    /**
+     *
+     * @return
+     */
     public List<Entity> getEntityList() {
         return entityList;
     }
 
     public Entity getEntity(int index) {return entityList.get(index); }
 
+    /**
+     *
+     * @param toAdd
+     */
     public void add(Entity toAdd) {
         entityList.listIterator().add(toAdd);
     }

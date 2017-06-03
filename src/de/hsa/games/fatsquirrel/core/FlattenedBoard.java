@@ -96,7 +96,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public int getGOODBEAST_VIEW_DISTANCE() {
-        return board.getConfig().getGOODBEAST_VIEW_DISTANCE();
+        return board.getConfig().getVIEW_DISTANCE_OF_GOODBEAST();
     }
 
     @Override

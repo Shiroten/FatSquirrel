@@ -30,7 +30,6 @@ public class GoodBeast extends Character {
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINEST, "start nextStep() of GoodBeast");
-
         if (moveCounter == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
             XY distance = pe.getCoordinate().minus(this.getCoordinate());

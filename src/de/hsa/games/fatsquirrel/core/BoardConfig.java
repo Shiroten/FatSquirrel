@@ -73,7 +73,7 @@ public class BoardConfig {
             e.printStackTrace();
         }
 
-        System.out.println(properties.getProperty("Size"));
+        //System.out.println(properties.getProperty("Size"));
         this.size = XYsupport.stringToXY(properties.getProperty("Size", "x: 40 y:40"));
         NUMBER_OF_GB = Integer.parseInt(properties.getProperty("Number_GoodBeasts", "15"));
         NUMBER_OF_BB = Integer.parseInt(properties.getProperty("Number_BadBeasts", "5"));
@@ -96,7 +96,6 @@ public class BoardConfig {
 
         SELLSIZE = Integer.parseInt(properties.getProperty("SellCize", "25"));
         configName = filename;
-
 
         bots = readInBots();
     }
@@ -129,7 +128,7 @@ public class BoardConfig {
         return MINI_SQUIRREL_MOVE_TIME_IN_TICKS;
     }
 
-    int getGOODBEAST_VIEW_DISTANCE() {
+    int getVIEW_DISTANCE_OF_GOODBEAST() {
         return VIEW_DISTANCE_OF_GOODBEAST;
     }
 
@@ -163,10 +162,6 @@ public class BoardConfig {
 
     public long getGAME_DURATION_AT_START() {
         return GAME_DURATION_AT_START;
-    }
-
-    public int getVIEW_DISTANCE_OF_GOODBEAST() {
-        return VIEW_DISTANCE_OF_GOODBEAST;
     }
 
     public int getSELLSIZE() {
