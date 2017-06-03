@@ -43,8 +43,8 @@ public class State {
         board.getSet().nextStep(flat);
 
     }
-
-    public String printFinalHighscore() {
+    public void setHighscore(){
+        //Get All MasterSquirrel
         for (MasterSquirrel ms : board.getMasterSquirrel()) {
             if (ms == null) {
                 continue;
@@ -53,12 +53,16 @@ public class State {
             if (highscore.get(ms.getEntityName()) != null) {
                 longArrayList = highscore.get(ms.getEntityName());
             } else {
+                //if first Value, create new list
                 longArrayList = new ArrayList();
             }
             longArrayList.add((long) ms.getEnergy());
+            //put list back to map
             highscore.put(ms.getEntityName(), longArrayList);
         }
 
+    }
+    public String printHighscore() {
         //TODO: StringBuilder
         String output = "";
         if (board.getRemainingGameTime() % 20 == 0) {
@@ -87,9 +91,15 @@ public class State {
     }
 
     public void saveHighScore(String path) {
+        //Sort Array before saving
+        for (ArrayList<Long> entry : highscore.values()) {
+            Collections.sort(entry);
+        }
 
         Properties properties = new Properties();
+        //Get all highscore Values
         for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
+            //Set Properties according to Key and Values
             properties.setProperty(pairs.getKey(), pairs.getValue().toString());
         }
         try {
@@ -101,6 +111,7 @@ public class State {
     }
 
     public void loadHighScore(String path) {
+        //OpenFile
         Properties properties = new Properties();
         try {
             Reader reader = new FileReader(path);
@@ -113,15 +124,18 @@ public class State {
         String[] valuesToParse;
 
         for (Object o: properties.stringPropertyNames()) {
+            //Get String like [1000, 1000, 23900, 33549, 34749, 37287]
             propertiesString = properties.getProperty(o.toString(),"");
+            //Reduce to 1000, 1000, 23900, 33549, 34749, 37287
             propertiesString = propertiesString.substring(1, propertiesString.length() - 1);
+            //Get rid of spaces
             propertiesString = propertiesString.replaceAll(" ", "");
+            //Split to seperate Values
             valuesToParse = propertiesString.split(",");
 
             ArrayList values = new ArrayList();
             for(int i = 0;i < valuesToParse.length; i++){
                 values.add(Long.parseLong(valuesToParse[i]));
-                //System.out.println(Long.parseLong(valuesToParse[i]));
             }
             highscore.put(o.toString(), values);
         }

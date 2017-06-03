@@ -61,7 +61,7 @@ public class Launcher extends Application {
 
     private static void startGame(Game game) {
         game.getState().loadHighScore("HighScore.props");
-        System.out.println(game.getState().printFinalHighscore());
+        System.out.println(game.getState().printHighscore());
         game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
         try {
             Timer timer = new Timer();
@@ -78,8 +78,9 @@ public class Launcher extends Application {
                             game.getState().getBoard().reduceRemainingGameTime();
                         } else {
                             game.run();
+                            game.getState().setHighscore();
                             game.getState().saveHighScore("HighScore.props");
-                            System.out.println(game.getState().printFinalHighscore());
+                            System.out.println(game.getState().printHighscore());
                             Thread.sleep(1000 * 3);
                             game.reset();
                         }
