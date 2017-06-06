@@ -73,6 +73,9 @@ public class Board {
         return idCounter++;
     }
 
+    /**
+     * Initialize the entire Board
+     */
     private void initBoard() {
         //Äußere Mauern
         initOuterWalls();
@@ -92,6 +95,9 @@ public class Board {
 
     }
 
+    /**
+     * Place the outer Border of the Field
+     */
     private void initOuterWalls() {
         int x = config.getSize().getX(), y = config.getSize().getY();
         for (int i = 0; i < x; i++) {
@@ -104,6 +110,10 @@ public class Board {
         }
     }
 
+    /**
+     * @param type   EntityType which to Add
+     * @param amount Wished amount top Add
+     */
     private void addEntity(EntityType type, int amount) {
 
         int numberOfAIs = 0;
@@ -114,7 +124,7 @@ public class Board {
             XY position;
             try {
                 position = randomPosition(config.getSize());
-            } catch (FullFieldException e){
+            } catch (FullFieldException e) {
                 return;
             }
 
@@ -154,6 +164,11 @@ public class Board {
         }
     }
 
+    /**
+     * @param type     EntitType which will be placed
+     * @param position at given Position
+     * @return Entity to be added to EntitySet
+     */
     Entity addEntity(EntityType type, XY position) {
 
         Entity addEntity = null;
@@ -181,17 +196,27 @@ public class Board {
         return addEntity;
     }
 
+    /**
+     * @param position Position in XY of Mini
+     * @param energy   StartEnergy of MiniSquirrel
+     * @param daddy    MasterSquirrel Reference of the MiniSquirrel
+     */
     void addMiniSquirrel(XY position, int energy, MasterSquirrel daddy) {
         MiniSquirrel msb = new MiniSquirrelBot(setID(), position, energy, daddy);
         set.add(msb);
     }
 
-    private XY randomPosition(XY size) throws FullFieldException{
+    /**
+     * @param size to calculate the maximum of Entity which the Board can contain
+     * @return free Positon
+     * @throws FullFieldException if full
+     */
+    private XY randomPosition(XY size) throws FullFieldException {
 
         boolean collision;
         int newX, newY;
 
-        if(set.getEntityList().size() == size.getY() * size.getX())
+        if (set.getEntityList().size() == size.getY() * size.getX())
             throw new FullFieldException();
         do {
             collision = false;
@@ -199,7 +224,7 @@ public class Board {
             newY = (int) ((Math.random() * size.getY()));
 
             //Durchsuchen des Entityset nach möglichen Konflikten
-            for (Entity e: set.getEntityList()) {
+            for (Entity e : set.getEntityList()) {
                 if (newX == e.getCoordinate().getX() && newY == e.getCoordinate().getY()) {
                     collision = true;
                     break;
@@ -210,25 +235,40 @@ public class Board {
         return new XY(newX, newY);
     }
 
+    /**
+     * @param e Kill given Entity
+     */
     //Package Private
     void killEntity(Entity e) {
         this.set.delete(e);
     }
 
+    /**
+     * @param toAdd Adds given Entity to EntitySet
+     */
     public void add(Entity toAdd) {
         this.set.add(toAdd);
     }
 
+    /**
+     * @param entities Add Multiple Entity's
+     */
     public void add(Entity... entities) {
         for (Entity e : entities) {
             this.set.add(e);
         }
     }
 
+    /**
+     * @return gets the Reference of the actual Player
+     */
     public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
         return (HandOperatedMasterSquirrel) set.getHandOperatedMasterSquirrel();
     }
 
+    /**
+     * @return List of all MasterSquirrel for the HighScore
+     */
     List<MasterSquirrel> getMasterSquirrel() {
         return masterSquirrel;
     }

@@ -78,7 +78,7 @@ public class Launcher extends Application {
                             game.getState().getBoard().reduceRemainingGameTime();
                         } else {
                             game.run();
-                            game.getState().setHighscore();
+                            game.getState().updateHighscore();
                             game.getState().saveHighScore("HighScore.props");
                             System.out.println(game.getState().printHighscore());
                             Thread.sleep(1000 * 3);

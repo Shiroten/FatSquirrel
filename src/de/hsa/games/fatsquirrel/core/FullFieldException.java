@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.core;
 
 /**
- * Created by tillm on 01.06.2017.
+ * Gets thrown when the Field is Full and cant contain any more Entity's
  */
 public class FullFieldException extends Exception {
     public FullFieldException(){super();}

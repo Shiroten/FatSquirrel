@@ -61,6 +61,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
             implosions.remove(icToDelete);
     }
 
+    /**
+     *
+     * @param xy The position on the field
+     * @return EntityType in the given Field
+     */
     @Override
     public EntityType getEntityType(XY xy) {
         try {
@@ -70,6 +75,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
     }
 
+    /**
+     *
+     * @param xy A field on the board
+     * @return Entity on the given Field
+     */
     @Override
     public Entity getEntity(XY xy) {
         try {
@@ -104,6 +114,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return board.getConfig().getVIEW_DISTANCE_OF_BADBEAST();
     }
 
+    /**
+     *
+     * @param en Moves given Entity
+     * @param newPosition New Position of the given Entity
+     */
     private void move(Entity en, XY newPosition) {
         ((Character) en).setLastDirection(en.getCoordinate().minus(newPosition));
 
@@ -128,12 +143,16 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     }
 
-    //Zuerst wird geschaut, auf welchem Feld die Entity landen wird
-    //Dann wird geschaut, ob und wenn ja welche Entity sich auf dem Feld befindet
-    //In Abhängkeit der E wird die Energie abgezogen
+    /**
+     *
+     * @param goodBeast The GoodBeast that tries to move
+     * @param xy The direction in which the GoodBeast want to move
+     */
     @Override
     public void tryMove(GoodBeast goodBeast, XY xy) {
-
+        //Zuerst wird geschaut, auf welchem Feld die Entity landen wird
+        //Dann wird geschaut, ob und wenn ja welche Entity sich auf dem Feld befindet
+        //In Abhängkeit der E wird die Energie abgezogen
         XY newField = goodBeast.getCoordinate().plus(xy);
 
         switch (getEntityType(newField)) {
@@ -154,6 +173,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     }
 
+    /**
+     *
+     * @param badBeast The BadBeast that tries to move
+     * @param xy The direction in which the BadBeast wants to move
+     */
     @Override
     public void tryMove(BadBeast badBeast, XY xy) {
 
@@ -186,6 +210,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
     }
 
+    /**
+     *
+     * @param miniSquirrel The squirrel that tries to move
+     * @param xy The direction in which the squirrel want to move
+     */
     @Override
     public void tryMove(MiniSquirrel miniSquirrel, XY xy) {
         XY newField = miniSquirrel.getCoordinate().plus(xy);
@@ -244,7 +273,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
         miniSquirrel.updateEnergy(-1);
     }
 
-
+    /**
+     *
+     * @param mini MiniSquirrel to Check
+     * @return true if Energy of MiniSquirrel is <= 0 and kills the miniSquirrel
+     * and returns false if it is still alive
+     */
     private boolean checkEnergyOfMiniSquirrel(MiniSquirrel mini){
         if (mini.getEnergy() <= 0){
             killEntity(mini);
@@ -254,6 +288,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
     }
 
+    /**
+     *
+     * @param masterSquirrel The MasterSquirrel that tries to move
+     * @param xy The direction in which the MasterSquirrel wants to move
+     */
     @Override
     public void tryMove(MasterSquirrel masterSquirrel, XY xy) {
 
@@ -300,6 +339,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
     }
 
+    /**
+     *
+     * @param direction The direction from the master in which the MiniSquirrel should be spawned
+     * @param energy The startEnergy of the MiniSquirrel
+     * @param daddy The father of the MiniSquirrel
+     */
     public void spawnMiniSquirrel(XY direction, int energy, MasterSquirrel daddy) {
         if (getEntityType(daddy.getCoordinate().plus(direction)) == EntityType.NONE) {
             if (energy <= daddy.getEnergy() && energy >= 0) {
@@ -309,6 +354,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
     }
 
+    /**
+     *
+     * @param miniSquirrel The MiniSquirrel that implodes
+     * @param impactRadius The radius of the implosion. The bigger, the less impact it has on the entities
+     */
     @Override
     public void implode(MiniSquirrel miniSquirrel, int impactRadius) {
 
@@ -365,6 +415,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     }
 
+    /**
+     *
+     * @param e MiniSquirrel which Implode
+     * @param toCheck Entity in radius of the Implosion
+     * @return if the Entity get the "FreundschaftsPanzer"
+     */
     private boolean entityFriendly(Entity e, Entity toCheck) {
 
         if (e.getEntityType() == EntityType.MINISQUIRREL) {
@@ -387,6 +443,12 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return true;
     }
 
+    /**
+     *
+     * @param energyLoss amount of Radiation
+     * @param e to Check EntityType of given Entity
+     * @return collectEnergy
+     */
     private int collectedEnergyOfEntity(double energyLoss, Entity e) {
 
         int energyCollected;
@@ -412,18 +474,32 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return energyCollected;
     }
 
+    /**
+     *  Single Method to Move an Entity and spawn a killed one
+     * @param en Entity which Moves
+     * @param energy Energy Difference to update
+     * @param newField New Field to move
+     */
     private void moveAndKill(Entity en, int energy, XY newField) {
         en.updateEnergy(energy);
         killAndReplace(getEntity(newField));
         move(en, newField);
     }
 
+    /**
+     *
+     * @param entity The entity that should be removed
+     */
     @Override
     public void killEntity(Entity entity) {
         flattenedBoard[entity.getCoordinate().getY()][entity.getCoordinate().getX()] = null;
         board.killEntity(entity);
     }
 
+    /**
+     *
+     * @param entity The entity that should be removed
+     */
     @Override
     public void killAndReplace(Entity entity) {
         EntityType temp = entity.getEntityType();
@@ -445,6 +521,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         killEntity(entity);
     }
 
+    /**
+     *
+     * @param referencePoint The coordinate that serves as point of reference
+     * @return
+     */
     @Override
     public PlayerEntity nearestPlayerEntity(XY referencePoint) {
 
@@ -466,6 +547,11 @@ public class FlattenedBoard implements BoardView, EntityContext {
         return nearestPlayerEntity;
     }
 
+    /**
+     *
+     * @return the next random Free Position
+     * @throws FullFieldException
+     */
     private XY randomFreePosition() throws FullFieldException{
         XY xy;
         if(board.getSet().getEntityList().size() == size.getX() * size.getY())

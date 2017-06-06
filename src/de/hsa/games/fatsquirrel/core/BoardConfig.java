@@ -7,6 +7,9 @@ import de.hsa.games.fatsquirrel.XYsupport;
 import java.io.*;
 import java.util.Properties;
 
+/**
+ * Collection of all the Settings in the Game
+ */
 public class BoardConfig {
 
     private final XY size;
