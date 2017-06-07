@@ -9,7 +9,7 @@ public class XYsupport {
     }
 
     public static XY[] directions() {
-        return new XY[]{XY.ZERO_ZERO, XY.RIGHT, XY.LEFT, XY.DOWN, XY.UP, XY.LEFT_UP, XY.LEFT_DOWN, XY.RIGHT_DOWN, XY.RIGHT_UP};
+        return new XY[]{XY.RIGHT, XY.LEFT, XY.DOWN, XY.UP, XY.LEFT_UP, XY.LEFT_DOWN, XY.RIGHT_DOWN, XY.RIGHT_UP};
     }
 
     public static XY randomDirection() {

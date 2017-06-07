@@ -2,24 +2,24 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.TreeSet;
+import java.util.*;
 
-import static de.hsa.games.fatsquirrel.XYsupport.directions;
 
 /**
  * Created by tillm on 02.06.2017.
  */
 public class AStar {
+    private List<Node> openList;
+    private List<Node> closedList;
+
     private static class Node {
         private final XY coordinate;
-        private int fx;
+        private double fx;
         private Node successor;
+        private Node predecessor;
 
         Node(XY coordinate) {
             this.coordinate = coordinate;
@@ -29,11 +29,11 @@ public class AStar {
             return coordinate;
         }
 
-        public int getFx() {
+        public double getFx() {
             return fx;
         }
 
-        public void setFx(int fx) {
+        public void setFx(double fx) {
             this.fx = fx;
         }
 
@@ -44,47 +44,95 @@ public class AStar {
         public void setSuccessor(Node successor) {
             this.successor = successor;
         }
+
+        public Node getPredecessor() {
+            return predecessor;
+        }
+
+        public void setPredecessor(Node predecessor) {
+            this.predecessor = predecessor;
+        }
     }
 
-    public static XY directionTo(XY from, XY destination, EntityContext context) {
-        TreeSet<Node> openList = new TreeSet<>(Comparator.comparingInt(Node::getFx));
-
-        HashSet<Node> closedList = new HashSet<>();
+    public XY directionTo(XY from, XY destination, EntityContext context) {
+        openList = new ArrayList<>();
+        closedList = new ArrayList<>();
 
         openList.add(new Node(from));
 
         while (!openList.isEmpty()) {
-            Node currentNode = openList.pollFirst();
-            if (currentNode.getCoordinate() == destination)
-                return XY.DOWN;
+            Node currentNode = popMinF(openList);
+            if (currentNode.getCoordinate().equals(destination))
+                return getSecondNode(currentNode).coordinate.minus(from);
 
             closedList.add(currentNode);
-
-
+            expandNode(currentNode, context, destination);
         }
 
         return null;
     }
 
-    private static void expandNode(TreeSet<Node> openList, HashSet<Node> closedList, Node node,
-                                   EntityContext context, XY destination) {
+    private void expandNode(Node currentNode, EntityContext context, XY destination) {
         for (XY xy : XYsupport.directions()) {
-            Node successor = new Node(node.getCoordinate().plus(xy));
-            if (closedList.contains(successor) || !isWalkable(successor.getCoordinate(), context))
+            Node successor = new Node(currentNode.getCoordinate().plus(xy));
+            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(), context))
                 continue;
 
-            double tentativeFx = node.getFx() + XYsupport.distanceInSteps(node.getCoordinate(), destination);
+            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination);
+            successor.setFx(tentativeFx);
 
-            if(openList.contains(successor)){
-
+            int position = containsPosition(openList, successor.coordinate);
+            if(position != 0){
+                if(openList.get(position).getFx() > tentativeFx){
+                    openList.remove(position);
+                    openList.add(successor);
+                }
             }
+            else
+                openList.add(successor);
+
+            currentNode.setSuccessor(successor);
+            successor.setPredecessor(currentNode);
         }
     }
 
     //TODO: EnemySquirrel mit einebeziehen
-    private static boolean isWalkable(XY coordinate, EntityContext context){
+    private boolean isWalkable(XY coordinate, EntityContext context){
         EntityType entityTypeAtNewField = context.getEntityType(coordinate);
         return entityTypeAtNewField != EntityType.WALL && entityTypeAtNewField != EntityType.BADBEAST;
     }
+
+    private Node popMinF(List<Node> openList){
+        Node min = null;
+        for(Node n: openList){
+            if(min == null)
+                min = n;
+            else if(n.getFx() < min.getFx())
+                min = n;
+        }
+        openList.remove(min);
+
+        return min;
+    }
+
+    private int containsPosition(List<Node> openList, XY position){
+        for(Node n: openList){
+            if(n.coordinate.equals(position))
+                return openList.indexOf(n);
+        }
+
+        return 0;
+    }
+
+    private Node getSecondNode(Node lastNode){
+        Node predecessor = lastNode;
+        while (predecessor.getPredecessor().getPredecessor() != null){
+            predecessor = predecessor.getPredecessor();
+        }
+
+        return predecessor;
+    }
+
+
 }
 
