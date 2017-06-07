@@ -54,36 +54,18 @@ public abstract class Character extends Entity {
 
     public abstract void nextStep(EntityContext context);
 
-    //TODO: Dijkstra implementieren und zu XY ändern.
-    void findIdealPath(EntityContext context, XY direction, freeFieldMode ffm) {
-        XY toMove = direction;
-        toMove = goodMove(context, toMove, ffm);
-
-        switch (this.getEntityType()) {
-            case MINISQUIRREL:
-                context.tryMove((MiniSquirrel) this, toMove);
-                break;
-            case GOODBEAST:
-                context.tryMove((GoodBeast) this, toMove);
-                break;
-            case BADBEAST:
-                context.tryMove((BadBeast) this, toMove);
-                break;
-        }
-    }
-
-    private XY goodMove(EntityContext view, XY directionVector, freeFieldMode ffm) {
+    /*private XY goodMove(EntityContext view, XY directionVector, XY origin, EntityType entityType) {
         XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
         int nor = 1;
-        XY checkPosition = getCoordinate().plus(directionVector);
-        if (freeField(view, checkPosition, ffm)) {
+        XY checkPosition = origin.plus(directionVector);
+        if (freeField(view, checkPosition, entityType)) {
             return directionVector;
         }
         XY newVector;
         while (true) {
             newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPosition = getCoordinate().plus(newVector);
-            if (freeField(view, checkPosition, ffm)) {
+            checkPosition = origin.plus(newVector);
+            if (freeField(view, checkPosition, entityType)) {
                 return newVector;
             } else {
                 if (rotation == XYsupport.Rotation.clockwise) {
@@ -98,10 +80,10 @@ public abstract class Character extends Entity {
         }
     }
 
-    private boolean freeField(EntityContext view, XY location, freeFieldMode ffm) {
+    private boolean freeField(EntityContext view, XY location, EntityType type) {
         EntityType et = view.getEntityType(location);
-        switch (ffm) {
-            case master:
+        switch (type) {
+            case MASTERSQUIRREL:
                 switch (et) {
                     case WALL:
                     case BADBEAST:
@@ -115,14 +97,14 @@ public abstract class Character extends Entity {
                         return true;
                 }
                 break;
-            case spawnmini:
+            case MINISQUIRREL:
                 switch (et) {
                     case NONE:
                         return true;
                     default:
                         return false;
                 }
-            case goodBeast:
+            case GOODBEAST:
                 switch (et) {
                     case NONE:
                         return true;
@@ -130,7 +112,7 @@ public abstract class Character extends Entity {
                         return false;
                 }
 
-            case badBeast:
+            case BADBEAST:
                 switch (et) {
                     case NONE:
                     case MASTERSQUIRREL:
@@ -141,6 +123,6 @@ public abstract class Character extends Entity {
                 }
         }
         return false;
-    }
+    }*/
 
 }

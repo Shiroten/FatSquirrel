@@ -2,6 +2,8 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
+import de.hsa.games.fatsquirrel.core.FullFieldException;
+import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -11,14 +13,13 @@ import java.util.*;
 /**
  * Created by tillm on 02.06.2017.
  */
-public class AStar {
+public class PathFinder {
     private List<Node> openList;
     private List<Node> closedList;
 
     private static class Node {
         private final XY coordinate;
         private double fx;
-        private Node successor;
         private Node predecessor;
 
         Node(XY coordinate) {
@@ -29,36 +30,31 @@ public class AStar {
             return coordinate;
         }
 
-        public double getFx() {
+        double getFx() {
             return fx;
         }
 
-        public void setFx(double fx) {
+        void setFx(double fx) {
             this.fx = fx;
         }
 
-        public Node getSuccessor() {
-            return successor;
-        }
-
-        public void setSuccessor(Node successor) {
-            this.successor = successor;
-        }
-
-        public Node getPredecessor() {
+        Node getPredecessor() {
             return predecessor;
         }
 
-        public void setPredecessor(Node predecessor) {
+        void setPredecessor(Node predecessor) {
             this.predecessor = predecessor;
         }
     }
 
-    public XY directionTo(XY from, XY destination, EntityContext context) {
+    public XY directionTo(XY from, XY destination, EntityContext context) throws FullFieldException{
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
         openList.add(new Node(from));
+
+        if(!isWalkable(destination, context))
+            throw new FullFieldException();
 
         while (!openList.isEmpty()) {
             Node currentNode = popMinF(openList);
@@ -68,6 +64,7 @@ public class AStar {
             closedList.add(currentNode);
             expandNode(currentNode, context, destination);
         }
+
 
         return null;
     }
@@ -91,7 +88,6 @@ public class AStar {
             else
                 openList.add(successor);
 
-            currentNode.setSuccessor(successor);
             successor.setPredecessor(currentNode);
         }
     }
@@ -126,6 +122,8 @@ public class AStar {
 
     private Node getSecondNode(Node lastNode){
         Node predecessor = lastNode;
+        if(predecessor.getPredecessor() == null)
+            return predecessor;
         while (predecessor.getPredecessor().getPredecessor() != null){
             predecessor = predecessor.getPredecessor();
         }
@@ -133,6 +131,76 @@ public class AStar {
         return predecessor;
     }
 
+    private XY goodMove(EntityContext view, XY directionVector, XY origin, Character character) {
+        XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
+        int nor = 1;
+        XY checkPosition = origin.plus(directionVector);
+        if (freeField(view, checkPosition, character)) {
+            return directionVector;
+        }
+        XY newVector;
+        while (true) {
+            newVector = XYsupport.rotate(rotation, directionVector, nor);
+            checkPosition = origin.plus(newVector);
+            if (freeField(view, checkPosition, character)) {
+                return newVector;
+            } else {
+                if (rotation == XYsupport.Rotation.clockwise) {
+                    rotation = XYsupport.Rotation.anticlockwise;
+                } else {
+                    rotation = XYsupport.Rotation.clockwise;
+                    nor++;
+                }
+                if (nor > 3)
+                    return XYsupport.oppositeVector(directionVector);
+            }
+        }
+    }
+
+    private boolean freeField(EntityContext view, XY location, Character character) {
+        EntityType et = view.getEntityType(location);
+        switch (character.getEntityType()) {
+            case MASTERSQUIRREL:
+                switch (et) {
+                    case WALL:
+                    case BADBEAST:
+                    case BADPLANT:
+                    case MASTERSQUIRREL:
+                        return false;
+                    case NONE:
+                    case GOODBEAST:
+                    case GOODPLANT:
+                    case MINISQUIRREL:
+                        return true;
+                }
+                break;
+            case MINISQUIRREL:
+                switch (et) {
+                    case NONE:
+                        return true;
+                    default:
+                        return false;
+                }
+            case GOODBEAST:
+                switch (et) {
+                    case NONE:
+                        return true;
+                    default:
+                        return false;
+                }
+
+            case BADBEAST:
+                switch (et) {
+                    case NONE:
+                    case MASTERSQUIRREL:
+                    case MINISQUIRREL:
+                        return true;
+                    default:
+                        return false;
+                }
+        }
+        return false;
+    }
 
 }
 

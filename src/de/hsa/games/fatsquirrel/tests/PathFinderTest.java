@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
-import de.hsa.games.fatsquirrel.core.entity.character.AStar;
+import de.hsa.games.fatsquirrel.core.entity.character.PathFinder;
 import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
 import org.junit.Test;
 
@@ -14,10 +14,10 @@ import static org.junit.Assert.*;
 /**
  * Created by tillm on 06.06.2017.
  */
-public class AStarTest {
+public class PathFinderTest {
     @Test
     public void directionTo() throws Exception {
-        AStar aStar = new AStar();
+        PathFinder pathFinder = new PathFinder();
 
         Board board = new Board();
         GoodPlant goodPlant = new GoodPlant(1, new XY(3,3));
@@ -34,10 +34,10 @@ public class AStarTest {
 
         FlattenedBoard context = board.flatten();
 
-        XY to = aStar.directionTo(handOperatedMasterSquirrel.getCoordinate(), goodPlant.getCoordinate(), context);
-
+        XY to = pathFinder.directionTo(handOperatedMasterSquirrel.getCoordinate(), goodPlant.getCoordinate(), context);
+        XY toTwo = new PathFinder().directionTo(new XY(3,3), new XY(2,4), context);
         assertTrue(XY.DOWN.equals(to));
-
+        assertTrue(XY.LEFT_DOWN.equals(toTwo));
     }
 
 }

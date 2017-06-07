@@ -60,7 +60,7 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
-        game.getState().loadHighScore("HighScore.props");
+        //game.getState().loadHighScore("HighScore.props");
         System.out.println(game.getState().printHighscore());
         game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
         try {
@@ -99,7 +99,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        State state = new State("bots.props");
+        State state = new State("test.props");
 
         FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), state.getBoard().getConfig().getSELLSIZE());
         final Game game = new FxGameImpl(fxUI, state);

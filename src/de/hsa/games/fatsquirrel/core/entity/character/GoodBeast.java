@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
+import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -35,9 +36,22 @@ public class GoodBeast extends Character {
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getGOODBEAST_VIEW_DISTANCE()) {
-                findIdealPath(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), freeFieldMode.goodBeast);
-            } else
-                findIdealPath(context, XYsupport.randomDirection(), freeFieldMode.goodBeast);
+                try {
+                    PathFinder pathFinder = new PathFinder();
+                    context.tryMove(this, pathFinder.directionTo(getCoordinate(), this.getCoordinate().plus(XYsupport.oppositeVector(XYsupport.normalizedVector(distance))), context));
+                } catch (FullFieldException e) {
+
+                }
+                //findIdealPath(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), freeFieldMode.goodBeast);
+            } else {
+                try {
+                    PathFinder pathFinder = new PathFinder();
+                    context.tryMove(this, pathFinder.directionTo(getCoordinate(), this.getCoordinate().plus(XYsupport.randomDirection()), context));
+                } catch (FullFieldException e){
+
+                }
+                //findIdealPath(context, XYsupport.randomDirection(), freeFieldMode.goodBeast);
+            }
             moveCounter++;
         } else if (moveCounter == context.getBEAST_MOVE_TIME_IN_TICKS())
             moveCounter = 0;
