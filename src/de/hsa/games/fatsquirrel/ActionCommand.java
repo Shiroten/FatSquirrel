@@ -18,20 +18,31 @@ public enum ActionCommand {
     private String commandName;
     private XY direction;
 
+    /**
+     * @return the CommandName of the Object
+     */
     public String getCommandName() {
         return commandName;
     }
 
+    /**
+     * @return the Direction of the Object
+     */
     public XY getDirection() {
         return direction;
     }
 
-    ActionCommand(String commandName, XY direction){
+    /**
+     * Constructor for a ActionCommand with commandName and direction
+     *
+     * @param commandName
+     * @param direction
+     */
+    ActionCommand(String commandName, XY direction) {
         this.commandName = commandName;
         this.direction = direction;
     }
 
-    ActionCommand(){
-
+    ActionCommand() {
     }
 }

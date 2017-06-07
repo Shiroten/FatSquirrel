@@ -13,12 +13,21 @@ public class FxGameImpl extends Game {
 
     private Command imploadMiniSquirrel = null;
 
+    /**
+     * Constructor for FXGameImpl
+     *
+     * @param fxUI
+     * @param state
+     */
     public FxGameImpl(FxUI fxUI, State state) {
         this.setUi(fxUI);
         this.setState(state);
         this.handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();
     }
 
+    /**
+     * Processed the Input from the UI for HandOperatedMasterSquirrel
+     */
     protected void processInput() {
 
         //TODO: Per Reflection lösen
@@ -61,10 +70,16 @@ public class FxGameImpl extends Game {
         }
     }
 
+    /**
+     * Render the next Frame
+     */
     protected void render() {
         this.getUi().render(this.getState().flattenBoard());
     }
 
+    /**
+     * Execute the update() of the state and sets the message String for the UI
+     */
     protected void update() {
 
         if (imploadMiniSquirrel != null) {
@@ -83,7 +98,11 @@ public class FxGameImpl extends Game {
         fxUI.message(msg);
     }
 
-
+    /**
+     * Gives the implosion order for HandOperatedMasterSquirrel MiniSquirrels     *
+     *
+     * @param implosionRadius
+     */
     private void imploadMiniSquirrel(int implosionRadius) {
         for (Entity e : getState().getEntitySet()) {
             if (e.getEntityType() == EntityType.MINISQUIRREL) {

@@ -16,22 +16,41 @@ public class State {
     private Map<String, ArrayList<Long>> highscore = new HashMap<>();
     private Board board;
 
+    /**
+     * Creates new State with default Board
+     */
     public State() {
         this.board = new Board("default.props");
     }
 
+    /**
+     * Creates new State with BoardName
+     *
+     * @param configName
+     */
     public State(String configName) {
         this.board = new Board(configName);
     }
 
+    /**
+     * Sets new Board to State
+     *
+     * @param board
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * @return the Board of the State
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Calls the nextStep() of the EntitySet and tick each Implosion Counter
+     */
     public void update() {
 
         Logger logger = Logger.getLogger(Launcher.class.getName());
@@ -43,7 +62,11 @@ public class State {
         board.getSet().nextStep(flat);
 
     }
-    public void setHighscore(){
+
+    /**
+     * Set the actual Highscore
+     */
+    public void updateHighscore() {
         //Get All MasterSquirrel
         for (MasterSquirrel ms : board.getMasterSquirrel()) {
             if (ms == null) {
@@ -62,6 +85,10 @@ public class State {
         }
 
     }
+
+    /**
+     * @return String of the actual HighSore
+     */
     public String printHighscore() {
         //TODO: StringBuilder
         String output = "";
@@ -82,14 +109,23 @@ public class State {
         return output;
     }
 
+    /**
+     * @return flatten the Board and Return the FlattenBoard equivalent
+     */
     public FlattenedBoard flattenBoard() {
         return board.flatten();
     }
 
+    /**
+     * @return the EntitySet of the Board under the State
+     */
     public List<Entity> getEntitySet() {
         return board.getSet().getEntityList();
     }
 
+    /**
+     * @param path save the actual HighScore to a File in the given Path
+     */
     public void saveHighScore(String path) {
         //Sort Array before saving
         for (ArrayList<Long> entry : highscore.values()) {
@@ -110,6 +146,9 @@ public class State {
         }
     }
 
+    /**
+     * @param path load the actual HighScore from a File in the given Path
+     */
     public void loadHighScore(String path) {
         //OpenFile
         Properties properties = new Properties();
@@ -123,9 +162,9 @@ public class State {
         String propertiesString;
         String[] valuesToParse;
 
-        for (Object o: properties.stringPropertyNames()) {
+        for (Object o : properties.stringPropertyNames()) {
             //Get String like [1000, 1000, 23900, 33549, 34749, 37287]
-            propertiesString = properties.getProperty(o.toString(),"");
+            propertiesString = properties.getProperty(o.toString(), "");
             //Reduce to 1000, 1000, 23900, 33549, 34749, 37287
             propertiesString = propertiesString.substring(1, propertiesString.length() - 1);
             //Get rid of spaces
@@ -134,7 +173,7 @@ public class State {
             valuesToParse = propertiesString.split(",");
 
             ArrayList values = new ArrayList();
-            for(int i = 0;i < valuesToParse.length; i++){
+            for (int i = 0; i < valuesToParse.length; i++) {
                 values.add(Long.parseLong(valuesToParse[i]));
             }
             highscore.put(o.toString(), values);

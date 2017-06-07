@@ -4,7 +4,6 @@ import de.hsa.games.fatsquirrel.XY;
 
 public class ImplosionContext {
 
-
     private int energyLoss;
     private int radius;
     private XY position;
@@ -43,7 +42,6 @@ public class ImplosionContext {
         return radius;
     }
 
-
     XY getPosition() {
         return position;
     }
@@ -57,7 +55,7 @@ public class ImplosionContext {
     }
 
     public void updateTick() {
-        tickCounter = tickCounter-2;
+        tickCounter = tickCounter - 2;
     }
 
 
