@@ -131,17 +131,17 @@ public class PathFinder {
         return predecessor;
     }
 
-    private XY goodMove(EntityContext view, XY directionVector, XY origin, Character character) {
+    public XY goodMove(EntityContext view, XY directionVector, Character character) {
         XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
         int nor = 1;
-        XY checkPosition = origin.plus(directionVector);
+        XY checkPosition = character.getCoordinate().plus(directionVector);
         if (freeField(view, checkPosition, character)) {
             return directionVector;
         }
         XY newVector;
         while (true) {
             newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPosition = origin.plus(newVector);
+            checkPosition = character.getCoordinate().plus(newVector);
             if (freeField(view, checkPosition, character)) {
                 return newVector;
             } else {

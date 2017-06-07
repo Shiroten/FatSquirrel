@@ -23,15 +23,15 @@ public class GoodBeastChaserHelper {
         int nor = 1;
         boolean stuck = true;
 
-        XY checkPostion = view.locate().plus(directionVector);
-        if (freeField(view, checkPostion, ffm)) {
+        XY checkPosition = view.locate().plus(directionVector);
+        if (freeField(view, checkPosition, ffm)) {
             return directionVector;
         }
         XY newVector;
         while (stuck) {
             newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPostion = view.locate().plus(newVector);
-            if (freeField(view, checkPostion, ffm)) {
+            checkPosition = view.locate().plus(newVector);
+            if (freeField(view, checkPosition, ffm)) {
                 return newVector;
             } else {
                 if (rotation == XYsupport.Rotation.clockwise) {

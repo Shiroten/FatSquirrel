@@ -55,9 +55,12 @@ public class BadBeast extends Character {
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getBADBEAST_VIEW_DISTANCE()) {
-                //findIdealPath(context, XYsupport.normalizedVector(distance), getEntityType());
-            } else
-                //findIdealPath(context, XYsupport.randomDirection(), getEntityType());
+                PathFinder pathFinder = new PathFinder();
+                context.tryMove(this, pathFinder.goodMove(context, XYsupport.normalizedVector(distance), this));
+            } else{
+                PathFinder pathFinder = new PathFinder();
+                context.tryMove(this, pathFinder.goodMove(context, XYsupport.randomDirection(), this));
+            }
             moveCounter++;
         } else if (moveCounter == context.getBEAST_MOVE_TIME_IN_TICKS())
             moveCounter = 0;
