@@ -155,8 +155,12 @@ public class State {
         try {
             Reader reader = new FileReader(path);
             properties.load(reader);
+        } catch (FileNotFoundException f){
+            System.out.println("Keine Highscore Datei Gefunden. Lege beim Speichern einen neu an.");
         } catch (IOException e) {
             e.printStackTrace();
+            return;
+
         }
 
         String propertiesString;

@@ -60,7 +60,7 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
-        //game.getState().loadHighScore("HighScore.props");
+        game.getState().loadHighScore("HighScore.props");
         System.out.println(game.getState().printHighscore());
         game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
         try {
