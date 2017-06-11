@@ -2,6 +2,9 @@ package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
 
+/**
+ * Blocks and stuns characters. Can't be destroyed.
+ */
 public class Wall extends Entity {
     public static final int START_ENERGY = -10;
     public static final EntityType type = EntityType.WALL;

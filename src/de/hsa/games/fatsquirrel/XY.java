@@ -1,5 +1,8 @@
 package de.hsa.games.fatsquirrel;
 
+/**
+ * Represents a position on the board. The upper left corner is 0/0
+ */
 public class XY {
     private final int x;
     private final int y;

@@ -8,6 +8,9 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
 import de.hsa.games.fatsquirrel.util.ui.Command;
 
+/**
+ * The Game implementation that utilizes the FxUI
+ */
 public class FxGameImpl extends Game {
 
 

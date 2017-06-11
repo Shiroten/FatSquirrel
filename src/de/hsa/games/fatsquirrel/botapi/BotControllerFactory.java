@@ -1,8 +1,7 @@
 package de.hsa.games.fatsquirrel.botapi;
 
 /**
- * Created by tillm on 09.05.2017.
- * Every AI implements its own Factory
+ * Returns BotController for an ai. Every AI has to implement its own Factory
  */
 public interface BotControllerFactory {
     /**

@@ -21,7 +21,9 @@ import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Manages everything on the board, and initializes it.
+ */
 public class Board {
 
     private EntitySet set;

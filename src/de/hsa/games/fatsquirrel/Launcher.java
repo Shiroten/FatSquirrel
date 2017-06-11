@@ -13,9 +13,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.*;
 
+/**
+ * Starts the game. The main of the whole application
+ */
 public class Launcher extends Application {
 
-    public static final Level logLevel = Level.FINER;
+    private static final Level logLevel = Level.FINER;
 
     public static void main(String[] args) {
 

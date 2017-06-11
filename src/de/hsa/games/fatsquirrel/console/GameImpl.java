@@ -10,6 +10,9 @@ import de.hsa.games.fatsquirrel.util.ui.CommandTypeInfo;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * The console implementation of the game
+ */
 public class GameImpl extends Game {
 
     private HandOperatedMasterSquirrel handOperatedMasterSquirrel;
@@ -28,14 +31,8 @@ public class GameImpl extends Game {
         try {
             Method method = this.getClass().getDeclaredMethod(((GameCommandType) command.getCommandTypeInfo()).getMethodName(), command.getCommandTypeInfo().getParamTypes());
             method.invoke(this, command.getParams());
-        } catch (IllegalAccessException iae) {
+        } catch (IllegalAccessException | NullPointerException | InvocationTargetException | NoSuchMethodException iae) {
             iae.printStackTrace();
-        } catch (NoSuchMethodException nsme) {
-            System.out.println("Methode nicht gefunden");
-        } catch (InvocationTargetException ite) {
-            ite.printStackTrace();
-        } catch(NullPointerException npe){
-
         }
 
     }

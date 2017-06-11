@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Implements all the game rules concerning movement and other actions
+ */
 public class FlattenedBoard implements BoardView, EntityContext {
     private final XY size;
     private Board board;
@@ -276,8 +279,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
     /**
      *
      * @param mini MiniSquirrel to Check
-     * @return true if Energy of MiniSquirrel is <= 0 and kills the miniSquirrel
-     * and returns false if it is still alive
+     * @return true if energy of MiniSquirrel is greater zero and kills the miniSquirrel and returns false if it is still alive
      */
     private boolean checkEnergyOfMiniSquirrel(MiniSquirrel mini){
         if (mini.getEnergy() <= 0){
@@ -524,7 +526,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
     /**
      *
      * @param referencePoint The coordinate that serves as point of reference
-     * @return
+     * @return The playerEntity that is closest to the referencePoint
      */
     @Override
     public PlayerEntity nearestPlayerEntity(XY referencePoint) {
@@ -549,8 +551,8 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     /**
      *
-     * @return the next random Free Position
-     * @throws FullFieldException
+     * @return A random free position
+     * @throws FullFieldException If all fields on the board are occupied
      */
     private XY randomFreePosition() throws FullFieldException{
         XY xy;

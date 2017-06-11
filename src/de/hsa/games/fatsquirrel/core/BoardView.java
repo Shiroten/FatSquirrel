@@ -7,6 +7,9 @@ import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
 import java.util.ArrayList;
 
+/**
+ * Can be used to get information about entities on the board.
+ */
 public interface BoardView {
 
     /**

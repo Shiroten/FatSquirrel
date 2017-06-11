@@ -2,6 +2,9 @@ package de.hsa.games.fatsquirrel;
 
 import static java.lang.Math.PI;
 
+/**
+ * Functions to manipulate XY-coordinates
+ */
 public class XYsupport {
     public enum Rotation {
         clockwise,

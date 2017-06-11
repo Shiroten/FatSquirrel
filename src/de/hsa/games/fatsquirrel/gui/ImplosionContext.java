@@ -2,6 +2,9 @@ package de.hsa.games.fatsquirrel.gui;
 
 import de.hsa.games.fatsquirrel.XY;
 
+/**
+ * Manages information on a implosion of a minisquirrel
+ */
 public class ImplosionContext {
 
     private int energyLoss;
