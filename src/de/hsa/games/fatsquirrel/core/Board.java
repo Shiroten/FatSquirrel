@@ -156,6 +156,7 @@ public class Board {
                             entityToAdd = new MasterSquirrelBot(setID(), position, factory);
                             numberOfAIs++;
                         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                            //TODO: In Log schreiben
                             e.printStackTrace();
                         }
                     }

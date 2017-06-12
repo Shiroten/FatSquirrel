@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
@@ -47,6 +46,7 @@ public class PathFinder {
         }
     }
 
+    //TODO: Adapter implementieren
     public XY directionTo(XY from, XY destination, EntityContext context) throws FullFieldException{
         openList = new ArrayList<>();
         closedList = new ArrayList<>();

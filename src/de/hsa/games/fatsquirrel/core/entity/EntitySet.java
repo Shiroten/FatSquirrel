@@ -9,6 +9,7 @@ import java.util.*;
 /**
  * Contains all entities on the field
  */
+//TODO: In Board kapseln
 public class EntitySet {
 
     private List<Entity> entityList = new ArrayList<>();
