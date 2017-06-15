@@ -1,6 +1,10 @@
 package de.hsa.games.fatsquirrel.console;
 
 import de.hsa.games.fatsquirrel.util.ui.CommandTypeInfo;
+
+/**
+ * A sophisticated definition of console commands for the console version of the game.
+ */
 public enum GameCommandType implements CommandTypeInfo {
     HELP("h", "help", "* list all commands"),
     EXIT("e", "exit", "* exit the game"),

@@ -1,5 +1,8 @@
 package de.hsa.games.fatsquirrel.botapi;
 
+/**
+ * Defines the action call of ai controlled squirrels
+ */
 public interface BotController {
     /**
      * The next action the bot will take

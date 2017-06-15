@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel;
 
 /**
- * Created by tillm on 04.04.2017.
+ * All commands the player can give his MasterSquirrel.
  */
 public enum ActionCommand {
     NORTH("NORTH", XY.UP),
@@ -35,8 +35,8 @@ public enum ActionCommand {
     /**
      * Constructor for a ActionCommand with commandName and direction
      *
-     * @param commandName
-     * @param direction
+     * @param commandName The name of the command
+     * @param direction The associated direction of the command
      */
     ActionCommand(String commandName, XY direction) {
         this.commandName = commandName;

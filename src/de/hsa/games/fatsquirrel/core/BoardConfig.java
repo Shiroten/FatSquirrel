@@ -14,6 +14,7 @@ public class BoardConfig {
 
     private final XY size;
 
+    //TODO: klein schreiben
     private final int NUMBER_OF_GB;
     private final int NUMBER_OF_BB;
     private final int NUMBER_OF_GP;
@@ -73,6 +74,7 @@ public class BoardConfig {
             Reader reader = new FileReader(filename);
             properties.load(reader);
         } catch (IOException e){
+            //TODO: in Log schreiben
             e.printStackTrace();
         }
 
@@ -180,6 +182,7 @@ public class BoardConfig {
     }
 
     private String[] readInBots(){
+
         File folder = new File("src\\de\\hsa\\games\\fatsquirrel\\botimpls");
         File[] listOfBots = folder.listFiles((dir, name) -> name.substring(name.length()-4, name.length()).equals("java"));
         String[] bots;

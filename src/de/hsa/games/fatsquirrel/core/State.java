@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages the state of the game, including highscore, and the board itself
+ */
 public class State {
 
     private Map<String, ArrayList<Long>> highscore = new HashMap<>();

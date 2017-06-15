@@ -3,6 +3,9 @@ package de.hsa.games.fatsquirrel.botapi;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
+/**
+ * Defines the field of view and the actions for ai controlled squirrels
+ */
 public interface ControllerContext {
 
     /**

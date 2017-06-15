@@ -8,6 +8,9 @@ import de.hsa.games.fatsquirrel.gui.FxGameImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Actually runs the game by looping run, processing, and updating
+ */
 public class Game {
 
     protected HandOperatedMasterSquirrel handOperatedMasterSquirrel;

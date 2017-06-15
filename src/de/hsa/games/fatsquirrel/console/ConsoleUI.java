@@ -13,6 +13,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
+/**
+ * A UI that uses the console and ASCII symbols. Deprecated.
+ */
 public class ConsoleUI implements UI {
 
     private PrintStream outputStream = new PrintStream(System.out);

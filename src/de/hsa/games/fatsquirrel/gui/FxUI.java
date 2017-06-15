@@ -26,6 +26,9 @@ import javafx.scene.text.TextAlignment;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * A UI for the game that is build on JavaFX.
+ */
 public class FxUI extends Scene implements UI {
 
     private Canvas boardCanvas;
@@ -39,8 +42,6 @@ public class FxUI extends Scene implements UI {
     private static int cellSize = CELL_SIZE_AT_START;
     private static int miniSquirrelEnergy = 200;
     private static int miniSquirrelRadius = 5;
-    private static int fieldSizeMax;
-    private static int fieldSizeMin;
     private static int fieldSizeX;
     private static int fieldSizeY;
     private static double scaleFactor = (double) cellSize / CELL_SIZE_AT_START;
@@ -69,7 +70,7 @@ public class FxUI extends Scene implements UI {
         super(parent);
         this.boardCanvas = boardCanvas;
         this.msgLabel = msgLabel;
-        this.CELL_SIZE_AT_START = cellSize;
+        CELL_SIZE_AT_START = cellSize;
     }
 
     public static FxUI createInstance(XY boardSize, int cellSize) {
@@ -228,7 +229,7 @@ public class FxUI extends Scene implements UI {
         double xSize = this.getWidth();
         double ySize = this.getHeight() - 17;
         double Size = xSize < ySize ? xSize : ySize;
-        fieldSizeMax = xSize < ySize ? fieldSizeX : fieldSizeY;
+        int fieldSizeMax = xSize < ySize ? fieldSizeX : fieldSizeY;
 
         cellSize = (int) (Size / fieldSizeMax);
         int fontSize = (int) (cellSize * 18.0 / 40.0);
@@ -530,8 +531,6 @@ public class FxUI extends Scene implements UI {
             simpleText = detailedText = extendText = showIDText = e.getEntityName();
         else if (showName)
             detailedText = extendText = showIDText = simpleText;
-        else
-            ;
 
         stringToPrint = switchVerboseLevel(outputMode, simpleText, detailedText, extendText, showIDText);
 
@@ -565,9 +564,9 @@ public class FxUI extends Scene implements UI {
 
         String addmsg;
         if (inputMode == toogleInput.inputEnergy) {
-            addmsg = String.format(" | MiniSquirrel-InputEnergy: " + miniSquirrelEnergy);
+            addmsg = " | MiniSquirrel-InputEnergy: " + miniSquirrelEnergy;
         } else if (inputMode == toogleInput.inputRadius) {
-            addmsg = String.format(" | MiniSquirrel-InputRadius: " + miniSquirrelRadius);
+            addmsg = " | MiniSquirrel-InputRadius: " + miniSquirrelRadius;
         } else {
             addmsg = "";
         }

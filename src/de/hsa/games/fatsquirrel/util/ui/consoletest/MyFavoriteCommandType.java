@@ -2,9 +2,6 @@ package de.hsa.games.fatsquirrel.util.ui.consoletest;
 
 import de.hsa.games.fatsquirrel.util.ui.CommandTypeInfo;
 
-/**
- * Created by tillm on 28.04.2017.
- */
 public enum MyFavoriteCommandType implements CommandTypeInfo {
     HELP("help", "  * list all commands"),
     EXIT("exit", "  * exit program"),
