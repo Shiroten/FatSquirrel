@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
-import de.hsa.games.fatsquirrel.botimpls.ExCells26.PathFinder;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
 import org.junit.Test;
 

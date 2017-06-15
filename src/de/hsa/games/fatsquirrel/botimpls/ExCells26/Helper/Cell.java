@@ -1,6 +1,7 @@
-package de.hsa.games.fatsquirrel.botimpls.ExCells26;
+package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 
 /**
  * Created by Shiroten on 15.06.2017.

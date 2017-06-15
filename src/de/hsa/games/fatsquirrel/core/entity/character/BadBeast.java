@@ -3,7 +3,7 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.botimpls.ExCells26.PathFinder;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 

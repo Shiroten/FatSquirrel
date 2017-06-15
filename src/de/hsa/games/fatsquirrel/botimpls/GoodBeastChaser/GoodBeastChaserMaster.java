@@ -5,6 +5,7 @@ import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 
 
 public class GoodBeastChaserMaster implements BotController {

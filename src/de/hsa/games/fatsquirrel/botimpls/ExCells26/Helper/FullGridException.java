@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.botimpls.ExCells26;
+package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 /**
  * Created by Shiroten on 15.06.2017.

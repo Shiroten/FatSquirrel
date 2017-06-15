@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.botimpls.ExCells26;
+package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 public enum MiniType {
     BOMB(100), RECON(100), REAPER(200), NONE(0);

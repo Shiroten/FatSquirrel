@@ -2,6 +2,7 @@ package de.hsa.games.fatsquirrel.botimpls.ExCells26;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.BotCom;
 
 public class ExCells26Master implements BotController {
 

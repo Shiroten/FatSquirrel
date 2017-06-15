@@ -1,7 +1,9 @@
-package de.hsa.games.fatsquirrel.botimpls.ExCells26;
+package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotController;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
 
 import java.util.ArrayList;
 import java.util.List;
