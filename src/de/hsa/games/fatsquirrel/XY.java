@@ -18,7 +18,6 @@ public class XY {
     public static final XY LEFT_DOWN = new XY(-1, 1);
 
     /**
-     *
      * @return the X Value
      */
     public int getX() {
@@ -26,7 +25,6 @@ public class XY {
     }
 
     /**
-     *
      * @return the Y Value
      */
     public int getY() {
@@ -35,6 +33,7 @@ public class XY {
 
     /**
      * create new XY with X and Y
+     *
      * @param x
      * @param y
      */
@@ -44,7 +43,6 @@ public class XY {
     }
 
     /**
-     *
      * @param xy adds XY Values to own Position
      * @return the new added Values of the own XY and the new xy
      */
@@ -53,7 +51,6 @@ public class XY {
     }
 
     /**
-     *
      * @param xy subtract XY Values from the own Position
      * @return the new subtracted XY Values of own XY and the new XY
      */
@@ -62,7 +59,6 @@ public class XY {
     }
 
     /**
-     *
      * @param factor multiplier for the function
      * @return the new XY with multiplied Values of X and Y with the factor
      */
@@ -71,7 +67,6 @@ public class XY {
     }
 
     /**
-     *
      * @return the length of the XY Object. Used to get the Length from Origin
      */
     public double length() {
@@ -79,7 +74,6 @@ public class XY {
     }
 
     /**
-     *
      * @param xy Position of Comparision
      * @return the length of the XY Object to the other one
      */
@@ -88,13 +82,16 @@ public class XY {
     }
 
     /**
-     *
-     * @param xy comparing Values
+     * @param o comparing Values
      * @return if the two XY have the same x and the same y Value
      */
-    public boolean equals(XY xy) {
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof XY)) {
+            return false;
+        }
         try {
-            if (xy.getX() == x && xy.getY() == y)
+            if (((XY) o).getX() == x && ((XY) o).getY() == y)
                 return true;
         } catch (Exception e) {
             return false;
@@ -103,11 +100,19 @@ public class XY {
     }
 
     /**
-     *
      * @return the string representation of the XY obejct
      */
     public String toString() {
         return "x: " + x + " y: " + y;
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        int result = 1;
+        result = prime * result + this.x;
+        result = prime * result + this.y;
+        return result;
     }
 
 }

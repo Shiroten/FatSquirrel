@@ -102,7 +102,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        State state = new State("test.props");
+        State state = new State("wettbewerb.props");
 
         FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), state.getBoard().getConfig().getSELLSIZE());
         final Game game = new FxGameImpl(fxUI, state);

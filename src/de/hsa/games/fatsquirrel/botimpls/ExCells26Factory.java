@@ -32,7 +32,7 @@ public class ExCells26Factory implements BotControllerFactory {
         BotController mini;
         switch (botcom.getNextMini()) {
             case RECON:
-                mini = new ExCells26ReconMini();
+                mini = new ExCells26ReconMini(botcom);
                 break;
             case REAPER:
                 mini = new ExCells26ReaperMini(botcom);

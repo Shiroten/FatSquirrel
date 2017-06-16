@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
@@ -18,7 +19,10 @@ public class BotCom {
 
     private MiniType nextMini;
     private XY fieldLimit;
+    //Todo: fieldLimit muss durch das MasterSquirrel auf startPositions view gesetzt werden.
+    private boolean fieldLimitFound;
     private XY startPositionOfMaster;
+    private static final int CELLDISTANCE = 20;
 
     public BotController getMaster() {
         return master;
@@ -40,7 +44,7 @@ public class BotCom {
         this.fieldLimit = fieldLimit;
     }
 
-    public MiniType getNextMini(){
+    public MiniType getNextMini() {
         return nextMini;
     }
 
@@ -49,23 +53,80 @@ public class BotCom {
     }
 
     public void init() {
+        //Todo: aktuelle eigene Zelle bestimmen
+        //Todo: x und y faktor bestimmen
+
+
         //Todo: FeldzuKlein abfangen (Priorität niedrig)
         //Todo: Ersten 4 Grids berechnen
         //Todo: Sieb mit Vektoren (-1,0) und (0,-1)
+    }
+
+    public void getAllCells(){
+        int xLimit = (fieldLimit.getX() - 11) / 20;
+        int yLimit = (fieldLimit.getY() - 11) / 20;
+
+        for(int i = 0; i < xLimit; i++){
+            for(int j = 0; j < yLimit; j++){
+                Cell newCell = new Cell(new XY(11+20*i, 11+20*j));
+                //TODO: Zelle Array hinzufügen
+            }
+        }
+        //Todo: Fügt noch nicht bekannte Cellen hinzu
+        //Todo: anhand der fieldLimit berechen
+    }
+
+    public XY toName(XY cellCoordinate, int factor) {
+
+        if (factor <= 0)
+            return null;
+        for (int i = 1; i < factor; i++) {
+            for (int j = 1; j < factor; j++) {
+                //boolean ergebnis = usableCell(cellCoordinate,i,j);
+
+
+            }
+        }
+
+
+        //Todo: wenn x unter 0 und usableCell == false, dann +1 ansonsten -1 zu setzen
+        //Todo: y analog
+
+
+        //Todo: x und y in kombination aus positiv und negativ
+        //Todo: für x und y den vector bestimmen und mit 45 gegen uhrzeigersinn drehen
+        return null;
+    }
+
+    /**
+     * Calculates a valid cell position by adding a vector to
+     * @param cellCoordinate
+     * @param xFactor
+     * @param yFactor
+     * @return valid cell position calculated by given params
+     */
+    private XY usableCell(XY cellCoordinate, int xFactor, int yFactor) {
+        //Todo: needs testing
+        int x, y;
+        x = cellCoordinate.getX() - 20 * xFactor < 0 ? 1 : -1;
+        y = cellCoordinate.getY() - 20 * yFactor < 0 ? 1 : -1;
+
+        XY directionToNextCell = XYsupport.rotate(XYsupport.Rotation.anticlockwise, new XY(x, y), 1);
+        return new XY(directionToNextCell.getX() * xFactor, directionToNextCell.getY() * yFactor).times(CELLDISTANCE);
     }
 
     public void expand() {
         //Todo: Grid Überlauf händeln (siehe addMini())
     }
 
-    public void evenOut(){
+    public void evenOut() {
         //Todo: Zellen an Board ausrichten
     }
 
-    public void checkAttendance(long round){
-        for(Cell c : grid){
+    public void checkAttendance(long round) {
+        for (Cell c : grid) {
             //Todo: Check epsilon (now at 3)
-            if (c.getLastFeedback() - round > 3){
+            if (c.getLastFeedback() - round > 3) {
                 c.setMiniSquirrel(null);
                 nextMini = MiniType.REAPER;
             }
