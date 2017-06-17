@@ -40,8 +40,8 @@ public class BotComTest {
                 if (i % 3 == 0)
                 master.setCurrentCell(master.getCurrentCell().getNextCell());
             }
-        } catch (NoConnectingNeighbour noConnectingNeighbour) {
-            noConnectingNeighbour.printStackTrace();
+        } catch (NoConnectingNeighbourException noConnectingNeighbourException) {
+            noConnectingNeighbourException.printStackTrace();
         }
         //botCom.getAllCells();
         /*for (Cell c : botCom.grid.values()){

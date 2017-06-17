@@ -88,8 +88,13 @@ public class Cell {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Position: " + quadrant + " is active: " + isActive());
-        if (nextCell != null)
-            sb.append("\n\tNextCell: " + nextCell.getQuadrant());
+        sb.append("\n\tNextCell: ");
+        if (nextCell == null){
+            sb.append("none");
+        }else{
+            sb.append(nextCell.getQuadrant());
+        }
+
         int index = 0;
         for (Cell c : neighbours.values()) {
             index++;

@@ -1,7 +1,6 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.ExCells26Master;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
@@ -116,7 +115,7 @@ public class BotCom {
         return new XY(CELLDISTANCE * xFactor + CELLCENTEROFFSET, CELLDISTANCE * yFactor + CELLCENTEROFFSET);
     }
 
-    public void expand() throws NoConnectingNeighbour{
+    public void expand() throws NoConnectingNeighbourException {
 
         Cell startingCell = master.getCurrentCell();
         Cell currentCell = startingCell;
@@ -129,7 +128,7 @@ public class BotCom {
             }
             currentCell = currentCell.getNextCell();
             if (currentCell.equals(startingCell)){
-                throw new NoConnectingNeighbour();
+                throw new NoConnectingNeighbourException();
             }
         }
     }
@@ -156,8 +155,8 @@ public class BotCom {
         } catch (FullGridException e) {
             try {
                 expand();
-            } catch (NoConnectingNeighbour noConnectingNeighbour) {
-                noConnectingNeighbour.printStackTrace();
+            } catch (NoConnectingNeighbourException noConnectingNeighbourException) {
+                noConnectingNeighbourException.printStackTrace();
             }
             //Rekursiver Aufruf der Methode da durch setActive() mehr Grids zur verfügung stehen
             return addMini(mini);
