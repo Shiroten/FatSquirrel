@@ -53,8 +53,7 @@ public class BotCom {
     }
 
     public void init() {
-        Cell firstCell = new Cell(cellAt(startPositionOfMaster));
-
+        //Cell firstCell = new Cell(cellAt(startPositionOfMaster));
 
         //Todo: FeldzuKlein abfangen (Priorität niedrig)
         //Todo: Ersten 4 Grids berechnen

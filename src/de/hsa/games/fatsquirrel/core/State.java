@@ -93,23 +93,22 @@ public class State {
      * @return String of the actual HighSore
      */
     public String printHighscore() {
-        //TODO: StringBuilder
-        String output = "";
+        StringBuilder sb = new StringBuilder();
         if (board.getRemainingGameTime() % 20 == 0) {
             for (ArrayList<Long> entry : highscore.values()) {
                 Collections.sort(entry);
             }
             for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
                 long average = 0;
-                output = output + pairs.getKey() + ": ";
+                sb.append(pairs.getKey() + ": ");
                 for (Long entry : pairs.getValue()) {
-                    output = output + entry + " | ";
+                    sb.append(entry + " | ");
                     average = average + entry;
                 }
-                output = output + "Average: " + average / pairs.getValue().size() + String.format("%n");
+                sb.append("Average: " + average / pairs.getValue().size() + String.format("%n"));
             }
         }
-        return output;
+        return sb.toString();
     }
 
     /**
@@ -158,7 +157,7 @@ public class State {
         try {
             Reader reader = new FileReader(path);
             properties.load(reader);
-        } catch (FileNotFoundException f){
+        } catch (FileNotFoundException f) {
             System.out.println("Keine Highscore Datei Gefunden. Lege beim Speichern einen neu an.");
         } catch (IOException e) {
             e.printStackTrace();

@@ -17,13 +17,12 @@ public class DebugHandler implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-
-        //TODO: String durch StringBuilder ersetzen (oder durch Outputstream)
-        String output = "* calling method " + method + " with params ";
+        StringBuilder sb = new StringBuilder();
+        sb.append("* calling method " + method + " with params ");
         if (args != null) {
             for (int i = 0; i < args.length; i++)
-                output = output + " " + args[i];
-            output = output + String.format("%n");
+                sb.append(" " + args[i]);
+            sb.append(String.format("%n"));
         }
 
         Object result = null;
@@ -34,8 +33,9 @@ public class DebugHandler implements InvocationHandler {
         } catch (InvocationTargetException ex) {
             throw ex.getTargetException();
         }
-        output = output + "* result:" + result;
-        //System.out.println(output);
+        sb.append("* result:" + result);
+        //Todo: output in logger
+        //System.out.println(sb.toString());
         return result;
     }
 }
