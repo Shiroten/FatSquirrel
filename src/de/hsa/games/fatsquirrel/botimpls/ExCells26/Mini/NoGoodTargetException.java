@@ -3,12 +3,12 @@ package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 /**
  * Created by Shiroten on 16.06.2017.
  */
-public class noGoodTargetException extends Exception {
-    public noGoodTargetException() {
+public class NoGoodTargetException extends Exception {
+    public NoGoodTargetException() {
         super();
     }
 
-    public noGoodTargetException(String s) {
+    public NoGoodTargetException(String s) {
         super(s);
     }
 }

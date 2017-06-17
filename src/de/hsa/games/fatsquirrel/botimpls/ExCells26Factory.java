@@ -21,8 +21,6 @@ public class ExCells26Factory implements BotControllerFactory {
     public BotController createMasterBotController() {
         ExCells26Master master = new ExCells26Master(botcom);
         botcom.setMaster(master);
-        botcom.init();
-        //Referenzen Setzen
         return master;
     }
 

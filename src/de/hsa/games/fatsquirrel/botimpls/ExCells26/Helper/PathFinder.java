@@ -2,6 +2,8 @@ package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
+import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
@@ -48,7 +50,7 @@ public class PathFinder {
     }
 
     //TODO: Adapter implementieren
-    public XY directionTo(XY from, XY destination, EntityContext context) throws FullFieldException{
+    public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException{
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
@@ -65,10 +67,10 @@ public class PathFinder {
             closedList.add(currentNode);
             expandNode(currentNode, context, destination);
         }
-        return null;
+        return XY.ZERO_ZERO;
     }
 
-    private void expandNode(Node currentNode, EntityContext context, XY destination) {
+    private void expandNode(Node currentNode, ControllerContext context, XY destination) {
         for (XY xy : XYsupport.directions()) {
             Node successor = new Node(currentNode.getCoordinate().plus(xy));
             if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(), context))
@@ -92,8 +94,13 @@ public class PathFinder {
     }
 
     //TODO: EnemySquirrel mit einebeziehen
-    private boolean isWalkable(XY coordinate, EntityContext context){
-        EntityType entityTypeAtNewField = context.getEntityType(coordinate);
+    private boolean isWalkable(XY coordinate, ControllerContext context){
+        EntityType entityTypeAtNewField = null;
+        try {
+            entityTypeAtNewField = context.getEntityAt(coordinate);
+        } catch (OutOfViewException e) {
+            e.printStackTrace();
+        }
         return entityTypeAtNewField != EntityType.WALL && entityTypeAtNewField != EntityType.BADBEAST;
     }
 
