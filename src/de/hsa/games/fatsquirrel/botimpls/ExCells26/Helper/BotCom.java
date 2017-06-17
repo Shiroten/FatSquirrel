@@ -53,8 +53,7 @@ public class BotCom {
     }
 
     public void init() {
-        //Todo: aktuelle eigene Zelle bestimmen
-        //Todo: x und y faktor bestimmen
+        Cell firstCell = new Cell(cellAt(startPositionOfMaster));
 
 
         //Todo: FeldzuKlein abfangen (Priorität niedrig)
@@ -62,18 +61,19 @@ public class BotCom {
         //Todo: Sieb mit Vektoren (-1,0) und (0,-1)
     }
 
-    public void getAllCells(){
-        int xLimit = (fieldLimit.getX() - 11) / 20;
-        int yLimit = (fieldLimit.getY() - 11) / 20;
+    public void getAllCells() {
+        int xLimit = (fieldLimit.getX() - 1) / 21;
+        int yLimit = (fieldLimit.getY() - 1) / 21;
 
-        for(int i = 0; i < xLimit; i++){
-            for(int j = 0; j < yLimit; j++){
-                Cell newCell = new Cell(new XY(11+20*i, 11+20*j));
+        for (int i = 0; i < xLimit; i++) {
+            for (int j = 0; j < yLimit; j++) {
+                Cell newCell = new Cell(new XY(11 + 20 * i, 11 + 20 * j));
                 //TODO: Zelle Array hinzufügen
             }
         }
-        //Todo: Fügt noch nicht bekannte Cellen hinzu
-        //Todo: anhand der fieldLimit berechen
+        //Todo: unfinished Cells
+        //Fügt noch nicht bekannte Cellen hinzu
+        //anhand der fieldLimit berechen
     }
 
     public XY toName(XY cellCoordinate, int factor) {
@@ -88,31 +88,42 @@ public class BotCom {
             }
         }
 
+        //Todo: maybe unnecessary
+        //wenn x unter 0 und usableCell == false, dann +1 ansonsten -1 zu setzen
+        //y analog
 
-        //Todo: wenn x unter 0 und usableCell == false, dann +1 ansonsten -1 zu setzen
-        //Todo: y analog
-
-
-        //Todo: x und y in kombination aus positiv und negativ
-        //Todo: für x und y den vector bestimmen und mit 45 gegen uhrzeigersinn drehen
+        //x und y in kombination aus positiv und negativ
+        //für x und y den vector bestimmen und mit 45 gegen uhrzeigersinn drehen
         return null;
     }
 
     /**
      * Calculates a valid cell position by adding a vector to
+     *
      * @param cellCoordinate
      * @param xFactor
      * @param yFactor
      * @return valid cell position calculated by given params
      */
     private XY usableCell(XY cellCoordinate, int xFactor, int yFactor) {
-        //Todo: needs testing
+        //Todo: needs complett workover
         int x, y;
         x = cellCoordinate.getX() - 20 * xFactor < 0 ? 1 : -1;
         y = cellCoordinate.getY() - 20 * yFactor < 0 ? 1 : -1;
 
         XY directionToNextCell = XYsupport.rotate(XYsupport.Rotation.anticlockwise, new XY(x, y), 1);
         return new XY(directionToNextCell.getX() * xFactor, directionToNextCell.getY() * yFactor).times(CELLDISTANCE);
+    }
+
+    public XY cellAt(XY position) {
+        //Range from 1<-11->21, 22<-32->42, 43<-53->63, 64<-74->84, 85<-95->105, ...
+        //Modulo Operation with 21
+
+        int xFactor = (position.getX() - 1) / 21; //calculates 4 for 105 and 5 for 126
+        int yFactor = (position.getY() - 1) / 21;
+
+        //Gives the middle position of the cell back by adding 11 after multiplying
+        return new XY(21 * xFactor + 11, 21 * yFactor + 11);
     }
 
     public void expand() {
