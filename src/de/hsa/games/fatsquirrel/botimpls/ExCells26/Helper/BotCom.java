@@ -33,8 +33,15 @@ public class BotCom {
     private boolean fieldLimitFound;
     public XY startPositionOfMaster;
     public XY positionOfExCellMaster;
-    private static final int CELLDISTANCE = 21;
-    private static final int CELLCENTEROFFSET = 11;
+
+    //Default: 21 (last working number)
+    private final int CELLDISTANCE = 11;
+
+    //Default: 11 (last working number)
+    private final int CELLCENTEROFFSET = 5;
+
+    //Default: 21 (last working number)
+    private int cellsize = 11;
 
     public BotController getMaster() {
         return master;
@@ -58,6 +65,14 @@ public class BotCom {
 
     public MiniType getNextMini() {
         return nextMini;
+    }
+
+    public int getCellsize() {
+        return cellsize;
+    }
+
+    public void setCellsize(int cellsize) {
+        this.cellsize = cellsize;
     }
 
     public void setStartPositionOfMaster(XY startPositionOfMaster) {

@@ -4,16 +4,19 @@ import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
+import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.*;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
+import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 public class ExCells26Master implements BotController {
 
     private BotCom botCom;
     private Cell currentCell;
     private boolean firstCall = true;
+    private ControllerContext view;
 
     public ExCells26Master(BotCom botCom) {
         this.botCom = botCom;
@@ -21,51 +24,80 @@ public class ExCells26Master implements BotController {
 
     @Override
     public void nextStep(ControllerContext view) {
+        toDoAtStartOfNextStep(view);
         if (firstCall) {
             initOfMaster(view);
         }
-        botCom.positionOfExCellMaster = view.locate();
-        botCom.checkAttendance(view.getRemainingSteps());
 
         if (currentCell.getQuadrant().equals(view.locate())) {
-
             try {
-                if (currentCell.getMiniSquirrel() == null) {
-                    botCom.setNextMini(MiniType.REAPER);
-                    botCom.setForNextMini(currentCell);
-                    XY spawnDirection = currentCell.getNextCell().getQuadrant().minus(view.locate());
-                    view.spawnMiniBot(XYsupport.oppositeVector(XYsupport.normalizedVector(spawnDirection)), 100);
-                }
-            } catch (SpawnException e) {
-                //Todo: add to Log
-                //e.printStackTrace();
+                botCom.expand();
+            } catch (NoConnectingNeighbourException e) {
+                e.printStackTrace();
+            }
+            if(view.getEnergy() >= 100){
+                spawningReaper();
+            } else{
+                changeCurrentCell();
             }
 
-            //Todo: adding Epsilon distance
-            currentCell = currentCell.getNextCell();
-            //Todo: remove after debugging
-            System.out.println("\nGo to nextCell: " + currentCell);
-        } else {
-            PathFinder pf = new PathFinder();
-            XY toMove = currentCell.getQuadrant();
-            XY betterMove = XY.ZERO_ZERO;
-            try {
-                betterMove = pf.directionTo(view.locate(), toMove, view);
-            } catch (FullFieldException e) {
-                //Todo: add to Log
-                // e.printStackTrace();
-            }
-            if (!betterMove.equals(XY.ZERO_ZERO)) {
-                view.move(betterMove);
-            } else {
-                try {
-                    botCom.expand();
-                } catch (NoConnectingNeighbourException e) {
-                    //Todo: add to Log
-                    //e.printStackTrace();
-                }
-            }
+
+            changeCurrentCell();
         }
+
+        moveToCurrentCell();
+
+    }
+
+    private void changeCurrentCell(){
+        //Todo: adding Epsilon distance
+        currentCell = currentCell.getNextCell();
+        //Todo: remove after debugging
+        System.out.println("\nGo to nextCell: " + currentCell);
+    }
+
+    private void toDoAtStartOfNextStep(ControllerContext view) {
+        botCom.positionOfExCellMaster = view.locate();
+        botCom.checkAttendance(view.getRemainingSteps());
+        this.view = view;
+    }
+
+    private void spawningReaper() {
+        try {
+            if (currentCell.getMiniSquirrel() == null) {
+                botCom.setNextMini(MiniType.REAPER);
+                botCom.setForNextMini(currentCell);
+                XY spawnDirection = currentCell.getNextCell().getQuadrant().minus(view.locate());
+                spawnDirection = XYsupport.oppositeVector(XYsupport.normalizedVector(spawnDirection));
+                if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
+                    view.spawnMiniBot(spawnDirection, 100);
+                } else {
+                    //Todo: adding can't spawn
+                }
+            }
+        } catch (SpawnException e) {
+            //Todo: add to Log
+            e.printStackTrace();
+        } catch (OutOfViewException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void moveToCurrentCell() {
+        PathFinder pf = new PathFinder();
+        XY betterMove = XY.ZERO_ZERO;
+        try {
+            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view);
+        } catch (FullFieldException e) {
+            //Todo: add to Log
+            // e.printStackTrace();
+        }
+        if(betterMove != XY.ZERO_ZERO){
+            view.move(betterMove);
+        } else{
+            changeCurrentCell();
+        }
+
     }
 
     private void initOfMaster(ControllerContext view) {

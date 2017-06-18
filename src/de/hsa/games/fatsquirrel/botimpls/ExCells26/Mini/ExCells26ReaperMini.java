@@ -27,12 +27,10 @@ public class ExCells26ReaperMini implements BotController {
     @Override
     public void nextStep(ControllerContext view) {
         myCell.setLastFeedback(view.getRemainingSteps());
-        //Todo: implementation of hunting inside the cell
         XY toMove;
         try {
             toMove = getGoodTarget(view);
         } catch (NoGoodTargetException e) {
-            //Todo: bug(sitting around with goodTargets)
             toMove = myCell.getQuadrant();
         }
         PathFinder pf = new PathFinder();
@@ -67,19 +65,17 @@ public class ExCells26ReaperMini implements BotController {
                 }
             }
         }
-        if (positionOfTentativelyTarget.length() > 40)
+        if (positionOfTentativelyTarget.length() > 100)
             throw new NoGoodTargetException();
-        //Todo: remove after debugging
-        System.out.println(positionOfTentativelyTarget);
         return positionOfTentativelyTarget;
     }
 
 
     protected boolean isInside(XY target) {
-        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize()/2) {
             return false;
         }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize()/2) {
             return false;
         }
         return true;
@@ -91,7 +87,9 @@ public class ExCells26ReaperMini implements BotController {
                     view.getEntityAt(position) == EntityType.GOODPLANT) {
                 return true;
             }
-
+            if (view.getEntityAt(position) == EntityType.MINISQUIRREL && view.isMine(position)){
+                return false;
+            }
         } catch (OutOfViewException e) {
             e.printStackTrace();
         }
