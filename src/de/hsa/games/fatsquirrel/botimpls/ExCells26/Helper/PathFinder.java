@@ -50,13 +50,13 @@ public class PathFinder {
     }
 
     //TODO: Adapter implementieren
-    public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException{
+    public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException {
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
         openList.add(new Node(from));
 
-        if(!isWalkable(destination, context))
+        if (!isWalkable(destination, context))
             throw new FullFieldException();
 
         while (!openList.isEmpty()) {
@@ -80,13 +80,12 @@ public class PathFinder {
             successor.setFx(tentativeFx);
 
             int position = containsPosition(openList, successor.coordinate);
-            if(position != 0){
-                if(openList.get(position).getFx() > tentativeFx){
+            if (position != 0) {
+                if (openList.get(position).getFx() > tentativeFx) {
                     openList.remove(position);
                     openList.add(successor);
                 }
-            }
-            else
+            } else
                 openList.add(successor);
 
             successor.setPredecessor(currentNode);
@@ -94,22 +93,25 @@ public class PathFinder {
     }
 
     //TODO: EnemySquirrel mit einebeziehen
-    private boolean isWalkable(XY coordinate, ControllerContext context){
+    private boolean isWalkable(XY coordinate, ControllerContext context) {
         EntityType entityTypeAtNewField = null;
         try {
             entityTypeAtNewField = context.getEntityAt(coordinate);
         } catch (OutOfViewException e) {
-            e.printStackTrace();
+            //Todo: add to log
+            // e.printStackTrace();
         }
-        return entityTypeAtNewField != EntityType.WALL && entityTypeAtNewField != EntityType.BADBEAST;
+        return entityTypeAtNewField != EntityType.WALL
+                && entityTypeAtNewField != EntityType.BADBEAST
+                && entityTypeAtNewField != EntityType.BADPLANT;
     }
 
-    private Node popMinF(List<Node> openList){
+    private Node popMinF(List<Node> openList) {
         Node min = null;
-        for(Node n: openList){
-            if(min == null)
+        for (Node n : openList) {
+            if (min == null)
                 min = n;
-            else if(n.getFx() < min.getFx())
+            else if (n.getFx() < min.getFx())
                 min = n;
         }
         openList.remove(min);
@@ -117,20 +119,20 @@ public class PathFinder {
         return min;
     }
 
-    private int containsPosition(List<Node> openList, XY position){
-        for(Node n: openList){
-            if(n.coordinate.equals(position))
+    private int containsPosition(List<Node> openList, XY position) {
+        for (Node n : openList) {
+            if (n.coordinate.equals(position))
                 return openList.indexOf(n);
         }
 
         return 0;
     }
 
-    private Node getSecondNode(Node lastNode){
+    private Node getSecondNode(Node lastNode) {
         Node predecessor = lastNode;
-        if(predecessor.getPredecessor() == null)
+        if (predecessor.getPredecessor() == null)
             return predecessor;
-        while (predecessor.getPredecessor().getPredecessor() != null){
+        while (predecessor.getPredecessor().getPredecessor() != null) {
             predecessor = predecessor.getPredecessor();
         }
 

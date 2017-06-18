@@ -8,9 +8,9 @@ import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 
 public class BasterMaster implements BotController {
     private BasterSupport basterSupport = new BasterSupport();
+
     @Override
     public void nextStep(ControllerContext view) {
-
         //Default random move
         if(view.getEnergy() > 500){
             try {
@@ -20,7 +20,6 @@ public class BasterMaster implements BotController {
             }
         }
         view.move(basterSupport.preferredDirection(view));
-
     }
 
 }

@@ -18,10 +18,21 @@ public class BotCom {
     public Hashtable<XY, Cell> grid = new Hashtable<>();
 
     private MiniType nextMini;
+
+    public Cell getForNextMini() {
+        return forNextMini;
+    }
+
+    public void setForNextMini(Cell forNextMini) {
+        this.forNextMini = forNextMini;
+    }
+
+    private Cell forNextMini;
     private XY fieldLimit;
     //Todo: fieldLimit muss durch das MasterSquirrel auf startPositions view gesetzt werden.
     private boolean fieldLimitFound;
     public XY startPositionOfMaster;
+    public XY positionOfExCellMaster;
     private static final int CELLDISTANCE = 21;
     private static final int CELLCENTEROFFSET = 11;
 
@@ -146,25 +157,11 @@ public class BotCom {
             }
         }
     }
-
-    public Cell addMini(ExCells26ReaperMini mini) {
-        try {
-            Cell freeCell = freeCell();
-            freeCell.setMiniSquirrel(mini);
-            return freeCell;
-        } catch (FullGridException e) {
-            try {
-                expand();
-            } catch (NoConnectingNeighbourException noConnectingNeighbourException) {
-                noConnectingNeighbourException.printStackTrace();
-            }
-            //Rekursiver Aufruf der Methode da durch setActive() mehr Grids zur verfügung stehen
-            return addMini(mini);
-        }
-    }
-
     public Cell freeCell() throws FullGridException {
         for (Cell c : grid.values()) {
+            if(!c.isActive()){
+                continue;
+            }
             if (c.getMiniSquirrel() == null)
                 return c;
         }

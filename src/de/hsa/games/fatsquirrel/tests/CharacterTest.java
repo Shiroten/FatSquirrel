@@ -2,12 +2,9 @@ package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
+import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaser.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.Board;
-import de.hsa.games.fatsquirrel.core.BoardConfig;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
-import de.hsa.games.fatsquirrel.core.entity.EntityContext;
-import de.hsa.games.fatsquirrel.core.entity.EntitySet;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
 import de.hsa.games.fatsquirrel.core.entity.character.*;
 

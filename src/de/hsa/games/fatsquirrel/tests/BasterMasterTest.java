@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.botimpls.BasterFactory;
+import de.hsa.games.fatsquirrel.botimpls.Baster.BasterFactory;
 import de.hsa.games.fatsquirrel.botimpls.Baster.BasterSupport;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
