@@ -69,11 +69,7 @@ public class ExCells26Master implements BotController {
                     view.spawnMiniBot(spawnDirection, 100);
                 }
             }
-        } catch (FullGridException e) {
-            //e.printStackTrace();
-        } catch (OutOfViewException e) {
-            //e.printStackTrace();
-        } catch (SpawnException e) {
+        } catch (FullGridException | OutOfViewException | SpawnException e) {
             //e.printStackTrace();
         }
     }
@@ -104,10 +100,8 @@ public class ExCells26Master implements BotController {
                     //Todo: adding can't spawn
                 }
             }
-        } catch (SpawnException e) {
+        } catch (SpawnException | OutOfViewException e) {
             //Todo: add to Log
-            e.printStackTrace();
-        } catch (OutOfViewException e) {
             e.printStackTrace();
         }
     }
