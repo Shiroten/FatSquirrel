@@ -28,7 +28,11 @@ public class ExCells26Master implements BotController {
         if (firstCall) {
             initOfMaster(view);
         }
-        if (view.getRemainingSteps() < 100) {
+
+        if (view.getEnergy() > 1000)
+        fillUpWithReaper();
+
+        if (view.getRemainingSteps() < 200) {
             collectingReapers();
             return;
         }
@@ -54,12 +58,31 @@ public class ExCells26Master implements BotController {
         moveToCurrentCell();
 
     }
+    private void fillUpWithReaper(){
+        try {
+            if (botCom.freeCell() != null) {
+                botCom.setNextMini(MiniType.REAPER);
+                botCom.setForNextMini(botCom.freeCell());
+                XY spawnDirection = botCom.freeCell().getQuadrant().minus(view.locate());
+                spawnDirection = XYsupport.oppositeVector(XYsupport.normalizedVector(spawnDirection));
+                if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
+                    view.spawnMiniBot(spawnDirection, 100);
+                }
+            }
+        } catch (FullGridException e) {
+            //e.printStackTrace();
+        } catch (OutOfViewException e) {
+            //e.printStackTrace();
+        } catch (SpawnException e) {
+            //e.printStackTrace();
+        }
+    }
 
     private void changeCurrentCell() {
         //Todo: adding Epsilon distance
         currentCell = currentCell.getNextCell();
         //Todo: remove after debugging
-        System.out.println("\nGo to nextCell: " + currentCell);
+        //System.out.println("\nGo to nextCell: " + currentCell);
     }
 
     private void toDoAtStartOfNextStep(ControllerContext view) {

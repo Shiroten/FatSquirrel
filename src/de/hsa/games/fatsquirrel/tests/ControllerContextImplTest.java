@@ -3,7 +3,7 @@ package de.hsa.games.fatsquirrel.tests;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
-import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaser.GoodBeastChaserFactory;
+import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.*;

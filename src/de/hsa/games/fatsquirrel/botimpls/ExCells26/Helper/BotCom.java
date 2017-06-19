@@ -34,13 +34,13 @@ public class BotCom {
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    private final int CELLDISTANCE = 11;
+    private final int CELLDISTANCE = 5;
 
     //Default: 11 (last working number)
-    private final int CELLCENTEROFFSET = 5;
+    private final int CELLCENTEROFFSET = 3;
 
     //Default: 21 (last working number)
-    private int cellsize = 11;
+    private int cellsize = 5;
 
     public BotController getMaster() {
         return master;

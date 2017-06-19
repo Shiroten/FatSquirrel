@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.botimpls.GoodBeastChaser;
+package de.hsa.games.fatsquirrel.botimpls;
 
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
