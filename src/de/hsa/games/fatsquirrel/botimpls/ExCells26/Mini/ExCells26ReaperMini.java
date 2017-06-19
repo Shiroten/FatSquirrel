@@ -89,21 +89,23 @@ public class ExCells26ReaperMini implements BotController {
     }
 
     protected boolean isInside(XY target) {
+        /*
         if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
             return false;
         }
         if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
             return false;
         }
+        */
         //Original Version:
-        /*
+
                 if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
             return false;
         }
         if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
             return false;
         }
-         */
+
 
         return true;
     }

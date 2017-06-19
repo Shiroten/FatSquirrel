@@ -131,7 +131,7 @@ public class ExCells26Master implements BotController {
             toMove = pf.directionTo(view.locate(), middle, view);
         } catch (FullFieldException e) {
             //Todo: add to Log
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         view.move(XYsupport.normalizedVector(toMove));
     }
