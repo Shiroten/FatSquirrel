@@ -55,13 +55,6 @@ public class ExCells26ReaperMini implements BotController {
     private XY calculateTarget(ControllerContext view) {
         XY positionOfGoodTarget;
         XY positionOfBadTarget;
-        XY toMove;
-        try {
-            positionOfGoodTarget = getTarget(view, true);
-            return positionOfGoodTarget;
-        } catch (NoTargetException e) {
-            positionOfGoodTarget = myCell.getQuadrant();
-        }
 
         try {
             positionOfBadTarget = getTarget(view, false);
@@ -69,12 +62,17 @@ public class ExCells26ReaperMini implements BotController {
             positionOfBadTarget = new XY(999, 999);
         }
 
-        if (positionOfGoodTarget.minus(view.locate()).length() <= positionOfBadTarget.minus(view.locate()).length()) {
-            toMove = positionOfGoodTarget;
-        } else {
-            toMove = getOppositeVector(view, positionOfBadTarget);
+        if (positionOfBadTarget.minus(view.locate()).length() < 2.9){
+            return getOppositeVector(view, positionOfBadTarget);
         }
-        return toMove;
+
+        try {
+            positionOfGoodTarget = getTarget(view, true);
+        } catch (NoTargetException e) {
+            positionOfGoodTarget = myCell.getQuadrant();
+        }
+
+        return positionOfGoodTarget;
 
     }
 
