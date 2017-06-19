@@ -91,7 +91,6 @@ public class PathFinder {
         }
     }
 
-    //TODO: EnemySquirrel mit einebeziehen
     private boolean isWalkable(XY coordinate, ControllerContext context) {
         EntityType entityTypeAtNewField = null;
         try {
@@ -103,12 +102,18 @@ public class PathFinder {
         try {
             if(context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
                 if(context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
-                    return context.isMine(coordinate);
+                    return context.isMine(coordinate) && entityTypeAtNewField != EntityType.WALL
+                            && entityTypeAtNewField != EntityType.BADBEAST
+                            && entityTypeAtNewField != EntityType.BADPLANT;
                 else
-                    return context.getEntityAt(coordinate) != EntityType.MINISQUIRREL;
+                    return context.getEntityAt(coordinate) != EntityType.MINISQUIRREL
+                            && entityTypeAtNewField != EntityType.WALL
+                            && entityTypeAtNewField != EntityType.BADBEAST
+                            && entityTypeAtNewField != EntityType.BADPLANT;
             }
 
         } catch (OutOfViewException e) {
+            return true;
         }
         return entityTypeAtNewField != EntityType.WALL
                 && entityTypeAtNewField != EntityType.BADBEAST
