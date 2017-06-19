@@ -79,6 +79,8 @@ public class BotCom {
     }
 
     public void init() {
+
+        //Todo: Bug found with no starting cells calculated.
         getAllCells();
         Cell firstCell = grid.get(cellAt(startPositionOfMaster));
         master.setCurrentCell(firstCell);
