@@ -102,9 +102,7 @@ public class PathFinder {
         try {
             if(context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
                 if(context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
-                    return context.isMine(coordinate) && entityTypeAtNewField != EntityType.WALL
-                            && entityTypeAtNewField != EntityType.BADBEAST
-                            && entityTypeAtNewField != EntityType.BADPLANT;
+                    return context.isMine(coordinate);
                 else
                     return context.getEntityAt(coordinate) != EntityType.MINISQUIRREL
                             && entityTypeAtNewField != EntityType.WALL
@@ -117,7 +115,8 @@ public class PathFinder {
         }
         return entityTypeAtNewField != EntityType.WALL
                 && entityTypeAtNewField != EntityType.BADBEAST
-                && entityTypeAtNewField != EntityType.BADPLANT;
+                && entityTypeAtNewField != EntityType.BADPLANT
+                && entityTypeAtNewField != EntityType.MASTERSQUIRREL;
     }
 
     private Node popMinF(List<Node> openList) {

@@ -39,10 +39,12 @@ public class BotCom {
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    private final int CELLDISTANCE = 21;
+    //TODO: eigene Distanzen für x und y
+    private int CELLDISTANCE = 21;
 
     //Default: 11 (last working number)
-    private final int CELLCENTEROFFSET = 11;
+    //TODO: eigene Distanzen für x und y
+    private int CELLCENTEROFFSET = 11;
 
     //Default: 21 (last working number)
     private int cellsize = 21;
@@ -88,7 +90,6 @@ public class BotCom {
         //Todo: Bug found with no starting cells calculated.
 
         getAllCells();
-        XY xy = cellAt(startPositionOfMaster);
         Cell firstCell = grid.get(cellAt(startPositionOfMaster));
         if(firstCell == null){
             System.out.println("Fieldlimit " + fieldLimit + " Master: " + startPositionOfMaster);
@@ -96,10 +97,16 @@ public class BotCom {
         master.setCurrentCell(firstCell);
 
         firstCell.setActive(firstCell);
+    }
 
-        /*for (Cell c : grid.values()) {
-            System.out.println(c);
-        }*/
+    public void calculateCellSize(){
+        int newCellDistance = CELLDISTANCE;
+        int newCellCenterOffset = CELLCENTEROFFSET;
+
+        int modifier = 1;
+        while(fieldLimit.getX() % newCellDistance != 0){
+
+        }
     }
 
     public void getAllCells() {
