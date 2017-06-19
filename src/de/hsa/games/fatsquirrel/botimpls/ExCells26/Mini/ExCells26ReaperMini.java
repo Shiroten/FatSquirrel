@@ -63,7 +63,7 @@ public class ExCells26ReaperMini implements BotController {
         try {
             toMove = pf.directionTo(view.locate(), toMove, view);
         } catch (FullFieldException e) {
-            e.printStackTrace();
+            toMove = XY.ZERO_ZERO;
         }
         view.move(XYsupport.normalizedVector(toMove));
     }

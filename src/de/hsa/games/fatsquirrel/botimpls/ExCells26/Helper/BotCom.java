@@ -14,6 +14,11 @@ import java.util.Hashtable;
 public class BotCom {
 
     private ExCells26Master master;
+
+    public Hashtable<XY, Cell> getGrid() {
+        return grid;
+    }
+
     public Hashtable<XY, Cell> grid = new Hashtable<>();
 
     private MiniType nextMini;
@@ -34,13 +39,13 @@ public class BotCom {
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    private final int CELLDISTANCE = 5;
+    private final int CELLDISTANCE = 21;
 
     //Default: 11 (last working number)
-    private final int CELLCENTEROFFSET = 3;
+    private final int CELLCENTEROFFSET = 11;
 
     //Default: 21 (last working number)
-    private int cellsize = 5;
+    private int cellsize = 21;
 
     public BotController getMaster() {
         return master;
@@ -81,15 +86,20 @@ public class BotCom {
     public void init() {
 
         //Todo: Bug found with no starting cells calculated.
+
         getAllCells();
+        XY xy = cellAt(startPositionOfMaster);
         Cell firstCell = grid.get(cellAt(startPositionOfMaster));
+        if(firstCell == null){
+            System.out.println("Fieldlimit " + fieldLimit + " Master: " + startPositionOfMaster);
+        }
         master.setCurrentCell(firstCell);
 
         firstCell.setActive(firstCell);
 
-        for (Cell c : grid.values()) {
+        /*for (Cell c : grid.values()) {
             System.out.println(c);
-        }
+        }*/
     }
 
     public void getAllCells() {
@@ -137,7 +147,7 @@ public class BotCom {
         int xFactor = (position.getX() - 1) / CELLDISTANCE; //calculates 4 for 105 and 5 for 126
         int yFactor = (position.getY() - 1) / CELLDISTANCE;
 
-        //Gives the middle position of the cell back by adding 11 after multiplying
+        //returns the middle position of the cell by adding 11 after multiplying
         return new XY(CELLDISTANCE * xFactor + CELLCENTEROFFSET, CELLDISTANCE * yFactor + CELLCENTEROFFSET);
     }
 

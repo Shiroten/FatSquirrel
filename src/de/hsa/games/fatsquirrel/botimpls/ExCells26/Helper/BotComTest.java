@@ -20,7 +20,19 @@ public class BotComTest {
 
         assertEquals(returnedCellfor1, botCom.cellAt(position1ToCheck));
         assertEquals(returnedCellfor2, botCom.cellAt(position2ToCheck));
+    }
 
+    @Test
+    public void getAllCellsTest(){
+        BotCom botCom = new BotCom();
+        botCom.setFieldLimit(new XY(80, 60));
+
+        ExCells26Master master = new ExCells26Master(botCom);
+        botCom.setMaster(master);
+        botCom.startPositionOfMaster = new XY(66, 55);
+
+        botCom.getAllCells();
+        System.out.println(botCom.getGrid().size());
     }
 
     @Test
@@ -28,11 +40,11 @@ public class BotComTest {
 
 
         BotCom botCom = new BotCom();
-        botCom.setFieldLimit(new XY(125, 250));
+        botCom.setFieldLimit(new XY(80, 60));
 
         ExCells26Master master = new ExCells26Master(botCom);
         botCom.setMaster(master);
-        botCom.startPositionOfMaster = new XY(1, 1);
+        botCom.startPositionOfMaster = new XY(66, 55);
         botCom.init();
         try {
             for (int i = 0; i < 20; i++) {
@@ -43,13 +55,9 @@ public class BotComTest {
         } catch (NoConnectingNeighbourException noConnectingNeighbourException) {
             noConnectingNeighbourException.printStackTrace();
         }
-        //botCom.getAllCells();
-        /*for (Cell c : botCom.grid.values()){
-            System.out.println(c);
-        }
-        */
         Cell startingCell = master.getCurrentCell();
         Cell current = startingCell;
+        System.out.println("Starting print");
         while (true) {
             System.out.println(current);
             current = current.getNextCell();

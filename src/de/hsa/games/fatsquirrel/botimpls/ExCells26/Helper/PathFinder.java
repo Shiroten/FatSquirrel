@@ -49,7 +49,6 @@ public class PathFinder {
         }
     }
 
-    //TODO: Adapter implementieren
     public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException {
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
@@ -100,6 +99,16 @@ public class PathFinder {
         } catch (OutOfViewException e) {
             //Todo: add to log
             // e.printStackTrace();
+        }
+        try {
+            if(context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
+                if(context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
+                    return context.isMine(coordinate);
+                else
+                    return context.getEntityAt(coordinate) != EntityType.MINISQUIRREL;
+            }
+
+        } catch (OutOfViewException e) {
         }
         return entityTypeAtNewField != EntityType.WALL
                 && entityTypeAtNewField != EntityType.BADBEAST
