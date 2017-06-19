@@ -92,6 +92,17 @@ public class PathFinder {
     }
 
     private boolean isWalkable(XY coordinate, ControllerContext context) {
+        //Todo: testing if you can avoid badbeast
+        for(XY xy : XYsupport.directions()){
+            try {
+                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST){
+                    return false;
+                }
+            } catch (OutOfViewException e) {
+
+            }
+        }
+
         EntityType entityTypeAtNewField = null;
         try {
             entityTypeAtNewField = context.getEntityAt(coordinate);

@@ -29,17 +29,12 @@ public class ExCells26ReaperMini implements BotController {
     public void nextStep(ControllerContext view) {
         myCell.setLastFeedback(view.getRemainingSteps());
 
-        if (view.getRemainingSteps() < 200){
+        if (view.getRemainingSteps() < 200) {
             endOfSeason(view);
             return;
         }
+        XY toMove = calculateTarget(view);
 
-        XY toMove;
-        try {
-            toMove = getGoodTarget(view);
-        } catch (NoGoodTargetException e) {
-            toMove = myCell.getQuadrant();
-        }
         PathFinder pf = new PathFinder();
         XY betterMove = XY.ZERO_ZERO;
         try {
@@ -57,26 +52,59 @@ public class ExCells26ReaperMini implements BotController {
 
     }
 
-    private void endOfSeason(ControllerContext view) {
-        XY toMove = botCom.positionOfExCellMaster;
-        PathFinder pf = new PathFinder();
+    private XY calculateTarget(ControllerContext view) {
+        XY positionOfGoodTarget;
+        XY positionOfBadTarget;
+        XY toMove;
         try {
-            toMove = pf.directionTo(view.locate(), toMove, view);
-        } catch (FullFieldException e) {
-            toMove = XY.ZERO_ZERO;
+            positionOfGoodTarget = getTarget(view, true);
+            return positionOfGoodTarget;
+        } catch (NoTargetException e) {
+            positionOfGoodTarget = myCell.getQuadrant();
         }
-        view.move(XYsupport.normalizedVector(toMove));
+
+        try {
+            positionOfBadTarget = getTarget(view, false);
+        } catch (NoTargetException e) {
+            positionOfBadTarget = new XY(999, 999);
+        }
+
+        if (positionOfGoodTarget.minus(view.locate()).length() <= positionOfBadTarget.minus(view.locate()).length()) {
+            toMove = positionOfGoodTarget;
+        } else {
+            toMove = getOppositeVector(view, positionOfBadTarget);
+        }
+        return toMove;
+
     }
 
-    protected XY getGoodTarget(ControllerContext view) throws NoGoodTargetException {
+    private XY getOppositeVector(ControllerContext view, XY positionOfBadTarget) {
+        XY vectorToBadTarget = XYsupport.oppositeVector(positionOfBadTarget.minus(view.locate()));
+        try {
+            if (view.getEntityAt(view.locate().plus(vectorToBadTarget)) != EntityType.BADBEAST)
+                return view.locate().plus(vectorToBadTarget);
+        } catch (OutOfViewException e) {
+            XY vector = XYsupport.normalizedVector(vectorToBadTarget);
+            return getOppositeVector(view, positionOfBadTarget.plus(vector));
+        }
+        return view.locate().plus(vectorToBadTarget);
+    }
+
+    protected XY getTarget(ControllerContext view, boolean isGood) throws NoTargetException {
         XY positionOfTentativelyTarget = new XY(999, 999);
         for (int j = view.getViewUpperRight().getY(); j < view.getViewLowerLeft().getY(); j++) {
             for (int i = view.getViewLowerLeft().getX(); i < view.getViewUpperRight().getX(); i++) {
-                if (!isInside(new XY(i, j))) {
-                    continue;
-                }
-                if (!isGoodTargetAt(view, new XY(i, j))) {
-                    continue;
+                if (isGood) {
+                    if (!isInside(new XY(i, j))) {
+                        continue;
+                    }
+                    if (!isGoodTargetAt(view, new XY(i, j))) {
+                        continue;
+                    }
+                } else {
+                    if (!isBadTargetAt(view, new XY(i, j))) {
+                        continue;
+                    }
                 }
                 if (new XY(i, j).minus(view.locate()).length() < positionOfTentativelyTarget.minus(view.locate()).length()) {
                     positionOfTentativelyTarget = new XY(i, j);
@@ -84,30 +112,8 @@ public class ExCells26ReaperMini implements BotController {
             }
         }
         if (positionOfTentativelyTarget.length() > 100)
-            throw new NoGoodTargetException();
+            throw new NoTargetException();
         return positionOfTentativelyTarget;
-    }
-
-    protected boolean isInside(XY target) {
-        /*
-        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
-            return false;
-        }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
-            return false;
-        }
-        */
-        //Original Version:
-
-                if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
-            return false;
-        }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
-            return false;
-        }
-
-
-        return true;
     }
 
     private boolean isGoodTargetAt(ControllerContext view, XY position) {
@@ -124,4 +130,53 @@ public class ExCells26ReaperMini implements BotController {
         }
         return false;
     }
+
+    private boolean isBadTargetAt(ControllerContext view, XY position) {
+        try {
+            if (view.getEntityAt(position) == EntityType.BADBEAST ||
+                    view.getEntityAt(position) == EntityType.BADPLANT) {
+                return true;
+            }
+            if (view.getEntityAt(position) == EntityType.MASTERSQUIRREL && !view.isMine(position)) {
+                return true;
+            }
+        } catch (OutOfViewException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void endOfSeason(ControllerContext view) {
+        XY toMove = botCom.positionOfExCellMaster;
+        PathFinder pf = new PathFinder();
+        try {
+            toMove = pf.directionTo(view.locate(), toMove, view);
+        } catch (FullFieldException e) {
+            toMove = XY.ZERO_ZERO;
+        }
+        view.move(XYsupport.normalizedVector(toMove));
+    }
+
+    protected boolean isInside(XY target) {
+        /*
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
+            return false;
+        }
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
+            return false;
+        }
+        */
+        //Original Version:
+
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+
+
+        return true;
+    }
+
 }
