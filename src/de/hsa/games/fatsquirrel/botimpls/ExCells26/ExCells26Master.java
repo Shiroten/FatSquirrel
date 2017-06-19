@@ -28,28 +28,34 @@ public class ExCells26Master implements BotController {
         if (firstCall) {
             initOfMaster(view);
         }
+        if (view.getRemainingSteps() < 100) {
+            collectingReapers();
+            return;
+        }
 
         if (currentCell.getQuadrant().equals(view.locate())) {
             try {
                 botCom.expand();
             } catch (NoConnectingNeighbourException e) {
-                e.printStackTrace();
+                //Todo: add to Log
+                //e.printStackTrace();
             }
-            if(view.getEnergy() >= 100){
+            if (view.getEnergy() >= 100) {
                 spawningReaper();
-            } else{
+            } else {
+                //maybe something better
                 changeCurrentCell();
             }
 
-
             changeCurrentCell();
+
         }
 
         moveToCurrentCell();
 
     }
 
-    private void changeCurrentCell(){
+    private void changeCurrentCell() {
         //Todo: adding Epsilon distance
         currentCell = currentCell.getNextCell();
         //Todo: remove after debugging
@@ -92,12 +98,25 @@ public class ExCells26Master implements BotController {
             //Todo: add to Log
             // e.printStackTrace();
         }
-        if(betterMove != XY.ZERO_ZERO){
+        if (betterMove != XY.ZERO_ZERO) {
             view.move(betterMove);
-        } else{
+        } else {
             changeCurrentCell();
         }
 
+    }
+
+    private void collectingReapers() {
+        XY middle = new XY(botCom.getFieldLimit().getX() / 2, botCom.getFieldLimit().getX() / 2);
+        PathFinder pf = new PathFinder();
+        XY toMove = XY.ZERO_ZERO;
+        try {
+            toMove = pf.directionTo(view.locate(), middle, view);
+        } catch (FullFieldException e) {
+            //Todo: add to Log
+            e.printStackTrace();
+        }
+        view.move(XYsupport.normalizedVector(toMove));
     }
 
     private void initOfMaster(ControllerContext view) {

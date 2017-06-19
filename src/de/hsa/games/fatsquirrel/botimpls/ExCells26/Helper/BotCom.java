@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.ExCells26Master;
-import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
 
 import java.util.Hashtable;
@@ -86,11 +85,9 @@ public class BotCom {
 
         firstCell.setActive(firstCell);
 
-        for (Cell c : grid.values()){
+        for (Cell c : grid.values()) {
             System.out.println(c);
         }
-
-
     }
 
     public void getAllCells() {
@@ -100,6 +97,9 @@ public class BotCom {
         for (int i = 0; i <= xLimit; i++) {
             for (int j = 0; j <= yLimit; j++) {
                 Cell newCell = new Cell(new XY(CELLCENTEROFFSET + CELLDISTANCE * i, CELLCENTEROFFSET + CELLDISTANCE * j));
+                if (!validCell(newCell.getQuadrant())){
+                    continue;
+                }
                 if (!(grid.contains(newCell))) {
                     grid.put(newCell.getQuadrant(), newCell);
                 }
@@ -108,12 +108,10 @@ public class BotCom {
         for (Cell c : grid.values()) {
             addNeighbours(c.getQuadrant());
         }
-
     }
 
     private void addNeighbours(XY atPosition) {
         Cell c = grid.get(atPosition);
-
         int xFactor = (atPosition.getX() - 1) / CELLDISTANCE; //calculates 4 for 105 and 5 for 126
         int yFactor = (atPosition.getY() - 1) / CELLDISTANCE;
 
@@ -145,7 +143,7 @@ public class BotCom {
 
         Cell startingCell = master.getCurrentCell();
         Cell currentCell = startingCell;
-        while(true){
+        while (true) {
             Cell tentativeCell = currentCell.getConnectingCell();
             if (tentativeCell != null) {
                 tentativeCell.setActive(currentCell.getNextCell());
@@ -153,7 +151,7 @@ public class BotCom {
                 return;
             }
             currentCell = currentCell.getNextCell();
-            if (currentCell.equals(startingCell)){
+            if (currentCell.equals(startingCell)) {
                 throw new NoConnectingNeighbourException();
             }
         }
@@ -172,15 +170,26 @@ public class BotCom {
             }
         }
     }
+
     public Cell freeCell() throws FullGridException {
         for (Cell c : grid.values()) {
-            if(!c.isActive()){
+            if (!c.isActive()) {
                 continue;
             }
             if (c.getMiniSquirrel() == null)
                 return c;
         }
         throw new FullGridException();
+    }
+
+    private boolean validCell(XY coordinate){
+        if (coordinate.getX() < 0 || coordinate.getX() > fieldLimit.getX()){
+            return false;
+        }
+        if (coordinate.getY() < 0 || coordinate.getX() > fieldLimit.getY()){
+            return false;
+        }
+        return true;
     }
 
 }

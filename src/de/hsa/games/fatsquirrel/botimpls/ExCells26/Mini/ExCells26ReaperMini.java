@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
@@ -27,6 +28,12 @@ public class ExCells26ReaperMini implements BotController {
     @Override
     public void nextStep(ControllerContext view) {
         myCell.setLastFeedback(view.getRemainingSteps());
+
+        if (view.getRemainingSteps() < 100){
+            endOfSeason(view);
+            return;
+        }
+
         XY toMove;
         try {
             toMove = getGoodTarget(view);
@@ -50,6 +57,17 @@ public class ExCells26ReaperMini implements BotController {
 
     }
 
+    private void endOfSeason(ControllerContext view) {
+        XY toMove = botCom.positionOfExCellMaster;
+        PathFinder pf = new PathFinder();
+        try {
+            toMove = pf.directionTo(view.locate(), toMove, view);
+        } catch (FullFieldException e) {
+            e.printStackTrace();
+        }
+        view.move(XYsupport.normalizedVector(toMove));
+    }
+
     protected XY getGoodTarget(ControllerContext view) throws NoGoodTargetException {
         XY positionOfTentativelyTarget = new XY(999, 999);
         for (int j = view.getViewUpperRight().getY(); j < view.getViewLowerLeft().getY(); j++) {
@@ -70,12 +88,11 @@ public class ExCells26ReaperMini implements BotController {
         return positionOfTentativelyTarget;
     }
 
-
     protected boolean isInside(XY target) {
-        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize()/2) {
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
             return false;
         }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize()/2) {
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
             return false;
         }
         return true;
@@ -87,7 +104,7 @@ public class ExCells26ReaperMini implements BotController {
                     view.getEntityAt(position) == EntityType.GOODPLANT) {
                 return true;
             }
-            if (view.getEntityAt(position) == EntityType.MINISQUIRREL && view.isMine(position)){
+            if (view.getEntityAt(position) == EntityType.MINISQUIRREL && view.isMine(position)) {
                 return false;
             }
         } catch (OutOfViewException e) {
