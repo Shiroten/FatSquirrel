@@ -62,8 +62,10 @@ public class ExCells26ReaperMini implements BotController {
             positionOfBadTarget = new XY(999, 999);
         }
 
-        if (positionOfBadTarget.minus(view.locate()).length() < 2.9){
-            return getOppositeVector(view, positionOfBadTarget);
+        if (positionOfBadTarget.minus(view.locate()).length() < 2.9) {
+            return XYsupport.rotate(XYsupport.Rotation.clockwise,
+                    getOppositeVector(view, positionOfBadTarget),
+                    1);
         }
 
         try {

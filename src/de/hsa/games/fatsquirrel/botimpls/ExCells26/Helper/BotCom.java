@@ -89,20 +89,21 @@ public class BotCom {
 
         getAllCells();
         Cell firstCell = grid.get(cellAt(startPositionOfMaster));
-        if(firstCell == null){
+        if (firstCell == null) {
             System.out.println("Fieldlimit " + fieldLimit + " Master: " + startPositionOfMaster);
+            firstCell = grid.values().iterator().next();
         }
         master.setCurrentCell(firstCell);
 
         firstCell.setActive(firstCell);
     }
 
-    public void calculateCellSize(){
+    public void calculateCellSize() {
         int newCellDistance = CELLDISTANCE;
         int newCellCenterOffset = CELLCENTEROFFSET;
 
         int modifier = 1;
-        while(fieldLimit.getX() % newCellDistance != 0){
+        while (fieldLimit.getX() % newCellDistance != 0) {
 
         }
     }
@@ -114,7 +115,7 @@ public class BotCom {
         for (int i = 0; i <= xLimit; i++) {
             for (int j = 0; j <= yLimit; j++) {
                 Cell newCell = new Cell(new XY(CELLCENTEROFFSET + CELLDISTANCE * i, CELLCENTEROFFSET + CELLDISTANCE * j));
-                if (!validCell(newCell.getQuadrant())){
+                if (!validCell(newCell.getQuadrant())) {
                     continue;
                 }
                 if (!(grid.contains(newCell))) {
@@ -199,11 +200,11 @@ public class BotCom {
         throw new FullGridException();
     }
 
-    private boolean validCell(XY coordinate){
-        if (coordinate.getX() < 0 || coordinate.getX() > fieldLimit.getX()){
+    private boolean validCell(XY coordinate) {
+        if (coordinate.getX() < 0 || coordinate.getX() > fieldLimit.getX()) {
             return false;
         }
-        if (coordinate.getY() < 0 || coordinate.getX() > fieldLimit.getY()){
+        if (coordinate.getY() < 0 || coordinate.getX() > fieldLimit.getY()) {
             return false;
         }
         return true;
