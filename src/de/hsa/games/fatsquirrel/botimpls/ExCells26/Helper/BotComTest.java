@@ -82,4 +82,16 @@ public class BotComTest {
         System.out.println(c);
     }
 
+    @Test
+    public void dynamicCellTest(){
+        BotCom botCom = new BotCom();
+        botCom.setFieldLimit(new XY(80, 60));
+        botCom.calculateCellSize();
+        botCom.getAllCells();
+
+        assertEquals(20,botCom.cellDistanceX);
+        assertEquals(20, botCom.cellDistanceY);
+
+        assertEquals(12, botCom.grid.size());
+    }
 }

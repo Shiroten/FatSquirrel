@@ -92,16 +92,16 @@ public class PathFinder {
     }
 
     private boolean isWalkable(XY coordinate, ControllerContext context) {
+        /*
         //Todo: testing if you can avoid badbeast
         for(XY xy : XYsupport.directions()){
-            try {
-                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST){
-                    return false;
-                }
-            } catch (OutOfViewException e) {
 
-            }
+                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST)
+                    return false;
+
+
         }
+        */
 
         EntityType entityTypeAtNewField = null;
         try {
@@ -111,8 +111,18 @@ public class PathFinder {
             // e.printStackTrace();
         }
         try {
-            if(context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
-                if(context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
+            int weight = 0;
+            //TODO: Feld mit GoodBeast / feld ohne Goodbeast
+            if(entityTypeAtNewField == EntityType.GOODBEAST)
+                weight = 1;
+            for (XY xy : XYsupport.directions()) {
+                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST)
+                    weight--;
+                if(weight < 0)
+                    return false;
+            }
+            if (context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
+                if (context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
                     return context.isMine(coordinate);
                 else
                     return context.getEntityAt(coordinate) != EntityType.MINISQUIRREL

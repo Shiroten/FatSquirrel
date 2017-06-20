@@ -39,10 +39,12 @@ public class BotCom {
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    private final int CELLDISTANCE = 7;
+    int cellDistanceX = 21;
+    int cellDistanceY = 21;
 
     //Default: 11 (last working number)
-    private final int CELLCENTEROFFSET = 3;
+    private int cellCenterOffsetX = 3;
+    private int cellCenterOffsetY = 3;
 
     //Default: 21 (last working number)
     private int cellsize = 15;
@@ -86,8 +88,9 @@ public class BotCom {
     public void init() {
 
         //Todo: Bug found with no starting cells calculated.
-
+        calculateCellSize();
         getAllCells();
+
         Cell firstCell = grid.get(cellAt(startPositionOfMaster));
         if (firstCell == null) {
             System.out.println("Fieldlimit " + fieldLimit + " Master: " + startPositionOfMaster);
@@ -98,24 +101,42 @@ public class BotCom {
         firstCell.setActive(firstCell);
     }
 
-    public void calculateCellSize() {
-        int newCellDistance = CELLDISTANCE;
-        int newCellCenterOffset = CELLCENTEROFFSET;
+    public void calculateCellSize(){
+        int newCellDistanceX = cellDistanceX;
+        int newCellDistanceY = cellDistanceY;
 
-        int modifier = 1;
-        while (fieldLimit.getX() % newCellDistance != 0) {
-
+        for(int i = 0; i < cellDistanceX; i++){
+            if(fieldLimit.getX() % (newCellDistanceX - i) == 0){
+                cellDistanceX = newCellDistanceX - i;
+                break;
+            } else if(fieldLimit.getX() % (newCellDistanceX + i) == 0){
+                cellDistanceX = newCellDistanceX + i;
+                break;
+            }
         }
+
+        for(int i = 0; i < cellDistanceY; i++){
+            if(fieldLimit.getY() % (newCellDistanceY - i) == 0){
+                cellDistanceY = newCellDistanceY - i;
+                break;
+            } else if(fieldLimit.getY() % (newCellDistanceY + i) == 0){
+                cellDistanceY = newCellDistanceY + i;
+                break;
+            }
+        }
+
+        cellCenterOffsetX = (cellDistanceX / 2) + 1;
+        cellCenterOffsetY = (cellDistanceY / 2) + 1;
     }
 
     public void getAllCells() {
-        int xLimit = (fieldLimit.getX() - 1) / CELLDISTANCE;
-        int yLimit = (fieldLimit.getY() - 1) / CELLDISTANCE;
+        int xLimit = (fieldLimit.getX() - 1) / cellDistanceX;
+        int yLimit = (fieldLimit.getY() - 1) / cellDistanceY;
 
         for (int i = 0; i <= xLimit; i++) {
             for (int j = 0; j <= yLimit; j++) {
-                Cell newCell = new Cell(new XY(CELLCENTEROFFSET + CELLDISTANCE * i, CELLCENTEROFFSET + CELLDISTANCE * j));
-                if (!validCell(newCell.getQuadrant())) {
+                Cell newCell = new Cell(new XY(cellCenterOffsetX + cellDistanceX * i, cellCenterOffsetY + cellDistanceY * j));
+                if (!validCell(newCell.getQuadrant())){
                     continue;
                 }
                 if (!(grid.contains(newCell))) {
@@ -130,17 +151,17 @@ public class BotCom {
 
     private void addNeighbours(XY atPosition) {
         Cell c = grid.get(atPosition);
-        int xFactor = (atPosition.getX() - 1) / CELLDISTANCE; //calculates 4 for 105 and 5 for 126
-        int yFactor = (atPosition.getY() - 1) / CELLDISTANCE;
+        int xFactor = (atPosition.getX() - 1) / cellDistanceX; //calculates 4 for 105 and 5 for 126
+        int yFactor = (atPosition.getY() - 1) / cellDistanceY;
 
         for (int j = -1; j < 2; j++) {
             for (int i = -1; i < 2; i++) {
                 if (i == 0 && j == 0) {
                     continue;
                 }
-                if (grid.containsKey(new XY(CELLDISTANCE * (i + xFactor) + CELLCENTEROFFSET, CELLDISTANCE * (j + yFactor) + CELLCENTEROFFSET))) {
+                if (grid.containsKey(new XY(cellDistanceX * (i + xFactor) + cellCenterOffsetX, cellDistanceY * (j + yFactor) + cellCenterOffsetY))) {
                     //Doesn't matter because if clause would hinder performance more than just putting it in
-                    grid.get(new XY(CELLDISTANCE * (i + xFactor) + CELLCENTEROFFSET, CELLDISTANCE * (j + yFactor) + CELLCENTEROFFSET)).addNeighbour(c);
+                    grid.get(new XY(cellDistanceX * (i + xFactor) + cellCenterOffsetX, cellDistanceY * (j + yFactor) + cellCenterOffsetY)).addNeighbour(c);
                 }
             }
         }
@@ -150,11 +171,11 @@ public class BotCom {
         //Range from 1<-11->21, 22<-32->42, 43<-53->63, 64<-74->84, 85<-95->105, ...
         //Modulo Operation with 21
 
-        int xFactor = (position.getX() - 1) / CELLDISTANCE; //calculates 4 for 105 and 5 for 126
-        int yFactor = (position.getY() - 1) / CELLDISTANCE;
+        int xFactor = (position.getX() - 1) / cellDistanceX; //calculates 4 for 105 and 5 for 126
+        int yFactor = (position.getY() - 1) / cellDistanceY;
 
         //returns the middle position of the cell by adding 11 after multiplying
-        return new XY(CELLDISTANCE * xFactor + CELLCENTEROFFSET, CELLDISTANCE * yFactor + CELLCENTEROFFSET);
+        return new XY(cellDistanceX * xFactor + cellCenterOffsetX, cellDistanceY * yFactor + cellCenterOffsetY);
     }
 
     public void expand() throws NoConnectingNeighbourException {

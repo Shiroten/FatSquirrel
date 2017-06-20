@@ -54,6 +54,8 @@ public class ExCells26ReaperMini implements BotController {
 
     private XY calculateTarget(ControllerContext view) {
         XY positionOfGoodTarget;
+
+        /*
         XY positionOfBadTarget;
 
         try {
@@ -66,7 +68,7 @@ public class ExCells26ReaperMini implements BotController {
             return XYsupport.rotate(XYsupport.Rotation.clockwise,
                     getOppositeVector(view, positionOfBadTarget),
                     1);
-        }
+        }*/
 
         try {
             positionOfGoodTarget = getTarget(view, true);
