@@ -1,8 +1,10 @@
 package de.hsa.games.fatsquirrel.core;
 
+import com.sun.deploy.util.SystemUtils;
 import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
+import sun.plugin2.util.SystemUtil;
 
 import java.io.*;
 import java.util.Properties;
@@ -183,7 +185,20 @@ public class BoardConfig {
 
     private String[] readInBots(){
 
-        File folder = new File("src\\de\\hsa\\games\\fatsquirrel\\botimpls");
+        String osVersion = System.getProperty("os.name");
+        boolean isLinux;
+        if (osVersion.contentEquals("Linux"))
+            isLinux = true;
+        else
+            isLinux = false;
+
+        File folder;
+        if (isLinux){
+            folder = new File("src/de/hsa/games/fatsquirrel/botimpls");
+        }else{
+            folder = new File("src\\de\\hsa\\games\\fatsquirrel\\botimpls");
+        }
+
         File[] listOfBots = folder.listFiles((dir, name) -> name.substring(name.length()-4, name.length()).equals("java"));
         String[] bots;
 
@@ -192,7 +207,12 @@ public class BoardConfig {
             for (int i = 0; i < listOfBots.length; i++) {
                 if (listOfBots[i].isFile()) {
                     // \\\\ = \   | Beim Regex muss ein Backslash mit drei Backslashes escaped werden
-                    String s = listOfBots[i].toString().split("\\\\")[6];
+                    String s;
+                    if (isLinux){
+                        s = listOfBots[i].toString().split("/")[6];
+                    }else{
+                       s = listOfBots[i].toString().split("\\\\")[6];
+                    }
                     bots[i] = s.substring(0, s.length()-5);
                 }
             }
