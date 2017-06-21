@@ -63,9 +63,8 @@ public class PathFinder {
 
         openList.add(new Node(from));
         this.context = context;
-        this.botCom = botCom;
 
-        if (!isWalkable(destination))
+        if (!isWalkable(destination,context))
             throw new FullFieldException();
 
         while (!openList.isEmpty()) {
@@ -84,7 +83,7 @@ public class PathFinder {
     private void expandNode(Node currentNode, XY destination) {
         for (XY xy : XYsupport.directions()) {
             Node successor = new Node(currentNode.getCoordinate().plus(xy));
-            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate()))
+            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(),context))
                 continue;
 
             int distanceWeight = 5;
@@ -105,7 +104,7 @@ public class PathFinder {
         }
     }
 
-    public boolean isWalkable(XY coordinate) {
+    public boolean isWalkable(XY coordinate, ControllerContext context) {
 
         EntityType entityTypeAtNewField;
         if(!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))

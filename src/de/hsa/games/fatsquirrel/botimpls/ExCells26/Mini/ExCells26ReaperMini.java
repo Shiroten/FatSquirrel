@@ -34,6 +34,10 @@ public class ExCells26ReaperMini implements BotController {
     public void nextStep(ControllerContext view) {
         myCell.setLastFeedback(view.getRemainingSteps());
 
+        if(myCell.isGoToMaster()){
+            goToMaster(view);
+            return;
+        }
 
         if (view.getRemainingSteps() < 200) {
             endOfSeason(view);
@@ -50,10 +54,25 @@ public class ExCells26ReaperMini implements BotController {
                 toMove = runningCircle(view);
             } catch (NoTargetException e1) {
                 //Run back to myCell middle
-                toMove = XYsupport.normalizedVector(myCell.getQuadrant().minus(view.locate()));
+                PathFinder pf = new PathFinder(botCom);
+                try {
+                    toMove = pf.directionTo(view.locate(), myCell.getQuadrant(), view);
+                } catch (FullFieldException e2) {
+                    e2.printStackTrace();
+                } catch (FieldUnreachableException e2) {
+                    e2.printStackTrace();
+                }
             }
         }
         view.move(toMove);
+    }
+    private void goToMaster(ControllerContext view){
+        PathFinder pf = new PathFinder(botCom);
+        try {
+            view.move(pf.directionTo(view.locate(),botCom.positionOfExCellMaster,view));
+        } catch (FullFieldException | FieldUnreachableException e) {
+            System.out.println("goToMaster Error");
+        }
     }
 
     private XY runningCircle(ControllerContext view) throws NoTargetException {
@@ -62,12 +81,14 @@ public class ExCells26ReaperMini implements BotController {
             if (view.locate().equals(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)))) {
                 cornerVector = XYsupport.rotate(XYsupport.Rotation.clockwise, cornerVector, 1);
             }
-            //Todo: remove after Debugging
-            System.out.println("CornerVector " + cornerVector.times(botCom.getCellsize() / 2));
-            System.out.println("Cell Quadrant: " + myCell.getQuadrant());
-            System.out.println(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)));
-            if (pf.isWalkable(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)))) {
-                return XYsupport.normalizedVector(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)).minus(view.locate()));
+            if (pf.isWalkable(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)), view)) {
+                try {
+                    return pf.directionTo(view.locate(),
+                            myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)),
+                            view);
+                } catch (FullFieldException | FieldUnreachableException e) {
+                    cornerVector = XYsupport.rotate(XYsupport.Rotation.clockwise, cornerVector, 1);
+                }
             } else {
                 cornerVector = XYsupport.rotate(XYsupport.Rotation.clockwise, cornerVector, 1);
             }
@@ -93,12 +114,8 @@ public class ExCells26ReaperMini implements BotController {
             } catch (FieldUnreachableException e) {
                 unReachableGoodies.add(positionOfGoodTarget);
             }
+            return toMove;
 
-            if (toMove.equals(XY.ZERO_ZERO)) {
-                unReachableGoodies.add(positionOfGoodTarget);
-            } else {
-                return toMove;
-            }
         }
         System.out.println("calculateTarget Error");
         throw new NoTargetException();
@@ -114,7 +131,7 @@ public class ExCells26ReaperMini implements BotController {
                     continue;
                 }
 
-                if (!isInside(new XY(i, j))) {
+                if (!myCell.isInside(new XY(i, j),botCom)) {
                     continue;
                 }
 
@@ -152,34 +169,12 @@ public class ExCells26ReaperMini implements BotController {
         PathFinder pf = new PathFinder(botCom);
         try {
             toMove = pf.directionTo(view.locate(), toMove, view);
-        } catch (FullFieldException e) {
-            toMove = XY.ZERO_ZERO;
-        } catch (FieldUnreachableException e) {
+        } catch (FullFieldException | FieldUnreachableException e) {
 
         }
-        view.move(XYsupport.normalizedVector(toMove));
+        view.move(toMove);
     }
 
-    protected boolean isInside(XY target) {
-        /*
-        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
-            return false;
-        }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
-            return false;
-        }
-        */
-        //Original Version:
 
-        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
-            return false;
-        }
-        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
-            return false;
-        }
-
-
-        return true;
-    }
 
 }

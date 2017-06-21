@@ -13,6 +13,15 @@ public class Cell {
     private XY quadrant;
     private long lastFeedback;
     private ExCells26ReaperMini miniSquirrel;
+    private boolean goToMaster = false;
+
+    public boolean isGoToMaster() {
+        return goToMaster;
+    }
+
+    public void setGoToMaster(boolean goToMaster) {
+        this.goToMaster = goToMaster;
+    }
 
     public boolean isActive() {
         return isActive;
@@ -82,6 +91,26 @@ public class Cell {
     public void setActive(Cell nextCell) {
         isActive = true;
         this.nextCell = nextCell;
+    }
+
+    public boolean isInside(XY target, BotCom botCom) {
+        /*
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
+            return false;
+        }
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
+            return false;
+        }
+        */
+        //Original Version:
+
+        if (Math.abs((this.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+        if (Math.abs((this.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+        return true;
     }
 
     @Override
