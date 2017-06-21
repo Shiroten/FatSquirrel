@@ -73,7 +73,7 @@ public class PathFinder {
             closedList.add(currentNode);
             expandNode(currentNode, destination);
         }
-        throw new FullFieldException();
+        throw new FieldUnreachableException();
     }
 
     private void expandNode(Node currentNode, XY destination) {
@@ -83,6 +83,7 @@ public class PathFinder {
                 continue;
 
             int distanceWeight = 5;
+            //Magic happens here
             double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * distanceWeight + nodeWeight(successor.getCoordinate()) ;
             successor.setFx(tentativeFx);
 
