@@ -6,10 +6,8 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
-import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.character.Character;
 import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
 
 import java.util.*;
@@ -67,8 +65,10 @@ public class PathFinder {
 
         while (!openList.isEmpty()) {
             Node currentNode = popMinF(openList);
-            if (currentNode.getCoordinate().equals(destination))
+            if (currentNode.getCoordinate().equals(destination)) {
+                System.out.println(closedList.size());
                 return getSecondNode(currentNode).coordinate.minus(from);
+            }
 
             closedList.add(currentNode);
             expandNode(currentNode, destination);
@@ -82,7 +82,8 @@ public class PathFinder {
             if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate()))
                 continue;
 
-            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * 10 /*+ nodeWeight(successor.getCoordinate())*/ ;
+            int distanceWeight = 5;
+            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * distanceWeight + nodeWeight(successor.getCoordinate()) ;
             successor.setFx(tentativeFx);
 
             int position = containsPosition(openList, successor.coordinate);
@@ -169,22 +170,14 @@ public class PathFinder {
 
         try {
             switch (context.getEntityAt(position)){
-                case MASTERSQUIRREL:
-                    if(context.isMine(position))
-                        return 0;
-                    return Double.POSITIVE_INFINITY;
-                case BADBEAST:
-                case MINISQUIRREL:
-                case WALL:
-                    return Double.POSITIVE_INFINITY;
                 case BADPLANT:
                     return BadPlant.START_ENERGY;
                 case GOODBEAST:
-                    return -GoodBeast.START_ENERGY + checkAdjacantBadbeasts(position);
+                    return -GoodBeast.START_ENERGY + checkAdjacentBadBeast(position);
                 case GOODPLANT:
-                    return -GoodPlant.START_ENERGY + checkAdjacantBadbeasts(position);
+                    return -GoodPlant.START_ENERGY + checkAdjacentBadBeast(position);
                 case NONE:
-                    return checkAdjacantBadbeasts(position);
+                    return checkAdjacentBadBeast(position);
             }
         } catch (OutOfViewException e) {
             return 0;
@@ -193,11 +186,11 @@ public class PathFinder {
         return 0;
     }
 
-    private double checkAdjacantBadbeasts(XY position){
+    private double checkAdjacentBadBeast(XY position){
         double cumulatedWeight = 0;
         for(XY direction : XYsupport.directions()){
             try {
-                if(context.getEntityAt(position) == EntityType.BADBEAST)
+                if(context.getEntityAt(position.plus(direction)) == EntityType.BADBEAST)
                     cumulatedWeight = cumulatedWeight + BadPlant.START_ENERGY;
             } catch (OutOfViewException e) {
                 //Do nothing
