@@ -16,6 +16,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
         private EntityContext context;
         private XY myPosition;
         private MiniSquirrel miniSquirrel;
+        private static final int VIEW_DISTANCE = 10;
 
         public ControllerContextImpl(EntityContext context, MiniSquirrel miniSquirrel) {
             this.context = context;
@@ -24,24 +25,24 @@ public class MiniSquirrelBot extends MiniSquirrel {
         }
 
         @Override
-        public XY getViewLowerLeft() {
-            int x = locate().getX() - 10;
+        public XY getViewUpperLeft() {
+            int x = locate().getX() - VIEW_DISTANCE;
             if (x < 0)
                 x = 0;
-            int y = locate().getY() + 10;
-            if (y > context.getSize().getY())
-                y = context.getSize().getY();
+            int y = locate().getY() -VIEW_DISTANCE;
+            if (y < 0)
+                y = 0;
             return new XY(x, y);
         }
 
         @Override
-        public XY getViewUpperRight() {
-            int x = locate().getX() + 10;
+        public XY getViewLowerRight() {
+            int x = locate().getX() + VIEW_DISTANCE;
             if (x > context.getSize().getX())
                 x = context.getSize().getX();
-            int y = locate().getY() - 10;
-            if (y < 0)
-                y = 0;
+            int y = locate().getY() + VIEW_DISTANCE;
+            if (y > context.getSize().getY())
+                y = context.getSize().getY();
             return new XY(x, y);
         }
 
@@ -52,7 +53,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public boolean isMine(XY xy) throws OutOfViewException {
-            if (!XYsupport.isInRange(xy, getViewLowerLeft(), getViewUpperRight()))
+            if (!XYsupport.isInRange(xy, getViewUpperLeft(), getViewLowerRight()))
                 throw new OutOfViewException();
             try {
                 return context.getEntity(xy).equals(miniSquirrel.getDaddy());
@@ -78,7 +79,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public EntityType getEntityAt(XY xy) throws OutOfViewException {
-            if (!XYsupport.isInRange(xy, getViewLowerLeft(), getViewUpperRight()))
+            if (!XYsupport.isInRange(xy, getViewUpperLeft(), getViewLowerRight()))
                 throw new OutOfViewException();
 
             return context.getEntityType(xy);

@@ -10,11 +10,7 @@ public class GoodBeastChaserMini implements BotController {
 
     @Override
     public void nextStep(ControllerContext view) {
-        if (maxSize.getX() < view.getViewUpperRight().getX())
-            maxSize = new XY (view.getViewUpperRight().getX(),maxSize.getY());
-
-        if (maxSize.getY() < view.getViewLowerLeft().getY())
-            maxSize = new XY (maxSize.getX(), view.getViewLowerLeft().getY());
+        maxSize = view.getViewLowerRight();
 
 
         boolean shouldImplode = false;

@@ -106,20 +106,20 @@ public class BotCom {
         int newCellDistanceY = cellDistanceY;
 
         for(int i = 0; i < cellDistanceX; i++){
-            if(fieldLimit.getX() % (newCellDistanceX - i) == 0){
+            if(fieldLimit.getX() % (newCellDistanceX- i) == 0){
                 cellDistanceX = newCellDistanceX - i;
                 break;
-            } else if(fieldLimit.getX() % (newCellDistanceX + i) == 0){
+            } else if(fieldLimit.getX() % (newCellDistanceX+ i) == 0){
                 cellDistanceX = newCellDistanceX + i;
                 break;
             }
         }
 
         for(int i = 0; i < cellDistanceY; i++){
-            if(fieldLimit.getY() % (newCellDistanceY - i) == 0){
+            if(fieldLimit.getY() % (newCellDistanceY- i) == 0){
                 cellDistanceY = newCellDistanceY - i;
                 break;
-            } else if(fieldLimit.getY() % (newCellDistanceY + i) == 0){
+            } else if(fieldLimit.getY() % (newCellDistanceY+ i) == 0){
                 cellDistanceY = newCellDistanceY + i;
                 break;
             }
@@ -222,13 +222,7 @@ public class BotCom {
     }
 
     private boolean validCell(XY coordinate) {
-        if (coordinate.getX() < 0 || coordinate.getX() > fieldLimit.getX()) {
-            return false;
-        }
-        if (coordinate.getY() < 0 || coordinate.getX() > fieldLimit.getY()) {
-            return false;
-        }
-        return true;
+        return !(coordinate.getX() < 0 || coordinate.getX() > fieldLimit.getX()) && !(coordinate.getY() < 0 || coordinate.getY() > fieldLimit.getY());
     }
 
 }

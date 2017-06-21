@@ -64,7 +64,7 @@ public class ExCells26Master implements BotController {
                 botCom.setNextMini(MiniType.REAPER);
                 botCom.setForNextMini(botCom.freeCell());
                 XY spawnDirection = botCom.freeCell().getQuadrant().minus(view.locate());
-                spawnDirection = XYsupport.oppositeVector(XYsupport.normalizedVector(spawnDirection));
+                spawnDirection = XYsupport.normalizedVector(spawnDirection).times(-1);
                 if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
                     view.spawnMiniBot(spawnDirection, 100);
                 }
@@ -93,7 +93,7 @@ public class ExCells26Master implements BotController {
                 botCom.setNextMini(MiniType.REAPER);
                 botCom.setForNextMini(currentCell);
                 XY spawnDirection = currentCell.getNextCell().getQuadrant().minus(view.locate());
-                spawnDirection = XYsupport.oppositeVector(XYsupport.normalizedVector(spawnDirection));
+                spawnDirection = XYsupport.normalizedVector(spawnDirection).times(-1);
                 if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
                     view.spawnMiniBot(spawnDirection, 100);
                 } else {
@@ -110,7 +110,7 @@ public class ExCells26Master implements BotController {
         PathFinder pf = new PathFinder();
         XY betterMove = XY.ZERO_ZERO;
         try {
-            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view);
+            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view, botCom);
         } catch (FullFieldException e) {
             //Todo: add to Log
             // e.printStackTrace();
@@ -128,7 +128,7 @@ public class ExCells26Master implements BotController {
         PathFinder pf = new PathFinder();
         XY toMove = XY.ZERO_ZERO;
         try {
-            toMove = pf.directionTo(view.locate(), middle, view);
+            toMove = pf.directionTo(view.locate(), middle, view, botCom);
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();

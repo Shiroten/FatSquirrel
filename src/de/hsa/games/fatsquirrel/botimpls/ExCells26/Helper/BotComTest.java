@@ -38,7 +38,6 @@ public class BotComTest {
     @Test
     public void cellCreationTest() {
 
-
         BotCom botCom = new BotCom();
         botCom.setFieldLimit(new XY(80, 60));
 
@@ -89,9 +88,13 @@ public class BotComTest {
         botCom.calculateCellSize();
         botCom.getAllCells();
 
-        assertEquals(20,botCom.cellDistanceX);
-        assertEquals(20, botCom.cellDistanceY);
 
-        assertEquals(12, botCom.grid.size());
+        System.out.println(botCom.cellDistanceX + " " + botCom.cellDistanceY);
+
+        for(Cell c : botCom.grid.values()){
+            System.out.println(c);
+        }
+
+        assertEquals(12,botCom.grid.size());
     }
 }

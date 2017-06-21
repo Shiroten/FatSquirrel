@@ -29,24 +29,24 @@ public class MasterSquirrelBot extends MasterSquirrel {
         }
 
         @Override
-        public XY getViewLowerLeft() {
+        public XY getViewUpperLeft() {
             int x = locate().getX() - VIEW_DISTANCE;
             if (x < 0)
                 x = 0;
-            int y = locate().getY() + VIEW_DISTANCE;
-            if (y > context.getSize().getY())
-                y = context.getSize().getY();
+            int y = locate().getY() - VIEW_DISTANCE;
+            if (y < 0)
+                y = 0;
             return new XY(x, y);
         }
 
         @Override
-        public XY getViewUpperRight() {
+        public XY getViewLowerRight() {
             int x = locate().getX() + VIEW_DISTANCE;
             if (x > context.getSize().getX())
                 x = context.getSize().getX();
-            int y = locate().getY() - VIEW_DISTANCE;
-            if (y < 0)
-                y = 0;
+            int y = locate().getY() + VIEW_DISTANCE;
+            if (y > context.getSize().getY())
+                y = context.getSize().getY();
             return new XY(x, y);
         }
 
@@ -57,7 +57,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public boolean isMine(XY xy) throws OutOfViewException {
-            if (!XYsupport.isInRange(xy, getViewLowerLeft(), getViewUpperRight()))
+            if (!XYsupport.isInRange(xy, getViewUpperLeft(), getViewLowerRight()))
                 throw new OutOfViewException();
             try {
                 if (masterSquirrel.mySquirrel((MiniSquirrel) context.getEntity(xy)))
@@ -84,7 +84,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public EntityType getEntityAt(XY xy) throws OutOfViewException {
-            if (!XYsupport.isInRange(xy, getViewLowerLeft(), getViewUpperRight()))
+            if (!XYsupport.isInRange(xy, getViewUpperLeft(), getViewLowerRight()))
                 throw new OutOfViewException();
 
             return context.getEntityType(xy);

@@ -38,7 +38,7 @@ public class ExCells26ReaperMini implements BotController {
         PathFinder pf = new PathFinder();
         XY betterMove = XY.ZERO_ZERO;
         try {
-            betterMove = pf.directionTo(view.locate(), toMove, view);
+            betterMove = pf.directionTo(view.locate(), toMove, view, botCom);
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();
@@ -81,7 +81,7 @@ public class ExCells26ReaperMini implements BotController {
     }
 
     private XY getOppositeVector(ControllerContext view, XY positionOfBadTarget) {
-        XY vectorToBadTarget = XYsupport.oppositeVector(positionOfBadTarget.minus(view.locate()));
+        XY vectorToBadTarget = positionOfBadTarget.minus(view.locate()).times(-1);
         try {
             if (view.getEntityAt(view.locate().plus(vectorToBadTarget)) != EntityType.BADBEAST)
                 return view.locate().plus(vectorToBadTarget);
@@ -94,8 +94,8 @@ public class ExCells26ReaperMini implements BotController {
 
     protected XY getTarget(ControllerContext view, boolean isGood) throws NoTargetException {
         XY positionOfTentativelyTarget = new XY(999, 999);
-        for (int j = view.getViewUpperRight().getY(); j < view.getViewLowerLeft().getY(); j++) {
-            for (int i = view.getViewLowerLeft().getX(); i < view.getViewUpperRight().getX(); i++) {
+        for (int j = view.getViewUpperLeft().getY(); j < view.getViewLowerRight().getY(); j++) {
+            for (int i = view.getViewUpperLeft().getX(); i < view.getViewLowerRight().getX(); i++) {
                 if (isGood) {
                     if (!isInside(new XY(i, j))) {
                         continue;
@@ -152,7 +152,7 @@ public class ExCells26ReaperMini implements BotController {
         XY toMove = botCom.positionOfExCellMaster;
         PathFinder pf = new PathFinder();
         try {
-            toMove = pf.directionTo(view.locate(), toMove, view);
+            toMove = pf.directionTo(view.locate(), toMove, view, botCom);
         } catch (FullFieldException e) {
             toMove = XY.ZERO_ZERO;
         }

@@ -10,13 +10,6 @@ public class XYsupportTest {
     private XY test1 = new XY(9, -12);
     private XY test2 = new XY(-13, 17);
 
-
-    @Test
-    public void oppositeVector() throws Exception {
-        assertEquals(new XY(-9, 12), XYsupport.oppositeVector(test1));
-        assertEquals(new XY(13, -17), XYsupport.oppositeVector(test2));
-    }
-
     @Test
     public void rotate() throws Exception {
         assertEquals(XY.RIGHT_UP, XYsupport.rotate(XYsupport.Rotation.clockwise, XY.UP, 1));
@@ -30,6 +23,7 @@ public class XYsupportTest {
         XY upperRightCorner = new XY(10, 0);
         XY trueMiddle = new XY (2, 2);
         XY falseMiddle = new XY(3, 11);
+        //TODO: Überprüfen, sobald getView umgeschrieben wurde
         assertTrue("Punkt ist zwischen zwei Punkten", XYsupport.isInRange(trueMiddle, lowerLeftCorner, upperRightCorner));
         assertFalse("Punkt ist nicht zwischen zwei Punkten", XYsupport.isInRange(falseMiddle, lowerLeftCorner, upperRightCorner));
     }

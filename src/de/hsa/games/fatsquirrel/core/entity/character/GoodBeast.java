@@ -38,13 +38,13 @@ public class GoodBeast extends Character {
             if (distance.length() < context.getGOODBEAST_VIEW_DISTANCE()) {
 
                     PathFinder pathFinder = new PathFinder();
-                    context.tryMove(this, pathFinder.goodMove(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), this));
+                    context.tryMove(this, XYsupport.normalizedVector(distance).times(-1));
 
                 //findIdealPath(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), freeFieldMode.goodBeast);
             } else {
 
                     PathFinder pathFinder = new PathFinder();
-                    context.tryMove(this, pathFinder.goodMove(context, XYsupport.randomDirection(), this));
+                    context.tryMove(this, XYsupport.randomDirection());
 
                 //findIdealPath(context, XYsupport.randomDirection(), freeFieldMode.goodBeast);
             }

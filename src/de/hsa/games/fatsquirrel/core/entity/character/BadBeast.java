@@ -57,10 +57,10 @@ public class BadBeast extends Character {
 
             if (distance.length() < context.getBADBEAST_VIEW_DISTANCE()) {
                 PathFinder pathFinder = new PathFinder();
-                context.tryMove(this, pathFinder.goodMove(context, XYsupport.normalizedVector(distance), this));
+                context.tryMove(this, XYsupport.normalizedVector(distance));
             } else{
                 PathFinder pathFinder = new PathFinder();
-                context.tryMove(this, pathFinder.goodMove(context, XYsupport.randomDirection(), this));
+                context.tryMove(this, XYsupport.randomDirection());
             }
             moveCounter++;
         } else if (moveCounter == context.getBEAST_MOVE_TIME_IN_TICKS())

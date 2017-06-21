@@ -41,7 +41,7 @@ public class GoodBeastChaserHelper {
                     nor++;
                 }
                 if (nor > 3)
-                    return XYsupport.oppositeVector(directionVector);
+                    return directionVector.times(-1);
             }
         }
         return null;
@@ -88,8 +88,8 @@ public class GoodBeastChaserHelper {
     protected static XY nearestSearchedEntity(ControllerContext view, EntityType et) {
 
         XY pos = view.locate();
-        int minX = view.getViewLowerLeft().getX(), maxX = view.getViewUpperRight().getX();
-        int minY = view.getViewUpperRight().getY(), maxY = view.getViewLowerLeft().getY();
+        int minX = view.getViewUpperLeft().getX(), maxX = view.getViewLowerRight().getX();
+        int minY = view.getViewUpperLeft().getY(), maxY = view.getViewLowerRight().getY();
 
         try {
             XY nearestEntity = new XY(100, 100);

@@ -5,9 +5,12 @@ import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
+import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.character.Character;
+import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
 
 import java.util.*;
 
@@ -18,6 +21,8 @@ import java.util.*;
 public class PathFinder {
     private List<Node> openList;
     private List<Node> closedList;
+    private ControllerContext context;
+    private BotCom botCom;
 
     private static class Node {
         private final XY coordinate;
@@ -49,13 +54,15 @@ public class PathFinder {
         }
     }
 
-    public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException {
+    public XY directionTo(XY from, XY destination, ControllerContext context, BotCom botCom) throws FullFieldException {
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
         openList.add(new Node(from));
+        this.context = context;
+        this.botCom = botCom;
 
-        if (!isWalkable(destination, context))
+        if (!isWalkable(destination))
             throw new FullFieldException();
 
         while (!openList.isEmpty()) {
@@ -64,15 +71,15 @@ public class PathFinder {
                 return getSecondNode(currentNode).coordinate.minus(from);
 
             closedList.add(currentNode);
-            expandNode(currentNode, context, destination);
+            expandNode(currentNode, destination);
         }
         return XY.ZERO_ZERO;
     }
 
-    private void expandNode(Node currentNode, ControllerContext context, XY destination) {
+    private void expandNode(Node currentNode, XY destination) {
         for (XY xy : XYsupport.directions()) {
             Node successor = new Node(currentNode.getCoordinate().plus(xy));
-            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(), context))
+            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate()))
                 continue;
 
             double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination);
@@ -91,36 +98,17 @@ public class PathFinder {
         }
     }
 
-    private boolean isWalkable(XY coordinate, ControllerContext context) {
-        /*
-        //Todo: testing if you can avoid badbeast
-        for(XY xy : XYsupport.directions()){
-
-                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST)
-                    return false;
-
-
-        }
-        */
+    private boolean isWalkable(XY coordinate) {
 
         EntityType entityTypeAtNewField = null;
+        if(!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))
+            return false;
         try {
             entityTypeAtNewField = context.getEntityAt(coordinate);
         } catch (OutOfViewException e) {
-            //Todo: add to log
-            // e.printStackTrace();
+            return true;
         }
         try {
-            int weight = 0;
-            //TODO: Feld mit GoodBeast / feld ohne Goodbeast
-            if(entityTypeAtNewField == EntityType.GOODBEAST)
-                weight = 1;
-            for (XY xy : XYsupport.directions()) {
-                if (context.getEntityAt(coordinate.plus(xy)) == EntityType.BADBEAST)
-                    weight--;
-                if(weight < 0)
-                    return false;
-            }
             if (context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
                 if (context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)
                     return context.isMine(coordinate);
@@ -173,75 +161,46 @@ public class PathFinder {
         return predecessor;
     }
 
-    public XY goodMove(EntityContext view, XY directionVector, Character character) {
-        XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
-        int nor = 1;
-        XY checkPosition = character.getCoordinate().plus(directionVector);
-        if (freeField(view, checkPosition, character)) {
-            return directionVector;
-        }
-        XY newVector;
-        while (true) {
-            newVector = XYsupport.rotate(rotation, directionVector, nor);
-            checkPosition = character.getCoordinate().plus(newVector);
-            if (freeField(view, checkPosition, character)) {
-                return newVector;
-            } else {
-                if (rotation == XYsupport.Rotation.clockwise) {
-                    rotation = XYsupport.Rotation.anticlockwise;
-                } else {
-                    rotation = XYsupport.Rotation.clockwise;
-                    nor++;
-                }
-                if (nor > 3)
-                    return XYsupport.oppositeVector(directionVector);
+    private double nodeWeight(XY position){
+
+        try {
+            switch (context.getEntityAt(position)){
+                case MASTERSQUIRREL:
+                    if(context.isMine(position))
+                        return 0;
+                    return Double.POSITIVE_INFINITY;
+                case BADBEAST:
+                case MINISQUIRREL:
+                case WALL:
+                    return Double.POSITIVE_INFINITY;
+                case BADPLANT:
+                    return BadPlant.START_ENERGY;
+                case GOODBEAST:
+                    return -GoodBeast.START_ENERGY + checkAdjacantBadbeasts(position);
+                case GOODPLANT:
+                    return -GoodPlant.START_ENERGY + checkAdjacantBadbeasts(position);
+                case NONE:
+                    return checkAdjacantBadbeasts(position);
             }
+        } catch (OutOfViewException e) {
+            return 0;
         }
+
+        return 0;
     }
 
-    private boolean freeField(EntityContext view, XY location, Character character) {
-        EntityType et = view.getEntityType(location);
-        switch (character.getEntityType()) {
-            case MASTERSQUIRREL:
-                switch (et) {
-                    case WALL:
-                    case BADBEAST:
-                    case BADPLANT:
-                    case MASTERSQUIRREL:
-                        return false;
-                    case NONE:
-                    case GOODBEAST:
-                    case GOODPLANT:
-                    case MINISQUIRREL:
-                        return true;
-                }
-                break;
-            case MINISQUIRREL:
-                switch (et) {
-                    case NONE:
-                        return true;
-                    default:
-                        return false;
-                }
-            case GOODBEAST:
-                switch (et) {
-                    case NONE:
-                        return true;
-                    default:
-                        return false;
-                }
-
-            case BADBEAST:
-                switch (et) {
-                    case NONE:
-                    case MASTERSQUIRREL:
-                    case MINISQUIRREL:
-                        return true;
-                    default:
-                        return false;
-                }
+    private double checkAdjacantBadbeasts(XY position){
+        double cumulatedWeight = 0;
+        for(XY direction : XYsupport.directions()){
+            try {
+                if(context.getEntityAt(position) == EntityType.BADBEAST)
+                    cumulatedWeight = cumulatedWeight + BadPlant.START_ENERGY;
+            } catch (OutOfViewException e) {
+                //Do nothing
+            }
         }
-        return false;
+
+        return cumulatedWeight;
     }
 
 }

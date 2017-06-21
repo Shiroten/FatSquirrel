@@ -19,10 +19,6 @@ public class XYsupport {
         return new XY(randomWithRange(-1, 1), randomWithRange(-1, 1));
     }
 
-    public static XY oppositeVector(XY xy) {
-        return new XY(-xy.getX(), -xy.getY());
-    }
-
     public static XY rotate(Rotation r, XY toRotate, int numberOfRotation) {
 
         double rotationClockwise = (PI / 4 * numberOfRotation);
@@ -46,9 +42,9 @@ public class XYsupport {
         return toRotate;
     }
 
-    public static boolean isInRange(XY middle, XY lowerLeftEnd, XY upperRightEnd) {
-        return middle.getX() <= upperRightEnd.getX() && middle.getX() >= lowerLeftEnd.getX()
-                && middle.getY() <= lowerLeftEnd.getY() && middle.getY() >= upperRightEnd.getY();
+    public static boolean isInRange(XY middle, XY upperLeftEnd, XY lowerRightEnd) {
+        return middle.getX() <= lowerRightEnd.getX() && middle.getX() >= upperLeftEnd.getX()
+                && middle.getY() <= lowerRightEnd.getY() && middle.getY() >= upperLeftEnd.getY();
     }
 
     private static int randomWithRange(int min, int max) {

@@ -12,13 +12,13 @@ public interface ControllerContext {
      *
      * @return lower left corner of the view rectangle
      */
-    XY getViewLowerLeft();
+    XY getViewUpperLeft();
 
     /**
      *
      * @return upper right corner of the view rectangle
      */
-    XY getViewUpperRight();
+    XY getViewLowerRight();
 
     /**
      *
