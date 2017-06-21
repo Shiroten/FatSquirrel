@@ -57,7 +57,7 @@ public class ExCells26ReaperMini implements BotController {
     }
 
     private XY runningCircle(ControllerContext view) throws NoTargetException {
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         for (int i = 0; i < 8; i++) {
             if (view.locate().equals(myCell.getQuadrant().plus(cornerVector.times(botCom.getCellsize() / 2)))) {
                 cornerVector = XYsupport.rotate(XYsupport.Rotation.clockwise, cornerVector, 1);
@@ -79,7 +79,7 @@ public class ExCells26ReaperMini implements BotController {
         unReachableGoodies.clear();
         XY positionOfGoodTarget;
         XY toMove = XY.ZERO_ZERO;
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
 
         //numberOfTries can be incremented if needed
         int numberOfTries = 10;
@@ -87,7 +87,7 @@ public class ExCells26ReaperMini implements BotController {
             positionOfGoodTarget = findNextGoodies(view);
 
             try {
-                toMove = pf.directionTo(view.locate(), positionOfGoodTarget, view, botCom);
+                toMove = pf.directionTo(view.locate(), positionOfGoodTarget, view);
             } catch (FullFieldException e) {
                 unReachableGoodies.add(positionOfGoodTarget);
             } catch (FieldUnreachableException e) {
@@ -149,9 +149,9 @@ public class ExCells26ReaperMini implements BotController {
 
     private void endOfSeason(ControllerContext view) {
         XY toMove = botCom.positionOfExCellMaster;
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         try {
-            toMove = pf.directionTo(view.locate(), toMove, view, botCom);
+            toMove = pf.directionTo(view.locate(), toMove, view);
         } catch (FullFieldException e) {
             toMove = XY.ZERO_ZERO;
         } catch (FieldUnreachableException e) {

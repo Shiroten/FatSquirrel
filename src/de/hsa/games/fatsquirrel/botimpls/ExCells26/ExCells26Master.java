@@ -108,10 +108,10 @@ public class ExCells26Master implements BotController {
     }
 
     private void moveToCurrentCell() {
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         XY betterMove = XY.ZERO_ZERO;
         try {
-            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view, botCom);
+            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view);
         } catch (FullFieldException e) {
             //Todo: add to Log
             // e.printStackTrace();
@@ -128,10 +128,10 @@ public class ExCells26Master implements BotController {
 
     private void collectingReapers() {
         XY middle = new XY(botCom.getFieldLimit().getX() / 2, botCom.getFieldLimit().getX() / 2);
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         XY toMove = XY.ZERO_ZERO;
         try {
-            toMove = pf.directionTo(view.locate(), middle, view, botCom);
+            toMove = pf.directionTo(view.locate(), middle, view);
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();

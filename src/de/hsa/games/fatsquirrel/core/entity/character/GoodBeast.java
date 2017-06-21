@@ -36,14 +36,10 @@ public class GoodBeast extends Character {
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getGOODBEAST_VIEW_DISTANCE()) {
-
-                    PathFinder pathFinder = new PathFinder();
                     context.tryMove(this, XYsupport.normalizedVector(distance).times(-1));
 
                 //findIdealPath(context, XYsupport.oppositeVector(XYsupport.normalizedVector(distance)), freeFieldMode.goodBeast);
             } else {
-
-                    PathFinder pathFinder = new PathFinder();
                     context.tryMove(this, XYsupport.randomDirection());
 
                 //findIdealPath(context, XYsupport.randomDirection(), freeFieldMode.goodBeast);

@@ -56,10 +56,8 @@ public class BadBeast extends Character {
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getBADBEAST_VIEW_DISTANCE()) {
-                PathFinder pathFinder = new PathFinder();
                 context.tryMove(this, XYsupport.normalizedVector(distance));
             } else{
-                PathFinder pathFinder = new PathFinder();
                 context.tryMove(this, XYsupport.randomDirection());
             }
             moveCounter++;

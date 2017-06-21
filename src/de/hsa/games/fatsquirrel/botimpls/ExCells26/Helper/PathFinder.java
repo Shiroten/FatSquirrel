@@ -22,6 +22,11 @@ public class PathFinder {
     private ControllerContext context;
     private BotCom botCom;
 
+    public PathFinder(BotCom botCom){
+        this.botCom = botCom;
+    }
+
+
     private static class Node {
         private final XY coordinate;
         private double fx;
@@ -52,7 +57,7 @@ public class PathFinder {
         }
     }
 
-    public XY directionTo(XY from, XY destination, ControllerContext context, BotCom botCom) throws FullFieldException, FieldUnreachableException {
+    public XY directionTo(XY from, XY destination, ControllerContext context) throws FullFieldException, FieldUnreachableException {
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
