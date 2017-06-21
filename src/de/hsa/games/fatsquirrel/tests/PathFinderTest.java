@@ -33,12 +33,12 @@ public class PathFinderTest {
         board.add(goodPlant, wall1, handOperatedMasterSquirrel, wall2, wall3, wall4, wall5, wall6, wall7);
 
         FlattenedBoard context = board.flatten();
-        /*
-        XY to = pathFinder.directionTo(handOperatedMasterSquirrel.getCoordinate(), goodPlant.getCoordinate(), context);
+
+        /*XY to = pathFinder.directionTo(handOperatedMasterSquirrel.getCoordinate(), goodPlant.getCoordinate(), context);
         XY toTwo = new PathFinder().directionTo(new XY(3,3), new XY(2,4), context);
         assertTrue(XY.DOWN.equals(to));
-        assertTrue(XY.LEFT_DOWN.equals(toTwo));
+        assertTrue(XY.LEFT_DOWN.equals(toTwo));*/
 
-    */}
+    }
 
 }

@@ -54,7 +54,7 @@ public class PathFinder {
         }
     }
 
-    public XY directionTo(XY from, XY destination, ControllerContext context, BotCom botCom) throws FullFieldException {
+    public XY directionTo(XY from, XY destination, ControllerContext context, BotCom botCom) throws FullFieldException, FieldUnreachableException {
         openList = new ArrayList<>();
         closedList = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class PathFinder {
             closedList.add(currentNode);
             expandNode(currentNode, destination);
         }
-        return XY.ZERO_ZERO;
+        throw new FullFieldException();
     }
 
     private void expandNode(Node currentNode, XY destination) {
@@ -82,7 +82,7 @@ public class PathFinder {
             if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate()))
                 continue;
 
-            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination);
+            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * 10 /*+ nodeWeight(successor.getCoordinate())*/ ;
             successor.setFx(tentativeFx);
 
             int position = containsPosition(openList, successor.coordinate);
@@ -100,14 +100,18 @@ public class PathFinder {
 
     private boolean isWalkable(XY coordinate) {
 
-        EntityType entityTypeAtNewField = null;
+        EntityType entityTypeAtNewField;
         if(!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))
             return false;
+
         try {
             entityTypeAtNewField = context.getEntityAt(coordinate);
         } catch (OutOfViewException e) {
             return true;
         }
+
+        if(!XYsupport.isInRange(coordinate, context.getViewUpperLeft().plus(XY.LEFT_UP), context.getViewLowerRight().plus(XY.RIGHT_DOWN)))
+            return false;
         try {
             if (context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
                 if (context.getEntityAt(coordinate) == EntityType.MASTERSQUIRREL)

@@ -7,6 +7,7 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.BotCom;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.Cell;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.FieldUnreachableException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
@@ -42,6 +43,8 @@ public class ExCells26ReaperMini implements BotController {
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();
+        } catch (FieldUnreachableException e){
+
         }
 
         if (view.locate().plus(betterMove).equals(botCom.positionOfExCellMaster)) {
@@ -155,6 +158,8 @@ public class ExCells26ReaperMini implements BotController {
             toMove = pf.directionTo(view.locate(), toMove, view, botCom);
         } catch (FullFieldException e) {
             toMove = XY.ZERO_ZERO;
+        } catch (FieldUnreachableException e){
+
         }
         view.move(XYsupport.normalizedVector(toMove));
     }

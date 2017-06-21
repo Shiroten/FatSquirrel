@@ -37,6 +37,7 @@ public class ExCells26Master implements BotController {
             return;
         }
 
+        XY position = view.locate();
         if (currentCell.getQuadrant().equals(view.locate())) {
             try {
                 botCom.expand();
@@ -114,6 +115,8 @@ public class ExCells26Master implements BotController {
         } catch (FullFieldException e) {
             //Todo: add to Log
             // e.printStackTrace();
+        } catch (FieldUnreachableException e){
+
         }
         if (betterMove != XY.ZERO_ZERO) {
             view.move(betterMove);
@@ -132,6 +135,7 @@ public class ExCells26Master implements BotController {
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();
+        } catch (FieldUnreachableException e){
         }
         view.move(XYsupport.normalizedVector(toMove));
     }
