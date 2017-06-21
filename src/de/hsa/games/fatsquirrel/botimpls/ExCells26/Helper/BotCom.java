@@ -42,9 +42,17 @@ public class BotCom {
     int cellDistanceX = 21;
     int cellDistanceY = 21;
 
+    public int getCellDistanceX() {
+        return cellDistanceX;
+    }
+
+    public int getCellDistanceY() {
+        return cellDistanceY;
+    }
+
     //Default: 11 (last working number)
-    private int cellCenterOffsetX = 3;
-    private int cellCenterOffsetY = 3;
+    private int cellCenterOffsetX = 7;
+    private int cellCenterOffsetY = 7;
 
     //Default: 21 (last working number)
     private int cellsize = 15;

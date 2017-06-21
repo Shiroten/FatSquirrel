@@ -31,6 +31,22 @@ public class ExCells26ReaperMiniTest {
 
     }
 
+    @Test
+    public void unRechableTest(){
+        BotCom botCom = new BotCom();
+        botCom.setForNextMini(new Cell(new XY(100,100)));
+        ExCells26ReaperMini mini = new ExCells26ReaperMini(botCom);
+
+        mini.unReachableGoodies.add(new XY (10,10));
+
+        assertTrue(mini.unReachableGoodies.contains(new XY (10,10)));
+        assertFalse(mini.unReachableGoodies.contains(new XY (10,11)));
+
+        mini.unReachableGoodies.clear();
+        assertFalse(mini.unReachableGoodies.contains(new XY(10,10)));
+
+    }
+
 
 
 

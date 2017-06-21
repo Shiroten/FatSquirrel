@@ -66,7 +66,7 @@ public class PathFinder {
         while (!openList.isEmpty()) {
             Node currentNode = popMinF(openList);
             if (currentNode.getCoordinate().equals(destination)) {
-                System.out.println(closedList.size());
+                //System.out.println(closedList.size());
                 return getSecondNode(currentNode).coordinate.minus(from);
             }
 
@@ -100,7 +100,7 @@ public class PathFinder {
         }
     }
 
-    private boolean isWalkable(XY coordinate) {
+    public boolean isWalkable(XY coordinate) {
 
         EntityType entityTypeAtNewField;
         if(!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))
