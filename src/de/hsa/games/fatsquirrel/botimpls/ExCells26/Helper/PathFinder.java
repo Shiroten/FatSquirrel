@@ -8,6 +8,7 @@ import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
+import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
 import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
 
 import java.util.*;
@@ -22,7 +23,7 @@ public class PathFinder {
     private ControllerContext context;
     private BotCom botCom;
 
-    public PathFinder(BotCom botCom){
+    public PathFinder(BotCom botCom) {
         this.botCom = botCom;
     }
 
@@ -64,7 +65,7 @@ public class PathFinder {
         openList.add(new Node(from));
         this.context = context;
 
-        if (!isWalkable(destination,context))
+        if (!isWalkable(destination, context))
             throw new FullFieldException();
 
         while (!openList.isEmpty()) {
@@ -83,12 +84,15 @@ public class PathFinder {
     private void expandNode(Node currentNode, XY destination) {
         for (XY xy : XYsupport.directions()) {
             Node successor = new Node(currentNode.getCoordinate().plus(xy));
-            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(),context))
+            if (containsPosition(closedList, successor.coordinate) != 0 || !isWalkable(successor.getCoordinate(), context))
                 continue;
 
-            int distanceWeight = 5;
+            //default = 5
+            int distanceWeight = 100;
+            int nodeWeightMultiplier = 100;
             //Magic happens here
-            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * distanceWeight + nodeWeight(successor.getCoordinate()) ;
+            double tentativeFx = XYsupport.distanceInSteps(successor.getCoordinate(), destination) * distanceWeight
+                    + nodeWeightMultiplier * nodeWeight(successor.getCoordinate());
             successor.setFx(tentativeFx);
 
             int position = containsPosition(openList, successor.coordinate);
@@ -107,16 +111,16 @@ public class PathFinder {
     public boolean isWalkable(XY coordinate, ControllerContext context) {
 
         EntityType entityTypeAtNewField;
-        if(!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))
+        if (!XYsupport.isInRange(coordinate, XY.ZERO_ZERO, botCom.getFieldLimit()))
             return false;
 
         try {
             entityTypeAtNewField = context.getEntityAt(coordinate);
         } catch (OutOfViewException e) {
-            return true;
+            return false;
         }
 
-        if(!XYsupport.isInRange(coordinate, context.getViewUpperLeft().plus(XY.LEFT_UP), context.getViewLowerRight().plus(XY.RIGHT_DOWN)))
+        if (!XYsupport.isInRange(coordinate, context.getViewUpperLeft().plus(XY.LEFT_UP), context.getViewLowerRight().plus(XY.RIGHT_DOWN)))
             return false;
         try {
             if (context.getEntityAt(context.locate()) == EntityType.MINISQUIRREL) {
@@ -171,10 +175,10 @@ public class PathFinder {
         return predecessor;
     }
 
-    private double nodeWeight(XY position){
+    private double nodeWeight(XY position) {
 
         try {
-            switch (context.getEntityAt(position)){
+            switch (context.getEntityAt(position)) {
                 case BADPLANT:
                     return BadPlant.START_ENERGY;
                 case GOODBEAST:
@@ -182,21 +186,20 @@ public class PathFinder {
                 case GOODPLANT:
                     return -GoodPlant.START_ENERGY + checkAdjacentBadBeast(position);
                 case NONE:
-                    return checkAdjacentBadBeast(position);
+                    return checkAdjacentBadBeast(position) + 10;
             }
         } catch (OutOfViewException e) {
             return 0;
         }
-
         return 0;
     }
 
-    private double checkAdjacentBadBeast(XY position){
+    private double checkAdjacentBadBeast(XY position) {
         double cumulatedWeight = 0;
-        for(XY direction : XYsupport.directions()){
+        for (XY direction : XYsupport.directions()) {
             try {
-                if(context.getEntityAt(position.plus(direction)) == EntityType.BADBEAST)
-                    cumulatedWeight = cumulatedWeight + BadPlant.START_ENERGY;
+                if (context.getEntityAt(position.plus(direction)) == EntityType.BADBEAST)
+                    cumulatedWeight = cumulatedWeight + 2 * BadBeast.START_ENERGY;
             } catch (OutOfViewException e) {
                 //Do nothing
             }

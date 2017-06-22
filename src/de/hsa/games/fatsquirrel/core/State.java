@@ -1,10 +1,8 @@
 package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Launcher;
-import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
 
 import java.io.*;
 import java.util.*;
@@ -12,11 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Manages the state of the game, including highscore, and the board itself
+ * Manages the state of the game, including totalHighscore, and the board itself
  */
 public class State {
 
-    private Map<String, ArrayList<Long>> highscore = new HashMap<>();
+    private Map<String, Long> currentHighscore = new HashMap<>();
+    private Map<String, ArrayList<Long>> totalHighscore = new HashMap<>();
     private Board board;
 
     /**
@@ -70,21 +69,23 @@ public class State {
      * Set the actual Highscore
      */
     public void updateHighscore() {
+        currentHighscore.clear();
         //Get All MasterSquirrel
         for (MasterSquirrel ms : board.getMasterSquirrel()) {
             if (ms == null) {
                 continue;
             }
             ArrayList longArrayList;
-            if (highscore.get(ms.getEntityName()) != null) {
-                longArrayList = highscore.get(ms.getEntityName());
+            if (totalHighscore.get(ms.getEntityName()) != null) {
+                longArrayList = totalHighscore.get(ms.getEntityName());
             } else {
                 //if first Value, create new list
                 longArrayList = new ArrayList();
             }
             longArrayList.add((long) ms.getEnergy());
             //put list back to map
-            highscore.put(ms.getEntityName(), longArrayList);
+            totalHighscore.put(ms.getEntityName(), longArrayList);
+            currentHighscore.put(ms.getEntityName(), (long) ms.getEnergy());
         }
 
     }
@@ -95,17 +96,18 @@ public class State {
     public String printHighscore() {
         StringBuilder sb = new StringBuilder();
         if (board.getRemainingGameTime() % 20 == 0) {
-            for (ArrayList<Long> entry : highscore.values()) {
+            for (ArrayList<Long> entry : totalHighscore.values()) {
                 Collections.sort(entry);
             }
-            for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
+            for (Map.Entry<String, ArrayList<Long>> pairs : totalHighscore.entrySet()) {
                 long average = 0;
-                sb.append(pairs.getKey() + ": ");
+                sb.append(pairs.getKey()).append(": ");
                 for (Long entry : pairs.getValue()) {
-                    sb.append(entry + " | ");
+                    sb.append(entry).append(" | ");
                     average = average + entry;
                 }
-                sb.append("Average: " + average / pairs.getValue().size() + String.format("%n"));
+                sb.append("Average: ").append(average / pairs.getValue().size());
+                sb.append(" | Current: ").append(currentHighscore.get(pairs.getKey())).append("\n");
             }
         }
         return sb.toString();
@@ -130,13 +132,13 @@ public class State {
      */
     public void saveHighScore(String path) {
         //Sort Array before saving
-        for (ArrayList<Long> entry : highscore.values()) {
+        for (ArrayList<Long> entry : totalHighscore.values()) {
             Collections.sort(entry);
         }
 
         Properties properties = new Properties();
-        //Get all highscore Values
-        for (Map.Entry<String, ArrayList<Long>> pairs : highscore.entrySet()) {
+        //Get all totalHighscore Values
+        for (Map.Entry<String, ArrayList<Long>> pairs : totalHighscore.entrySet()) {
             //Set Properties according to Key and Values
             properties.setProperty(pairs.getKey(), pairs.getValue().toString());
         }
@@ -182,7 +184,7 @@ public class State {
             for (int i = 0; i < valuesToParse.length; i++) {
                 values.add(Long.parseLong(valuesToParse[i]));
             }
-            highscore.put(o.toString(), values);
+            totalHighscore.put(o.toString(), values);
         }
     }
 }
