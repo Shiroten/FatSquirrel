@@ -13,15 +13,6 @@ public class Cell {
     private XY quadrant;
     private long lastFeedback;
     private ExCells26ReaperMini miniSquirrel;
-    private boolean goToMaster = false;
-
-    public boolean isGoToMaster() {
-        return goToMaster;
-    }
-
-    public void setGoToMaster(boolean goToMaster) {
-        this.goToMaster = goToMaster;
-    }
 
     public boolean isActive() {
         return isActive;

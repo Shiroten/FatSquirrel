@@ -19,6 +19,7 @@ public class ExCells26Master implements BotController {
     private boolean firstCall = true;
     private ControllerContext view;
     private ExCells26ReaperMini miniOfCurrentCell;
+    private boolean firstTimeInCell = true;
 
     public ExCells26Master(BotCom botCom) {
         this.botCom = botCom;
@@ -39,15 +40,17 @@ public class ExCells26Master implements BotController {
             return;
         }
 
-        if (currentCell.isInside(view.locate(), botCom)) {
-            if (!currentCell.isGoToMaster()) {
-                currentCell.setGoToMaster(true);
-                miniOfCurrentCell = currentCell.getMiniSquirrel();
-            }
-            getMiniOfCell();
+
+        if (miniOfCurrentCell != null) {
+            view.move(XY.ZERO_ZERO);
             return;
         }
-        if (currentCell.getQuadrant().equals(view.locate())) {
+        if (currentCell.isInside(view.locate(), botCom) && firstTimeInCell) {
+            collectMiniOfCell();
+            return;
+        }
+
+        if (currentCell.getQuadrant().equals(view.locate()) && !firstTimeInCell) {
             try {
                 //TODO: Sollte das nicht beim Versuch des Spawnens von Minis geschehen?
                 botCom.expand();
@@ -64,13 +67,17 @@ public class ExCells26Master implements BotController {
             changeCurrentCell();
         }
         moveToCurrentCell();
+
+
     }
 
-    private void getMiniOfCell() {
-        if (currentCell.isGoToMaster() && (currentCell.getMiniSquirrel() == miniOfCurrentCell)) {
-            //Wait for Mini to catchUp
-            view.move(XY.ZERO_ZERO);
-            return;
+    private void collectMiniOfCell() {
+        firstTimeInCell = false;
+        if (currentCell.getMiniSquirrel() != null) {
+            miniOfCurrentCell = currentCell.getMiniSquirrel();
+            miniOfCurrentCell.setMyCell(null);
+            miniOfCurrentCell.setGoToMaster(true);
+            //currentCell.setMiniSquirrel(null);
         }
     }
 
@@ -91,8 +98,7 @@ public class ExCells26Master implements BotController {
     }
 
     private void changeCurrentCell() {
-        //Todo: adding Epsilon distance
-        currentCell.setGoToMaster(false);
+        firstTimeInCell = true;
         currentCell = currentCell.getNextCell();
         //Todo: remove after debugging
         //System.out.println("\nGo to nextCell: " + currentCell);

@@ -20,9 +20,12 @@ import java.util.ArrayList;
 public class ExCells26ReaperMini implements BotController {
 
     private BotCom botCom;
+
     private Cell myCell;
+
     protected ArrayList<XY> unReachableGoodies = new ArrayList<>();
     private XY cornerVector = XY.UP;
+    private boolean goToMaster = false;
 
     public ExCells26ReaperMini(BotCom botCom) {
         this.botCom = botCom;
@@ -32,12 +35,12 @@ public class ExCells26ReaperMini implements BotController {
 
     @Override
     public void nextStep(ControllerContext view) {
-        myCell.setLastFeedback(view.getRemainingSteps());
-
-        if(myCell.isGoToMaster()){
-            goToMaster(view);
+        if(goToMaster){
+            executeGoToMaster(view);
             return;
         }
+
+        myCell.setLastFeedback(view.getRemainingSteps());
 
         if (view.getRemainingSteps() < 200) {
             endOfSeason(view);
@@ -66,12 +69,21 @@ public class ExCells26ReaperMini implements BotController {
         }
         view.move(toMove);
     }
-    private void goToMaster(ControllerContext view){
+
+    public void setMyCell(Cell myCell) {
+        this.myCell = myCell;
+    }
+
+    public void setGoToMaster(boolean goToMaster) {
+        this.goToMaster = goToMaster;
+    }
+    private void executeGoToMaster(ControllerContext view){
         PathFinder pf = new PathFinder(botCom);
         try {
             view.move(pf.directionTo(view.locate(),botCom.positionOfExCellMaster,view));
         } catch (FullFieldException | FieldUnreachableException e) {
-            System.out.println("goToMaster Error");
+            //Todo: add to Log
+            System.out.println("executeGoToMaster Error");
         }
     }
 
