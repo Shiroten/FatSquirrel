@@ -17,7 +17,7 @@ public class ExCells26ReaperMiniTest {
         BotCom botCom = new BotCom();
         Cell cellOfMini = new Cell(new XY (53,53));
         cellOfMini.setActive(cellOfMini);
-        botCom.setForNextMini(cellOfMini);
+        botCom.setCellForNextMini(cellOfMini);
         botCom.grid.put(cellOfMini.getQuadrant(), cellOfMini);
 
         ExCells26ReaperMini reaper = new ExCells26ReaperMini(botCom);
@@ -34,7 +34,7 @@ public class ExCells26ReaperMiniTest {
     @Test
     public void unRechableTest(){
         BotCom botCom = new BotCom();
-        botCom.setForNextMini(new Cell(new XY(100,100)));
+        botCom.setCellForNextMini(new Cell(new XY(100,100)));
         ExCells26ReaperMini mini = new ExCells26ReaperMini(botCom);
 
         mini.unReachableGoodies.add(new XY (10,10));

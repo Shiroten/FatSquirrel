@@ -26,7 +26,7 @@ public class ExCells26ReaperMini implements BotController {
 
     public ExCells26ReaperMini(BotCom botCom) {
         this.botCom = botCom;
-        this.myCell = botCom.getForNextMini();
+        this.myCell = botCom.getCellForNextMini();
         this.myCell.setMiniSquirrel(this);
     }
 

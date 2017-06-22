@@ -28,7 +28,7 @@ public class ExCells26Factory implements BotControllerFactory {
         //Todo: Alternative, ein MiniSquirrel das unterschiedliche Kis in abhängigkeit einer Einstellung verwendet
 
         BotController mini;
-        switch (botcom.getNextMini()) {
+        switch (botcom.getNextMiniTypeToSpawn()) {
             case RECON:
                 mini = new ExCells26ReconMini(botcom);
                 break;
