@@ -10,6 +10,7 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.Cell;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.FieldUnreachableException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
+import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 public class ExCells26ReaperMini implements BotController {
 
     private BotCom botCom;
-
     private Cell myCell;
 
     protected ArrayList<XY> unReachableGoodies = new ArrayList<>();
@@ -35,9 +35,14 @@ public class ExCells26ReaperMini implements BotController {
 
     @Override
     public void nextStep(ControllerContext view) {
-        if(goToMaster){
+        if (goToMaster) {
             executeGoToMaster(view);
             return;
+        }
+
+
+        if (view.getEnergy() > 1000) {
+            goToMaster = true;
         }
 
         myCell.setLastFeedback(view.getRemainingSteps());
@@ -60,10 +65,9 @@ public class ExCells26ReaperMini implements BotController {
                 PathFinder pf = new PathFinder(botCom);
                 try {
                     toMove = pf.directionTo(view.locate(), myCell.getQuadrant(), view);
-                } catch (FullFieldException e2) {
-                    e2.printStackTrace();
-                } catch (FieldUnreachableException e2) {
-                    e2.printStackTrace();
+                } catch (FullFieldException | FieldUnreachableException e2) {
+                    //Todo: add To Log
+                    //e2.printStackTrace();
                 }
             }
         }
@@ -76,15 +80,6 @@ public class ExCells26ReaperMini implements BotController {
 
     public void setGoToMaster(boolean goToMaster) {
         this.goToMaster = goToMaster;
-    }
-    private void executeGoToMaster(ControllerContext view){
-        PathFinder pf = new PathFinder(botCom);
-        try {
-            view.move(pf.directionTo(view.locate(),botCom.positionOfExCellMaster,view));
-        } catch (FullFieldException | FieldUnreachableException e) {
-            //Todo: add to Log
-            System.out.println("executeGoToMaster Error");
-        }
     }
 
     private XY runningCircle(ControllerContext view) throws NoTargetException {
@@ -108,7 +103,46 @@ public class ExCells26ReaperMini implements BotController {
         throw new NoTargetException();
     }
 
-    private XY calculateTarget(ControllerContext view) throws NoTargetException {
+    protected void executeGoToMaster(ControllerContext view) {
+        XY positionOfMaster;
+        if (botCom.positionOfExCellMaster.minus(view.locate()).length() > 10) {
+            positionOfMaster = botCom.positionOfExCellMaster;
+        } else {
+            try {
+                positionOfMaster = getAccuratePositionOfMaster(view);
+            } catch (NoTargetException e) {
+                positionOfMaster = botCom.positionOfExCellMaster;
+            }
+        }
+        PathFinder pf = new PathFinder(botCom);
+        try {
+            view.move(pf.directionTo(view.locate(), positionOfMaster, view));
+        } catch (FullFieldException | FieldUnreachableException e) {
+            //Todo: add to Log
+            String s = "executeGoToMaster Error";
+        }
+    }
+
+    protected XY getAccuratePositionOfMaster(ControllerContext view) throws NoTargetException {
+        for (int j = view.getViewUpperLeft().getY(); j < view.getViewLowerRight().getY(); j++) {
+            for (int i = view.getViewUpperLeft().getX(); i < view.getViewLowerRight().getX(); i++) {
+                try {
+                    if (view.getEntityAt(new XY(i, j)) != EntityType.MASTERSQUIRREL) {
+                        continue;
+                    }
+                    if (view.isMine(new XY(i, j))) {
+                        return new XY(i, j);
+                    }
+                } catch (OutOfViewException e) {
+                    //Todo: add to Log
+                    //e.printStackTrace();
+                }
+            }
+        }
+        throw new NoTargetException();
+    }
+
+    protected XY calculateTarget(ControllerContext view) throws NoTargetException {
         unReachableGoodies.clear();
         XY positionOfGoodTarget;
         XY toMove = XY.ZERO_ZERO;
@@ -129,6 +163,7 @@ public class ExCells26ReaperMini implements BotController {
             return toMove;
 
         }
+        //Todo: add to Log
         System.out.println("calculateTarget Error");
         throw new NoTargetException();
 
@@ -143,7 +178,7 @@ public class ExCells26ReaperMini implements BotController {
                     continue;
                 }
 
-                if (!myCell.isInside(new XY(i, j),botCom)) {
+                if (!myCell.isInside(new XY(i, j), botCom)) {
                     continue;
                 }
 
@@ -161,7 +196,7 @@ public class ExCells26ReaperMini implements BotController {
         return positionOfTentativelyTarget;
     }
 
-    private boolean isGoodTargetAt(ControllerContext view, XY position) {
+    protected boolean isGoodTargetAt(ControllerContext view, XY position) {
         try {
             if (view.getEntityAt(position) == EntityType.GOODBEAST ||
                     view.getEntityAt(position) == EntityType.GOODPLANT) {
@@ -186,7 +221,6 @@ public class ExCells26ReaperMini implements BotController {
         }
         view.move(toMove);
     }
-
 
 
 }

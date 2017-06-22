@@ -4,7 +4,7 @@ import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.*;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.BotCom;
-import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26BombMini;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26FeralMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReconMini;
 
@@ -35,8 +35,8 @@ public class ExCells26Factory implements BotControllerFactory {
             case REAPER:
                 mini = new ExCells26ReaperMini(botcom);
                 break;
-            case BOMB:
-                mini = new ExCells26BombMini();
+            case FERAL:
+                mini = new ExCells26FeralMini(botcom);
                 break;
             default:
                 mini = new ExCells26ReaperMini(botcom);

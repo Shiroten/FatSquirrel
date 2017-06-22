@@ -40,11 +40,13 @@ public class ExCells26Master implements BotController {
             return;
         }
 
-
+        /*
         if (miniOfCurrentCell != null) {
             view.move(XY.ZERO_ZERO);
             return;
         }
+        */
+
         if (currentCell.isInside(view.locate(), botCom) && firstTimeInCell) {
             collectMiniOfCell();
             return;

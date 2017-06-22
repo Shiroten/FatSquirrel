@@ -32,8 +32,8 @@ public class BotCom {
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    int cellDistanceX = 21;
-    int cellDistanceY = 21;
+    int cellDistanceX = 12;
+    int cellDistanceY = 12;
 
     //Default: 11 (last working number)
     private int cellCenterOffsetX = 7;
@@ -118,25 +118,25 @@ public class BotCom {
         firstCell.setActive(firstCell);
     }
 
-    public void calculateCellSize(){
+    public void calculateCellSize() {
         int newCellDistanceX = cellDistanceX;
         int newCellDistanceY = cellDistanceY;
 
-        for(int i = 0; i < cellDistanceX; i++){
-            if(fieldLimit.getX() % (newCellDistanceX- i) == 0){
+        for (int i = 0; i < cellDistanceX; i++) {
+            if (fieldLimit.getX() % (newCellDistanceX - i) == 0) {
                 cellDistanceX = newCellDistanceX - i;
                 break;
-            } else if(fieldLimit.getX() % (newCellDistanceX+ i) == 0){
+            } else if (fieldLimit.getX() % (newCellDistanceX + i) == 0) {
                 cellDistanceX = newCellDistanceX + i;
                 break;
             }
         }
 
-        for(int i = 0; i < cellDistanceY; i++){
-            if(fieldLimit.getY() % (newCellDistanceY- i) == 0){
+        for (int i = 0; i < cellDistanceY; i++) {
+            if (fieldLimit.getY() % (newCellDistanceY - i) == 0) {
                 cellDistanceY = newCellDistanceY - i;
                 break;
-            } else if(fieldLimit.getY() % (newCellDistanceY+ i) == 0){
+            } else if (fieldLimit.getY() % (newCellDistanceY + i) == 0) {
                 cellDistanceY = newCellDistanceY + i;
                 break;
             }
@@ -153,7 +153,7 @@ public class BotCom {
         for (int i = 0; i <= xLimit; i++) {
             for (int j = 0; j <= yLimit; j++) {
                 Cell newCell = new Cell(new XY(cellCenterOffsetX + cellDistanceX * i, cellCenterOffsetY + cellDistanceY * j));
-                if (!validCell(newCell.getQuadrant())){
+                if (!validCell(newCell.getQuadrant())) {
                     continue;
                 }
                 if (!(grid.contains(newCell))) {

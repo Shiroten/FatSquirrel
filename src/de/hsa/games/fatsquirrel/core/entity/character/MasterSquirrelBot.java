@@ -23,6 +23,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         private MasterSquirrel masterSquirrel;
         private static final int VIEW_DISTANCE = 15;
 
+
         public ControllerContextImpl(EntityContext context, MasterSquirrel masterSquirrel) {
             this.context = context;
             this.masterSquirrel = masterSquirrel;
@@ -101,7 +102,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         }
 
         @Override
-        public void spawnMiniBot(XY direction, int energy) throws SpawnException{
+        public void spawnMiniBot(XY direction, int energy) throws SpawnException {
             if (masterSquirrel.getEnergy() >= energy) {
                 try {
                     if (getEntityAt(locate().plus(direction)) != EntityType.NONE)
@@ -121,6 +122,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         }
     }
 
+    private int moveCounter = 0;
     private BotController masterBotController;
 
     public MasterSquirrelBot(int id, XY position, BotControllerFactory factory) {
@@ -140,10 +142,19 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 new Class[]{ControllerContext.class},
                 handler);
 
-        if (getStunTime() > 0)
-            reduceStunTime();
-        else{
-            masterBotController.nextStep(proxyView);
-        }
+        if (moveCounter == 0) {
+            if (getStunTime() > 0)
+                reduceStunTime();
+            else {
+                masterBotController.nextStep(proxyView);
+            }
+            moveCounter++;
+        } else if (moveCounter == 2)
+            moveCounter = 0;
+        else
+            moveCounter++;
     }
+
+
 }
+

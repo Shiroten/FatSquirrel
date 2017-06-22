@@ -1,7 +1,7 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 public enum MiniType {
-    BOMB(100), RECON(100), REAPER(200), NONE(0);
+    FERAL(100), RECON(100), REAPER(200), NONE(0);
     private int energy;
 
     MiniType(int energy) {
