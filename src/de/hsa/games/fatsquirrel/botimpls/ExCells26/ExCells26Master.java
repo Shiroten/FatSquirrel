@@ -20,6 +20,7 @@ public class ExCells26Master implements BotController {
     private ControllerContext view;
     private ExCells26ReaperMini miniOfCurrentCell;
     private boolean firstTimeInCell = true;
+    private int waitCycleForFeral = 5;
 
     public ExCells26Master(BotCom botCom) {
         this.botCom = botCom;
@@ -32,20 +33,16 @@ public class ExCells26Master implements BotController {
             initOfMaster(view);
         }
 
-        if (view.getEnergy() > 1000)
-            fillUpWithReaper();
 
-        if (view.getRemainingSteps() < 200) {
+        if (view.getEnergy() > 500) {
+            spawnMoreMinis();
+        }
+
+
+        if (view.getRemainingSteps() < 100) {
             collectingReapers();
             return;
         }
-
-        /*
-        if (miniOfCurrentCell != null) {
-            view.move(XY.ZERO_ZERO);
-            return;
-        }
-        */
 
         if (currentCell.isInside(view.locate(), botCom) && firstTimeInCell) {
             collectMiniOfCell();
@@ -54,23 +51,45 @@ public class ExCells26Master implements BotController {
 
         if (currentCell.getQuadrant().equals(view.locate()) && !firstTimeInCell) {
             try {
-                //TODO: Sollte das nicht beim Versuch des Spawnens von Minis geschehen?
                 botCom.expand();
+                if (view.getEnergy() >= 100) {
+                    if (currentCell.getMiniSquirrel() == null) {
+                        spawningReaper(currentCell);
+                    }
+                } else {
+                    //maybe something better
+                    changeCurrentCell();
+                }
             } catch (NoConnectingNeighbourException e) {
                 //Todo: add to Log
                 //e.printStackTrace();
             }
-            if (view.getEnergy() >= 100) {
-                spawningReaper();
-            } else {
-                //maybe something better
-                changeCurrentCell();
-            }
             changeCurrentCell();
         }
         moveToCurrentCell();
+    }
 
+    private void spawnMoreMinis() {
+        Cell start = currentCell;
+        Cell toCheck = start;
+        while (true) {
+            toCheck = toCheck.getNextCell();
+            if (toCheck.getMiniSquirrel() == null) {
+                break;
+            } else {
+                toCheck = toCheck.getNextCell();
+            }
 
+            if (toCheck.equals(start)) {
+                try {
+                    botCom.expand();
+                } catch (NoConnectingNeighbourException e) {
+                    return;
+                }
+            }
+        }
+        spawningReaper(toCheck);
+        changeCurrentCell();
     }
 
     private void collectMiniOfCell() {
@@ -80,22 +99,6 @@ public class ExCells26Master implements BotController {
             miniOfCurrentCell.setMyCell(null);
             miniOfCurrentCell.setGoToMaster(true);
             //currentCell.setMiniSquirrel(null);
-        }
-    }
-
-    private void fillUpWithReaper() {
-        try {
-            if (botCom.freeCell() != null) {
-                botCom.setNextMiniTypeToSpawn(MiniType.REAPER);
-                botCom.setCellForNextMini(botCom.freeCell());
-                XY spawnDirection = botCom.freeCell().getQuadrant().minus(view.locate());
-                spawnDirection = XYsupport.normalizedVector(spawnDirection).times(-1);
-                if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
-                    view.spawnMiniBot(spawnDirection, 100);
-                }
-            }
-        } catch (FullGridException | OutOfViewException | SpawnException e) {
-            //e.printStackTrace();
         }
     }
 
@@ -112,18 +115,16 @@ public class ExCells26Master implements BotController {
         this.view = view;
     }
 
-    private void spawningReaper() {
+    private void spawningReaper(Cell cellForMini) {
         try {
-            if (currentCell.getMiniSquirrel() == null) {
-                botCom.setNextMiniTypeToSpawn(MiniType.REAPER);
-                botCom.setCellForNextMini(currentCell);
-                XY spawnDirection = currentCell.getNextCell().getQuadrant().minus(view.locate());
-                spawnDirection = XYsupport.normalizedVector(spawnDirection).times(-1);
-                if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
-                    view.spawnMiniBot(spawnDirection, 100);
-                } else {
-                    //Todo: adding can't spawn
-                }
+            botCom.setNextMiniTypeToSpawn(MiniType.REAPER);
+            botCom.setCellForNextMini(cellForMini);
+            XY spawnDirection = cellForMini.getNextCell().getQuadrant().minus(view.locate());
+            spawnDirection = XYsupport.normalizedVector(spawnDirection).times(-1);
+            if (view.getEntityAt(view.locate().plus(spawnDirection)) == EntityType.NONE) {
+                view.spawnMiniBot(spawnDirection, 100);
+            } else {
+                //Todo: adding can't spawn
             }
         } catch (SpawnException | OutOfViewException e) {
             //Todo: add to Log

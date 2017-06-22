@@ -20,12 +20,12 @@ import java.util.ArrayList;
  */
 public class ExCells26ReaperMini implements BotController {
 
-    private BotCom botCom;
-    private Cell myCell;
+    protected BotCom botCom;
+    protected Cell myCell;
 
     protected ArrayList<XY> unReachableGoodies = new ArrayList<>();
     private XY cornerVector = XY.UP;
-    private boolean goToMaster = false;
+    protected boolean goToMaster = false;
 
     public ExCells26ReaperMini(BotCom botCom) {
         this.botCom = botCom;
@@ -35,22 +35,26 @@ public class ExCells26ReaperMini implements BotController {
 
     @Override
     public void nextStep(ControllerContext view) {
+        if (view.getRemainingSteps() < 200) {
+            goToMaster = true;
+        }
+
         if (goToMaster) {
             executeGoToMaster(view);
             return;
         }
 
-
-        if (view.getEnergy() > 1000) {
+        if (view.getEnergy() > 1000 && view.getRemainingSteps() > 1600) {
             goToMaster = true;
         }
 
+        if (view.getEnergy() > 2000) {
+            goToMaster = true;
+        }
+
+
         myCell.setLastFeedback(view.getRemainingSteps());
 
-        if (view.getRemainingSteps() < 200) {
-            endOfSeason(view);
-            return;
-        }
 
         XY toMove = XYsupport.normalizedVector(myCell.getQuadrant().minus(view.locate()));
 
@@ -69,6 +73,15 @@ public class ExCells26ReaperMini implements BotController {
                     //Todo: add To Log
                     //e2.printStackTrace();
                 }
+            }
+        }
+        if (!goToMaster) {
+            try {
+                if (view.isMine(view.locate().plus(toMove))) {
+                    toMove = XY.ZERO_ZERO;
+                }
+            } catch (OutOfViewException e) {
+                //Todo: add log
             }
         }
         view.move(toMove);
@@ -145,23 +158,19 @@ public class ExCells26ReaperMini implements BotController {
     protected XY calculateTarget(ControllerContext view) throws NoTargetException {
         unReachableGoodies.clear();
         XY positionOfGoodTarget;
-        XY toMove = XY.ZERO_ZERO;
+        XY toMove;
         PathFinder pf = new PathFinder(botCom);
 
         //numberOfTries can be incremented if needed
         int numberOfTries = 10;
         for (int i = 0; i < numberOfTries; i++) {
             positionOfGoodTarget = findNextGoodies(view);
-
             try {
                 toMove = pf.directionTo(view.locate(), positionOfGoodTarget, view);
-            } catch (FullFieldException e) {
-                unReachableGoodies.add(positionOfGoodTarget);
-            } catch (FieldUnreachableException e) {
+                return toMove;
+            } catch (FullFieldException | FieldUnreachableException e) {
                 unReachableGoodies.add(positionOfGoodTarget);
             }
-            return toMove;
-
         }
         //Todo: add to Log
         System.out.println("calculateTarget Error");
@@ -178,8 +187,10 @@ public class ExCells26ReaperMini implements BotController {
                     continue;
                 }
 
-                if (!myCell.isInside(new XY(i, j), botCom)) {
-                    continue;
+                if (!(this instanceof ExCells26FeralMini)) {
+                    if (!myCell.isInside(new XY(i, j), botCom)) {
+                        continue;
+                    }
                 }
 
                 if (!isGoodTargetAt(view, new XY(i, j))) {
@@ -210,17 +221,5 @@ public class ExCells26ReaperMini implements BotController {
         }
         return false;
     }
-
-    private void endOfSeason(ControllerContext view) {
-        XY toMove = botCom.positionOfExCellMaster;
-        PathFinder pf = new PathFinder(botCom);
-        try {
-            toMove = pf.directionTo(view.locate(), toMove, view);
-        } catch (FullFieldException | FieldUnreachableException e) {
-
-        }
-        view.move(toMove);
-    }
-
 
 }
