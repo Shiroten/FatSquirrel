@@ -7,6 +7,7 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.*;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
@@ -17,6 +18,7 @@ public class ExCells26Master implements BotController {
     private Cell currentCell;
     private boolean firstCall = true;
     private ControllerContext view;
+    private ExCells26ReaperMini miniOfCurrentCell;
 
     public ExCells26Master(BotCom botCom) {
         this.botCom = botCom;
@@ -30,13 +32,21 @@ public class ExCells26Master implements BotController {
         }
 
         if (view.getEnergy() > 1000)
-        fillUpWithReaper();
+            fillUpWithReaper();
 
         if (view.getRemainingSteps() < 200) {
             collectingReapers();
             return;
         }
 
+        if (currentCell.isInside(view.locate(), botCom)) {
+            if (!currentCell.isGoToMaster()) {
+                currentCell.setGoToMaster(true);
+                miniOfCurrentCell = currentCell.getMiniSquirrel();
+            }
+            getMiniOfCell();
+            return;
+        }
         if (currentCell.getQuadrant().equals(view.locate())) {
             try {
                 //TODO: Sollte das nicht beim Versuch des Spawnens von Minis geschehen?
@@ -51,15 +61,20 @@ public class ExCells26Master implements BotController {
                 //maybe something better
                 changeCurrentCell();
             }
-
             changeCurrentCell();
-
         }
-
         moveToCurrentCell();
-
     }
-    private void fillUpWithReaper(){
+
+    private void getMiniOfCell() {
+        if (currentCell.isGoToMaster() && (currentCell.getMiniSquirrel() == miniOfCurrentCell)) {
+            //Wait for Mini to catchUp
+            view.move(XY.ZERO_ZERO);
+            return;
+        }
+    }
+
+    private void fillUpWithReaper() {
         try {
             if (botCom.freeCell() != null) {
                 botCom.setNextMiniTypeToSpawn(MiniType.REAPER);
@@ -77,6 +92,7 @@ public class ExCells26Master implements BotController {
 
     private void changeCurrentCell() {
         //Todo: adding Epsilon distance
+        currentCell.setGoToMaster(false);
         currentCell = currentCell.getNextCell();
         //Todo: remove after debugging
         //System.out.println("\nGo to nextCell: " + currentCell);
@@ -108,34 +124,26 @@ public class ExCells26Master implements BotController {
     }
 
     private void moveToCurrentCell() {
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         XY betterMove = XY.ZERO_ZERO;
         try {
-            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view, botCom);
-        } catch (FullFieldException e) {
-            //Todo: add to Log
-            // e.printStackTrace();
-        } catch (FieldUnreachableException e){
-
-        }
-        if (betterMove != XY.ZERO_ZERO) {
-            view.move(betterMove);
-        } else {
+            betterMove = pf.directionTo(view.locate(), currentCell.getQuadrant(), view);
+        } catch (FullFieldException | FieldUnreachableException e) {
             changeCurrentCell();
         }
-
+        view.move(betterMove);
     }
 
     private void collectingReapers() {
         XY middle = new XY(botCom.getFieldLimit().getX() / 2, botCom.getFieldLimit().getX() / 2);
-        PathFinder pf = new PathFinder();
+        PathFinder pf = new PathFinder(botCom);
         XY toMove = XY.ZERO_ZERO;
         try {
-            toMove = pf.directionTo(view.locate(), middle, view, botCom);
+            toMove = pf.directionTo(view.locate(), middle, view);
         } catch (FullFieldException e) {
             //Todo: add to Log
             //e.printStackTrace();
-        } catch (FieldUnreachableException e){
+        } catch (FieldUnreachableException e) {
         }
         view.move(XYsupport.normalizedVector(toMove));
     }
