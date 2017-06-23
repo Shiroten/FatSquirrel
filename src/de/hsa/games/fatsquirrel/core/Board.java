@@ -28,6 +28,7 @@ public class Board {
     private List<MasterSquirrel> masterSquirrel = new ArrayList<>();
     private ArrayList<ImplosionContext> implosions = new ArrayList<>();
     private List<Entity> entityList = new ArrayList<>();
+
     public Board() {
 
         this.config = new BoardConfig("default.props");
@@ -78,6 +79,7 @@ public class Board {
         //Äußere Mauern
         initOuterWalls();
 
+        //TODO: Eventuell per Reflection lösen
         //Random Entitys auf der Map verteilt
         addEntity(EntityType.WALL, config.getNumberOfWa());
         addEntity(EntityType.BADBEAST, config.getNumberOfBb());
@@ -109,7 +111,6 @@ public class Board {
     }
 
     public void nextStep(EntityContext context) {
-
         try {
             for(Entity e : new ArrayList<>(entityList)){
                 if(entityList.contains(e)) {
