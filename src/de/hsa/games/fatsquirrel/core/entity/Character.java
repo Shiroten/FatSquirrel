@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
+import javafx.scene.paint.Color;
 
 /**
  * The parent class for all entities that can make an action, i.e. have a nextStep()
@@ -9,8 +10,8 @@ import de.hsa.games.fatsquirrel.XY;
 public abstract class Character extends Entity {
     private XY lastDirection = XY.ZERO_ZERO;
 
-    protected Character(int energy, int id, XY coordinate) {
-        super(energy, id, coordinate);
+    protected Character(int energy, int id, XY coordinate, Color c) {
+        super(energy, id, coordinate, c);
     }
 
     /**

@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core.entity.squirrels;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.core.entity.Character;
+import javafx.scene.paint.Color;
 
 /**
  * The parent of all Squirrels. Implements stunning functionality
@@ -11,8 +12,8 @@ public abstract class PlayerEntity extends Character {
     private int stunTime = 0;
 
     //Package Private
-    PlayerEntity(int startEnergy, int id, XY coordinate){
-        super(startEnergy, id, coordinate);
+    PlayerEntity(int startEnergy, int id, XY coordinate, Color c){
+        super(startEnergy, id, coordinate, c);
     }
 
     public void setStunTime(int stunTime){

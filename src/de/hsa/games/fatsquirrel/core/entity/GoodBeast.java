@@ -4,6 +4,7 @@ import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.PlayerEntity;
+import javafx.scene.paint.Color;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,10 +16,11 @@ import java.util.logging.Logger;
 public class GoodBeast extends Character {
     public static final int START_ENERGY = 200;
     private static final EntityType type = EntityType.GOODBEAST;
+    public static final Color ENTITYCOLOR = Color.color(1, 0.9765, 0);
     public int moveCounter = 0;
 
     public GoodBeast(int id, XY coordinate) {
-        super(START_ENERGY, id, coordinate);
+        super(START_ENERGY, id, coordinate, ENTITYCOLOR);
     }
 
     public EntityType getEntityType() {

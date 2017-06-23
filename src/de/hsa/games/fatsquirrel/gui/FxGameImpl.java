@@ -87,16 +87,15 @@ public class FxGameImpl extends Game {
             imploadMiniSquirrel = null;
         }
 
-
-
         getState().update();
         FxUI fxUI = (FxUI) this.getUi();
-        String msg = "";
-        msg = msg + String.format("FrameRate: %2.0f", 1000.0 / this.getTickLength());
-        msg = msg + String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime());
-        msg = msg + String.format(" | MasterSquirrel Energy: " + Integer.toString(handOperatedMasterSquirrel.getEnergy()));
+        StringBuilder msg = new StringBuilder();
+        msg.append(String.format("FrameRate: %2.0f", 1000.0 / this.getTickLength()));
+        msg.append(String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime()));
+        msg.append(String.format(" | MasterSquirrel Energy: "));
+        msg.append(handOperatedMasterSquirrel.getEnergy());
 
-        fxUI.message(msg);
+        fxUI.message(msg.toString());
     }
 
     /**
