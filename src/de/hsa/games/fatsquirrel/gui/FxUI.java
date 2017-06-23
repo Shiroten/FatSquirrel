@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +42,7 @@ public class FxUI extends Scene implements UI {
     private static int fieldSizeX;
     private static int fieldSizeY;
     private static double scaleFactor = (double) cellSize / CELL_SIZE_AT_START;
+    private ArrayList<ImplosionContext> implosions;
 
 
     public enum toogleInput {
@@ -62,14 +64,16 @@ public class FxUI extends Scene implements UI {
         showID,
     }
 
-    private FxUI(Parent parent, Canvas boardCanvas, Label msgLabel, int cellSize) {
+    private FxUI(Parent parent, Canvas boardCanvas, Label msgLabel, int cellSize, ArrayList<ImplosionContext> implosions) {
         super(parent);
         this.boardCanvas = boardCanvas;
         this.msgLabel = msgLabel;
+        this.implosions = implosions;
         CELL_SIZE_AT_START = cellSize;
+
     }
 
-    public static FxUI createInstance(XY boardSize, int cellSize) {
+    public static FxUI createInstance(XY boardSize, int cellSize, ArrayList<ImplosionContext> implosions) {
         fieldSizeX = boardSize.getX();
         fieldSizeY = boardSize.getY();
 
@@ -80,7 +84,7 @@ public class FxUI extends Scene implements UI {
         top.getChildren().add(statusLabel);
 
         statusLabel.setText("Fange Squirrel ein");
-        final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel, cellSize);
+        final FxUI fxUI = new FxUI(top, boardCanvas, statusLabel, cellSize, implosions);
 
         fxUI.setOnKeyPressed(
                 keyEvent -> {
@@ -217,6 +221,19 @@ public class FxUI extends Scene implements UI {
     @Override
     public void render(final BoardView view) {
         Platform.runLater(() -> repaintBoardCanvas(view));
+        tickImplosions();
+    }
+
+    public void tickImplosions() {
+        ImplosionContext icToDelete = null;
+        for (ImplosionContext ic : implosions) {
+            ic.updateTick();
+            if (ic.getTickCounter() <= 0) {
+                icToDelete = ic;
+            }
+        }
+        if (icToDelete != null)
+            implosions.remove(icToDelete);
     }
 
     private void repaintBoardCanvas(BoardView view) {
@@ -301,7 +318,7 @@ public class FxUI extends Scene implements UI {
     }
 
     private void printImplosion(GraphicsContext gc, BoardView view) throws Exception {
-        for (ImplosionContext ic : view.getImplosions()) {
+        for (ImplosionContext ic : implosions) {
 
             double opacity = (((double) ic.getTickCounter() / ic.getMAX_TICK_COUNTER()));
             if (opacity < 0)
