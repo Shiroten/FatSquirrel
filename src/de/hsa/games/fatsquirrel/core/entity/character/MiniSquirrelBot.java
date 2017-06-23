@@ -129,8 +129,6 @@ public class MiniSquirrelBot extends MiniSquirrel {
             moveCounter = 0;
         else
             moveCounter++;
-
-
     }
 
 

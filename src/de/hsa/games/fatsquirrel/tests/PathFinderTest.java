@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
+import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.BotCom;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
@@ -17,7 +18,8 @@ import static org.junit.Assert.*;
 public class PathFinderTest {
     @Test
     public void directionTo() throws Exception {
-        PathFinder pathFinder = new PathFinder();
+        BotCom botCom = new BotCom();
+        PathFinder pathFinder = new PathFinder(botCom);
 
         Board board = new Board();
         GoodPlant goodPlant = new GoodPlant(1, new XY(3,3));

@@ -84,6 +84,26 @@ public class Cell {
         this.nextCell = nextCell;
     }
 
+    public boolean isInside(XY target, BotCom botCom) {
+        /*
+        if (Math.abs((myCell.getQuadrant().getX() - target.getX())) > 10) {
+            return false;
+        }
+        if (Math.abs((myCell.getQuadrant().getY() - target.getY())) > 10) {
+            return false;
+        }
+        */
+        //Original Version:
+
+        if (Math.abs((this.getQuadrant().getX() - target.getX())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+        if (Math.abs((this.getQuadrant().getY() - target.getY())) > botCom.getCellsize() / 2) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

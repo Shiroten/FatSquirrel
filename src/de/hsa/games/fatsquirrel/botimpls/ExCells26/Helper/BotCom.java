@@ -21,33 +21,34 @@ public class BotCom {
 
     public Hashtable<XY, Cell> grid = new Hashtable<>();
 
-    private MiniType nextMini;
+    private MiniType nextMiniTypeToSpawn;
 
-    public Cell getForNextMini() {
-        return forNextMini;
-    }
-
-    public void setForNextMini(Cell forNextMini) {
-        this.forNextMini = forNextMini;
-    }
-
-    private Cell forNextMini;
+    private Cell cellForNextMini;
     private XY fieldLimit;
+
     //Todo: fieldLimit muss durch das MasterSquirrel auf startPositions view gesetzt werden.
     private boolean fieldLimitFound;
     public XY startPositionOfMaster;
     public XY positionOfExCellMaster;
 
     //Default: 21 (last working number)
-    int cellDistanceX = 21;
-    int cellDistanceY = 21;
+    int cellDistanceX = 12;
+    int cellDistanceY = 12;
 
     //Default: 11 (last working number)
-    private int cellCenterOffsetX = 3;
-    private int cellCenterOffsetY = 3;
+    private int cellCenterOffsetX = 7;
+    private int cellCenterOffsetY = 7;
 
     //Default: 21 (last working number)
     private int cellsize = 15;
+
+    public int getCellDistanceX() {
+        return cellDistanceX;
+    }
+
+    public int getCellDistanceY() {
+        return cellDistanceY;
+    }
 
     public BotController getMaster() {
         return master;
@@ -57,8 +58,8 @@ public class BotCom {
         this.master = master;
     }
 
-    public void setNextMini(MiniType nextMini) {
-        this.nextMini = nextMini;
+    public void setNextMiniTypeToSpawn(MiniType nextMiniTypeToSpawn) {
+        this.nextMiniTypeToSpawn = nextMiniTypeToSpawn;
     }
 
     public XY getFieldLimit() {
@@ -69,8 +70,8 @@ public class BotCom {
         this.fieldLimit = fieldLimit;
     }
 
-    public MiniType getNextMini() {
-        return nextMini;
+    public MiniType getNextMiniTypeToSpawn() {
+        return nextMiniTypeToSpawn;
     }
 
     public int getCellsize() {
@@ -81,8 +82,24 @@ public class BotCom {
         this.cellsize = cellsize;
     }
 
+    public boolean isFieldLimitFound() {
+        return fieldLimitFound;
+    }
+
+    public void setFieldLimitFound(boolean fieldLimitFound) {
+        this.fieldLimitFound = fieldLimitFound;
+    }
+
     public void setStartPositionOfMaster(XY startPositionOfMaster) {
         this.startPositionOfMaster = startPositionOfMaster;
+    }
+
+    public Cell getCellForNextMini() {
+        return cellForNextMini;
+    }
+
+    public void setCellForNextMini(Cell cellForNextMini) {
+        this.cellForNextMini = cellForNextMini;
     }
 
     public void init() {
@@ -101,25 +118,25 @@ public class BotCom {
         firstCell.setActive(firstCell);
     }
 
-    public void calculateCellSize(){
+    public void calculateCellSize() {
         int newCellDistanceX = cellDistanceX;
         int newCellDistanceY = cellDistanceY;
 
-        for(int i = 0; i < cellDistanceX; i++){
-            if(fieldLimit.getX() % (newCellDistanceX- i) == 0){
+        for (int i = 0; i < cellDistanceX; i++) {
+            if (fieldLimit.getX() % (newCellDistanceX - i) == 0) {
                 cellDistanceX = newCellDistanceX - i;
                 break;
-            } else if(fieldLimit.getX() % (newCellDistanceX+ i) == 0){
+            } else if (fieldLimit.getX() % (newCellDistanceX + i) == 0) {
                 cellDistanceX = newCellDistanceX + i;
                 break;
             }
         }
 
-        for(int i = 0; i < cellDistanceY; i++){
-            if(fieldLimit.getY() % (newCellDistanceY- i) == 0){
+        for (int i = 0; i < cellDistanceY; i++) {
+            if (fieldLimit.getY() % (newCellDistanceY - i) == 0) {
                 cellDistanceY = newCellDistanceY - i;
                 break;
-            } else if(fieldLimit.getY() % (newCellDistanceY+ i) == 0){
+            } else if (fieldLimit.getY() % (newCellDistanceY + i) == 0) {
                 cellDistanceY = newCellDistanceY + i;
                 break;
             }
@@ -136,7 +153,7 @@ public class BotCom {
         for (int i = 0; i <= xLimit; i++) {
             for (int j = 0; j <= yLimit; j++) {
                 Cell newCell = new Cell(new XY(cellCenterOffsetX + cellDistanceX * i, cellCenterOffsetY + cellDistanceY * j));
-                if (!validCell(newCell.getQuadrant())){
+                if (!validCell(newCell.getQuadrant())) {
                     continue;
                 }
                 if (!(grid.contains(newCell))) {
@@ -205,7 +222,7 @@ public class BotCom {
             //Todo: Check epsilon (now at 3)
             if (c.getLastFeedback() - round > 3) {
                 c.setMiniSquirrel(null);
-                nextMini = MiniType.REAPER;
+                nextMiniTypeToSpawn = MiniType.REAPER;
             }
         }
     }
