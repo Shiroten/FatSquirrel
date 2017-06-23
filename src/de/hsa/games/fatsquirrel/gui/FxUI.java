@@ -473,75 +473,78 @@ public class FxUI extends Scene implements UI {
 
         EntityType et = e.getEntityType();
         String stringToPrint;
-        String simpleText, detailedText, extendText, showIDText = Integer.toString(e.getId());
+        StringBuilder simpleText = new StringBuilder();
+        StringBuilder detailedText = new StringBuilder();
+        StringBuilder extendText = new StringBuilder();
+        StringBuilder showIDText = new StringBuilder();
+        showIDText.append(e.getId());
 
         switch (et) {
             case GOODPLANT:
-                simpleText = detailedText = "GP";
-                extendText = Integer.toString(e.getEnergy());
+                simpleText.append("GP");
+                detailedText.append("GP");
+                extendText.append(e.getEnergy());
                 break;
             case GOODBEAST:
-                simpleText = detailedText = "GB";
-                extendText = Integer.toString(e.getEnergy());
+                simpleText.append("BP");
+                detailedText.append("GB");
+                extendText.append(e.getEnergy());
                 break;
             case BADPLANT:
-                simpleText = detailedText = "BP";
-                extendText = Integer.toString(e.getEnergy());
+                simpleText.append("BP");
+                detailedText.append("BP");
+                extendText.append(e.getEnergy());
                 break;
             case BADBEAST:
-                simpleText = "BB";
-                detailedText = Integer.toString(e.getEnergy());
-                extendText = Integer.toString(((BadBeast) e).getLives());
+                simpleText.append("BB");
+                detailedText.append(e.getEnergy());
+                extendText.append(((BadBeast) e).getLives());
                 break;
             case WALL:
-                simpleText = detailedText = extendText = "";
                 break;
             case MINISQUIRREL:
-                simpleText = "mS";
-                detailedText = Integer.toString(e.getEnergy());
-                //detailedText = String.format("A%n" + detailedText);
+                simpleText.append("mS");
+                detailedText.append(e.getEnergy());
                 if (((PlayerEntity) e).getStunTime() != 0) {
-                    extendText = Integer.toString(((PlayerEntity) e).getStunTime());
-                    //extendText = String.format("A%n" + extendText);
+                    extendText.append(((PlayerEntity) e).getStunTime());
                 } else {
-                    extendText = detailedText;
+                    extendText.append(e.getEnergy());
                 }
                 break;
             case MASTERSQUIRREL:
                 if (e.getId() == -100) {
-                    simpleText = "HS";
+                    simpleText.append("HS");
                 } else {
-                    simpleText = "MS";
+                    simpleText.append("MS");
                 }
-
-                detailedText = Integer.toString(e.getEnergy());
-                //detailedText = String.format("A%n" + detailedText);
+                detailedText.append(e.getEnergy());
                 if (((PlayerEntity) e).getStunTime() != 0) {
-                    extendText = Integer.toString(((PlayerEntity) e).getStunTime());
-                    //extendText = String.format("A%n" + extendText);
+                    extendText.append(((PlayerEntity) e).getStunTime());
                 } else {
-                    extendText = detailedText;
+                    extendText.append(e.getEnergy());
                 }
                 break;
-            default:
-                simpleText = detailedText = extendText = "";
         }
 
-        if (showName && e.getEntityName() != null)
-            simpleText = detailedText = extendText = showIDText = e.getEntityName();
-        else if (showName)
-            detailedText = extendText = showIDText = simpleText;
-
+        if (showName && e.getEntityName() != null) {
+            simpleText = new StringBuilder().append(e.getEntityName());
+            detailedText = new StringBuilder().append(e.getEntityName());
+            extendText = new StringBuilder().append(e.getEntityName());
+            showIDText = new StringBuilder().append(e.getEntityName());
+        } else if (showName) {
+            detailedText = new StringBuilder().append(simpleText);
+            extendText = new StringBuilder().append(simpleText);
+            showIDText = new StringBuilder().append(simpleText);
+        }
         stringToPrint = switchVerboseLevel(outputMode, simpleText, detailedText, extendText, showIDText);
 
         return stringToPrint;
     }
 
-    private String switchVerboseLevel(outputLevel vl, String simpleText, String detailedText,
-                                      String extendedText, String showIDText) {
+    private String switchVerboseLevel(outputLevel vl, StringBuilder simpleText, StringBuilder detailedText,
+                                      StringBuilder extendedText, StringBuilder showIDText) {
 
-        String stringToPrint = simpleText;
-
+        StringBuilder stringToPrint = new StringBuilder();
         switch (vl) {
             case simple:
                 stringToPrint = simpleText;
@@ -554,24 +557,19 @@ public class FxUI extends Scene implements UI {
                 break;
             case showID:
                 stringToPrint = showIDText;
-
         }
-
-        return stringToPrint;
+        return stringToPrint.toString();
     }
 
     void message(final String msg) {
-
-        String addmsg;
+        StringBuilder message = new StringBuilder();
+        message.append(msg);
         if (inputMode == toogleInput.inputEnergy) {
-            addmsg = " | MiniSquirrel-InputEnergy: " + miniSquirrelEnergy;
+            message.append(" | MiniSquirrel-InputEnergy: " + miniSquirrelEnergy);
         } else if (inputMode == toogleInput.inputRadius) {
-            addmsg = " | MiniSquirrel-InputRadius: " + miniSquirrelRadius;
-        } else {
-            addmsg = "";
+            message.append(" | MiniSquirrel-InputRadius: " + miniSquirrelRadius);
         }
-        final String outmsg = msg + addmsg;
-        Platform.runLater(() -> msgLabel.setText(outmsg));
+        Platform.runLater(() -> msgLabel.setText(message.toString()));
     }
 
     @Override

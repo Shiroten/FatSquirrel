@@ -88,6 +88,8 @@ public class FxGameImpl extends Game {
             imploadMiniSquirrel = null;
         }
 
+
+
         getState().update();
         FxUI fxUI = (FxUI) this.getUi();
         String msg = "";
