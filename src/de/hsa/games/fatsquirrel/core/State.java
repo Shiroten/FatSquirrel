@@ -55,14 +55,11 @@ public class State {
      * Calls the nextStep() of the Board and tick each Implosion Counter
      */
     public void update() {
-
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINER, "start update() from State");
 
-
         FlattenedBoard flat = board.flatten();
         board.nextStep(flat);
-
     }
 
     /**
