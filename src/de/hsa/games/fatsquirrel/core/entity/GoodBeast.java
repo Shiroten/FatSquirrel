@@ -30,7 +30,8 @@ public class GoodBeast extends Character {
 
     public void nextStep(EntityContext context) {
 
-        if (moveCounter == 0) {
+        int waitingTime = context.getBEAST_MOVE_TIME_IN_TICKS();
+        if (moveCounter %(waitingTime+1) == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
@@ -39,10 +40,7 @@ public class GoodBeast extends Character {
             } else {
                 context.tryMove(this, XYsupport.randomDirection());
             }
-            moveCounter++;
-        } else if (moveCounter == context.getBEAST_MOVE_TIME_IN_TICKS())
-            moveCounter = 0;
-        else
-            moveCounter++;
+        }
+        moveCounter++;
     }
 }

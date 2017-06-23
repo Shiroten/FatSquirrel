@@ -51,7 +51,7 @@ public class BadBeast extends Character {
 
         int waitingTime = context.getBEAST_MOVE_TIME_IN_TICKS();
 
-        if (moveCounter % waitingTime + 1 == 0) {
+        if (moveCounter % (waitingTime + 1) == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 

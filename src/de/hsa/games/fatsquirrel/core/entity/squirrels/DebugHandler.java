@@ -36,6 +36,8 @@ public class DebugHandler implements InvocationHandler {
             logger.log(Level.FINER, ex.getMessage());
         } catch (InvocationTargetException ex){
             throw  ex.getTargetException();
+        } catch (Exception e){
+            //Do nothing
         }
         sb.append("* result:").append(result);
         logger.log(Level.FINER, sb.toString());

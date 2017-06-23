@@ -117,7 +117,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
                 handler);
 
         int waitingTime = 0;
-        if (moveCounter % waitingTime + 1 == 0) {
+        if (moveCounter % (waitingTime + 1) == 0) {
             if (getStunTime() > 0)
                 reduceStunTime();
             else {

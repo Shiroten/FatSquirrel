@@ -140,7 +140,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 handler);
 
         int waitingTime = 1;
-        if (moveCounter % waitingTime+1 == 0) {
+        if (moveCounter % (waitingTime+1) == 0) {
             if (getStunTime() > 0)
                 reduceStunTime();
             else {
