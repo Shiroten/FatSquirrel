@@ -13,12 +13,14 @@ public class Cell {
     private XY quadrant;
     private long lastFeedback;
     private ExCells26ReaperMini miniSquirrel;
+    private boolean isActive = false;
+
+    private Cell nextCell;
+    private Hashtable<XY, Cell> neighbours = new Hashtable<>();
 
     public boolean isActive() {
         return isActive;
     }
-
-    private boolean isActive = false;
 
     public Cell getNextCell() {
         return nextCell;
@@ -27,9 +29,6 @@ public class Cell {
     public void setNextCell(Cell nextCell) {
         this.nextCell = nextCell;
     }
-
-    private Cell nextCell;
-    private Hashtable<XY, Cell> neighbours = new Hashtable<>();
 
     public Cell(XY position) {
         this.quadrant = position;

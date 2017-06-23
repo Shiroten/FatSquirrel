@@ -137,7 +137,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         //Alte Position Löschen im Array
         flattenedBoard[en.getCoordinate().getY()][en.getCoordinate().getX()] = null;
 
-        //Neue Position im EntitySet setzen
+        //Neue Position in der EntityList setzen
         en.setCoordinate(newPosition);
 
         //Neue Position im Array ablegen
@@ -535,7 +535,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         //Abstand von referencePoint zu PEs berechnen
         //nächste PE zurückgeben
         PlayerEntity nearestPlayerEntity = null;
-        for (Entity entity : board.getSet().getEntityList()) {
+        for (Entity entity : board.getEntityList()) {
             if (entity instanceof PlayerEntity) {
                 if (nearestPlayerEntity == null)
                     nearestPlayerEntity = (PlayerEntity) entity;
@@ -556,7 +556,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
      */
     private XY randomFreePosition() throws FullFieldException{
         XY xy;
-        if(board.getSet().getEntityList().size() == size.getX() * size.getY())
+        if(board.getEntityList().size() == size.getX() * size.getY())
             throw new FullFieldException();
 
         do {

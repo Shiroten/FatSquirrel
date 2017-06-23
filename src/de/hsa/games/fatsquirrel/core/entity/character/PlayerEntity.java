@@ -30,8 +30,7 @@ public abstract class PlayerEntity extends Character {
             stunTime--;
     }
 
-    //TODO: Sobald wir unsere Paketstruktur an 10.1 angepasst haben, Ende des String angeben
     String getName(BotControllerFactory factory){
-        return factory.getClass().getName().substring(34);
+        return factory.getClass().getName().substring(34, factory.getClass().getName().length()-7);
     }
 }

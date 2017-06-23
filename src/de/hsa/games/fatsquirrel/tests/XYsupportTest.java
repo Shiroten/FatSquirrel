@@ -23,7 +23,6 @@ public class XYsupportTest {
         XY upperRightCorner = new XY(10, 0);
         XY trueMiddle = new XY (2, 2);
         XY falseMiddle = new XY(3, 11);
-        //TODO: Überprüfen, sobald getView umgeschrieben wurde
         assertTrue("Punkt ist zwischen zwei Punkten", XYsupport.isInRange(trueMiddle, lowerLeftCorner, upperRightCorner));
         assertFalse("Punkt ist nicht zwischen zwei Punkten", XYsupport.isInRange(falseMiddle, lowerLeftCorner, upperRightCorner));
     }

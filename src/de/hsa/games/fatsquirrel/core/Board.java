@@ -3,22 +3,13 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
+import de.hsa.games.fatsquirrel.core.entity.*;
+import de.hsa.games.fatsquirrel.core.entity.character.*;
+import de.hsa.games.fatsquirrel.core.entity.character.Character;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
-import de.hsa.games.fatsquirrel.core.entity.Wall;
-import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.BadPlant;
-import de.hsa.games.fatsquirrel.core.entity.EntitySet;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -26,32 +17,30 @@ import java.util.List;
  */
 public class Board {
 
-    private EntitySet set;
     private BoardConfig config;
     private int idCounter = 0;
     private long remainingGameTime;
 
     private List<MasterSquirrel> masterSquirrel = new ArrayList<>();
     private ArrayList<ImplosionContext> implosions;
+    private List<Entity> entityList = new ArrayList<>();
 
     public Board() {
 
-        this.set = new EntitySet();
         this.config = new BoardConfig("default.props");
         this.implosions = new ArrayList<>();
         this.remainingGameTime = config.getGAME_DURATION_AT_START();
     }
 
     public Board(String configName) {
-        this.set = new EntitySet();
         this.config = new BoardConfig(configName);
         this.implosions = new ArrayList<>();
         this.remainingGameTime = config.getGAME_DURATION_AT_START();
         initBoard();
     }
 
-    public EntitySet getSet() {
-        return set;
+    public List<Entity> getEntityList() {
+        return entityList;
     }
 
     ArrayList<ImplosionContext> getImplosions() {
@@ -64,7 +53,7 @@ public class Board {
 
     public FlattenedBoard flatten() {
         Entity[][] list = new Entity[config.getSize().getY()][config.getSize().getX()];
-        for (Entity e : set.getEntityList()) {
+        for (Entity e : entityList) {
             list[e.getCoordinate().getY()][e.getCoordinate().getX()] = e;
         }
 
@@ -103,12 +92,26 @@ public class Board {
     private void initOuterWalls() {
         int x = config.getSize().getX(), y = config.getSize().getY();
         for (int i = 0; i < x; i++) {
-            set.add(new Wall(setID(), new XY(i, 0)));
-            set.add(new Wall(setID(), new XY(i, y - 1)));
+            entityList.add(new Wall(setID(), new XY(i, 0)));
+            entityList.add(new Wall(setID(), new XY(i, y - 1)));
         }
         for (int i = 1; i < y - 1; i++) {
-            set.add(new Wall(setID(), new XY(0, i)));
-            set.add(new Wall(setID(), new XY(x - 1, i)));
+            entityList.add(new Wall(setID(), new XY(0, i)));
+            entityList.add(new Wall(setID(), new XY(x - 1, i)));
+        }
+    }
+
+    public void nextStep(EntityContext context) {
+
+        try {
+            for(Entity e : new ArrayList<>(entityList)){
+                if(entityList.contains(e)) {
+                    if (e instanceof de.hsa.games.fatsquirrel.core.entity.character.Character)
+                        ((Character) e).nextStep(context);
+                }
+            }
+        } catch (ConcurrentModificationException e){
+            e.printStackTrace();
         }
     }
 
@@ -148,7 +151,7 @@ public class Board {
                     entityToAdd = new GoodPlant(setID(), position);
                     break;
                 case MASTERSQUIRREL:
-                    if (config.getGameType() != Game.GameType.BOT_ONLY && set.getHandOperatedMasterSquirrel() == null) {
+                    if (config.getGameType() != Game.GameType.BOT_ONLY && getHandOperatedMasterSquirrel() == null) {
                         entityToAdd = new HandOperatedMasterSquirrel(-100, position);
                     } else {
                         try {
@@ -163,14 +166,14 @@ public class Board {
                     masterSquirrel.add((MasterSquirrel) entityToAdd);
                     break;
             }
-            set.add(entityToAdd);
+            entityList.add(entityToAdd);
         }
     }
 
     /**
      * @param type     EntitType which will be placed
      * @param position at given Position
-     * @return Entity to be added to EntitySet
+     * @return Entity to be added to List
      */
     Entity addEntity(EntityType type, XY position) {
 
@@ -194,7 +197,7 @@ public class Board {
                 addEntity = new GoodPlant(setID(), position);
                 break;
         }
-        set.add(addEntity);
+        entityList.add(addEntity);
 
         return addEntity;
     }
@@ -206,7 +209,7 @@ public class Board {
      */
     void addMiniSquirrel(XY position, int energy, MasterSquirrel daddy) {
         MiniSquirrel msb = new MiniSquirrelBot(setID(), position, energy, daddy);
-        set.add(msb);
+        entityList.add(msb);
     }
 
     /**
@@ -219,7 +222,7 @@ public class Board {
         boolean collision;
         int newX, newY;
 
-        if (set.getEntityList().size() == size.getY() * size.getX())
+        if (entityList.size() == size.getY() * size.getX())
             throw new FullFieldException();
         do {
             collision = false;
@@ -227,7 +230,7 @@ public class Board {
             newY = (int) ((Math.random() * size.getY()));
 
             //Durchsuchen des Entityset nach möglichen Konflikten
-            for (Entity e : set.getEntityList()) {
+            for (Entity e : entityList) {
                 if (newX == e.getCoordinate().getX() && newY == e.getCoordinate().getY()) {
                     collision = true;
                     break;
@@ -243,14 +246,14 @@ public class Board {
      */
     //Package Private
     void killEntity(Entity e) {
-        this.set.delete(e);
+        entityList.remove(e);
     }
 
     /**
-     * @param toAdd Adds given Entity to EntitySet
+     * @param toAdd Adds given Entity List
      */
     public void add(Entity toAdd) {
-        this.set.add(toAdd);
+        entityList.add(toAdd);
     }
 
     /**
@@ -258,7 +261,7 @@ public class Board {
      */
     public void add(Entity... entities) {
         for (Entity e : entities) {
-            this.set.add(e);
+            this.entityList.add(e);
         }
     }
 
@@ -266,7 +269,11 @@ public class Board {
      * @return gets the Reference of the actual Player
      */
     public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
-        return (HandOperatedMasterSquirrel) set.getHandOperatedMasterSquirrel();
+        for(Entity e : entityList){
+            if(e instanceof HandOperatedMasterSquirrel)
+                return (HandOperatedMasterSquirrel) e;
+        }
+        return null;
     }
 
     /**

@@ -21,14 +21,6 @@ public abstract class Character extends Entity {
         waitDuration = 1;
     }
 
-    /*TODO: Überlegen, ob diesen Konstruktor verwendet werden soll. Erheblicher Arbeitsaufwand, da von allen
-    Characters die Aufrufe angepasst werden müssen*/
-    Character(int energy, int id, XY coordinate, int viewDistance, int waitDuration){
-        super(energy, id, coordinate);
-        this.viewDistance = viewDistance;
-        this.waitDuration = waitDuration;
-    }
-
     enum freeFieldMode {
         master,
         spawnmini,

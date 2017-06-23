@@ -204,8 +204,6 @@ public class PathFinder {
                 //Do nothing
             }
         }
-        if(cumulatedWeight > 0)
-            System.out.println("Weight: " + cumulatedWeight);
         return cumulatedWeight;
     }
 

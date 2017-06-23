@@ -69,50 +69,6 @@ public class ControllerContextImplTest {
     }
 
     @Test
-    public void getViewLowerLeft() throws Exception {
-        /*
-        TODO: Muss an Refactor angepasst werden
-        master1.setCoordinate(positionOfMasterLeftUp);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(0, 20), viewMaster.getViewLowerLeft());
-
-        master1.setCoordinate(positionOfMasterLeftDown);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(0, 80), viewMaster.getViewLowerLeft());
-
-        master1.setCoordinate(positionOfMasterRightDown);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(160, 80), viewMaster.getViewLowerLeft());
-
-        master1.setCoordinate(positionOfMasterRightUp);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(160, 20), viewMaster.getViewLowerLeft());
-        */
-    }
-
-    @Test
-    public void getViewUpperRight() throws Exception {
-        /*
-        TODO: Muss an Refactor angepasst werden
-        master1.setCoordinate(positionOfMasterLeftUp);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(20, 0), viewMaster.getViewUpperRight());
-
-        master1.setCoordinate(positionOfMasterLeftDown);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(20, 60), viewMaster.getViewUpperRight());
-
-        master1.setCoordinate(positionOfMasterRightDown);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(180, 60), viewMaster.getViewUpperRight());
-
-        master1.setCoordinate(positionOfMasterRightUp);
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(new XY(180, 0), viewMaster.getViewUpperRight());*/
-
-    }
-
-    @Test
     public void locate() throws Exception {
         viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
         assertEquals(spawnPositionOfMaster1, viewMaster.locate());

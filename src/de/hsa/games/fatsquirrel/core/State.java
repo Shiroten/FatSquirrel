@@ -51,7 +51,7 @@ public class State {
     }
 
     /**
-     * Calls the nextStep() of the EntitySet and tick each Implosion Counter
+     * Calls the nextStep() of the Board and tick each Implosion Counter
      */
     public void update() {
 
@@ -61,7 +61,7 @@ public class State {
 
         FlattenedBoard flat = board.flatten();
         flat.tickImplosions();
-        board.getSet().nextStep(flat);
+        board.nextStep(flat);
 
     }
 
@@ -121,10 +121,10 @@ public class State {
     }
 
     /**
-     * @return the EntitySet of the Board under the State
+     * @return the EntityList of the Board under the State
      */
     public List<Entity> getEntitySet() {
-        return board.getSet().getEntityList();
+        return board.getEntityList();
     }
 
     /**

@@ -3,7 +3,10 @@ package de.hsa.games.fatsquirrel.core.entity.character;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot.ControllerContextImpl;
 
 /**
@@ -12,16 +15,15 @@ import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot.Controll
 public class DebugHandler implements InvocationHandler {
     private ControllerContextImpl view;
 
-    public DebugHandler(ControllerContextImpl view) {
+    DebugHandler(ControllerContextImpl view) {
         this.view = view;
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         StringBuilder sb = new StringBuilder();
-        sb.append("* calling method " + method + " with params ");
+        sb.append("* calling method ").append(method).append(" with params ");
         if (args != null) {
-            for (int i = 0; i < args.length; i++)
-                sb.append(" " + args[i]);
+            for (Object arg : args) sb.append(" ").append(arg);
             sb.append(String.format("%n"));
         }
 
@@ -33,9 +35,10 @@ public class DebugHandler implements InvocationHandler {
         } catch (InvocationTargetException ex) {
             throw ex.getTargetException();
         }
-        sb.append("* result:" + result);
-        //Todo: output in logger
-        //System.out.println(sb.toString());
+        sb.append("* result:").append(result);
+        Logger logger = Logger.getLogger(Launcher.class.getName());
+        logger.log(Level.FINER, sb.toString());
+
         return result;
     }
 }

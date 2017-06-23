@@ -176,7 +176,7 @@ public class FlattenedBoardTest {
         flat.spawnMiniSquirrel(XY.DOWN, 100, handOperatedMasterSquirrel);
 
         int numberOfMiniSquirrels = 0;
-        for(Entity e : board.getSet().getEntityList()){
+        for(Entity e : board.getEntityList()){
             if(e.getEntityType() == EntityType.MINISQUIRREL)
                 numberOfMiniSquirrels++;
         }
@@ -205,8 +205,8 @@ public class FlattenedBoardTest {
         double energyLoss = 200 * (miniSquirrel.getEnergy()/impactArea) * (1.0- (4.0/impactRadius));
 
         flat.implode(miniSquirrel, impactRadius);
-        assertTrue(!board.getSet().contains(miniSquirrel));
-        assertTrue(!board.getSet().contains(goodBeastClose));
+        assertTrue(!board.getEntityList().contains(miniSquirrel));
+        assertTrue(!board.getEntityList().contains(goodBeastClose));
 
         assertEquals((200 - energyLoss), goodBeastMiddle.getEnergy(), 0.8);
 
