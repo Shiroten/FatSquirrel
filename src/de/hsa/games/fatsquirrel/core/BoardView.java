@@ -32,14 +32,4 @@ public interface BoardView {
      */
     XY getSize();
 
-    /**
-     *
-     * @return list of all the implosions
-     */
-    ArrayList<ImplosionContext> getImplosions();
-
-    /**
-     *  Used to decrease the tick counter of the implosion
-     */
-    void tickImplosions();
 }

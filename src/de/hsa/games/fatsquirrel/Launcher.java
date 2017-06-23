@@ -104,7 +104,7 @@ public class Launcher extends Application {
 
         State state = new State("wettbewerb.props");
 
-        FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), state.getBoard().getConfig().getSELLSIZE());
+        FxUI fxUI = FxUI.createInstance(state.getBoard().getConfig().getSize(), state.getBoard().getConfig().getSELLSIZE(), state.getBoard().getImplosions());
         final Game game = new FxGameImpl(fxUI, state);
 
         primaryStage.setScene(fxUI);

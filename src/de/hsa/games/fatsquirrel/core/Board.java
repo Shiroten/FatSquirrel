@@ -25,11 +25,9 @@ public class Board {
     private BoardConfig config;
     private int idCounter = 0;
     private long remainingGameTime;
-
     private List<MasterSquirrel> masterSquirrel = new ArrayList<>();
-    private ArrayList<ImplosionContext> implosions;
+    private ArrayList<ImplosionContext> implosions = new ArrayList<>();
     private List<Entity> entityList = new ArrayList<>();
-
     public Board() {
 
         this.config = new BoardConfig("default.props");
@@ -48,8 +46,12 @@ public class Board {
         return entityList;
     }
 
-    ArrayList<ImplosionContext> getImplosions() {
+    public ArrayList<ImplosionContext> getImplosions() {
         return implosions;
+    }
+
+    public void addImplosions(ImplosionContext implosions) {
+        this.implosions.add(implosions);
     }
 
     public BoardConfig getConfig() {

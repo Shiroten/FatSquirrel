@@ -3,6 +3,7 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.MasterSquirrel;
+import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
 import java.io.*;
 import java.util.*;
@@ -61,7 +62,6 @@ public class State {
 
 
         FlattenedBoard flat = board.flatten();
-        flat.tickImplosions();
         board.nextStep(flat);
 
     }

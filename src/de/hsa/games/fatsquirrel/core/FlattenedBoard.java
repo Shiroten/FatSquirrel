@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class FlattenedBoard implements BoardView, EntityContext {
     private final XY size;
     private Board board;
-    private ArrayList<ImplosionContext> implosions;
 
     //Ganz, ganz wichtig für Konsistenz:
     //Ein Mehrdimensionales Array zählt folgendermaßen:
@@ -35,7 +34,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
         flattenedBoard = new Entity[size.getY()][size.getX()];
         this.board = board;
         this.flattenedBoard = flat;
-        this.implosions = board.getImplosions();
     }
 
     public XY getSize() {
@@ -43,25 +41,6 @@ public class FlattenedBoard implements BoardView, EntityContext {
         //Hier wird die Koordinate etwas missbraucht: man speichert in einer Koordinate die x-Höhe
         //und die y-Höhe. Felder sind wohl nicht immer quadratisch...
         return size;
-    }
-
-    @Override
-    public ArrayList<ImplosionContext> getImplosions() {
-        return implosions;
-    }
-
-    //TODO: In die UI verlagern, dann aus Board entfernen
-    @Override
-    public void tickImplosions() {
-        ImplosionContext icToDelete = null;
-        for (ImplosionContext ic : implosions) {
-            ic.updateTick();
-            if (ic.getTickCounter() <= 0) {
-                icToDelete = ic;
-            }
-        }
-        if (icToDelete != null)
-            implosions.remove(icToDelete);
     }
 
     /**
@@ -410,7 +389,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         }
 
         double energyLoss = 200 * (miniSquirrel.getEnergy() / impactArea);
-        implosions.add(new ImplosionContext((int) energyLoss, impactRadius, position));
+        board.addImplosions(new ImplosionContext((int) energyLoss, impactRadius, position));
 
         miniSquirrel.getDaddy().updateEnergy(collectedEnergy);
         killEntity(miniSquirrel);
