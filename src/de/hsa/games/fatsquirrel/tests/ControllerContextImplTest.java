@@ -7,8 +7,8 @@ import de.hsa.games.fatsquirrel.botimpls.GoodBeastChaserFactory;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.*;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrelBot;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.MasterSquirrelBot;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.MiniSquirrelBot;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -134,7 +134,7 @@ public class ControllerContextImplTest {
     @Test
     public void getRemainingSteps() throws Exception {
         viewMaster = new MasterSquirrelBot.ControllerContextImpl(context, master1);
-        assertEquals(board.getConfig().getGAME_DURATION_AT_START(), viewMaster.getRemainingSteps());
+        assertEquals(board.getConfig().getGameDurationAtStart(), viewMaster.getRemainingSteps());
     }
 
     @Test

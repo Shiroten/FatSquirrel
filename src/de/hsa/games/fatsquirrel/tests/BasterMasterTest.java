@@ -6,9 +6,9 @@ import de.hsa.games.fatsquirrel.botimpls.Baster.BasterSupport;
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
+import de.hsa.games.fatsquirrel.core.entity.BadBeast;
+import de.hsa.games.fatsquirrel.core.entity.GoodBeast;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.MasterSquirrelBot;
 import org.junit.*;
 
 import static org.junit.Assert.*;

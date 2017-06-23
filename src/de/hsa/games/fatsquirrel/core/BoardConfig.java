@@ -1,13 +1,14 @@
 package de.hsa.games.fatsquirrel.core;
 
-import com.sun.deploy.util.SystemUtils;
 import de.hsa.games.fatsquirrel.Game;
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import sun.plugin2.util.SystemUtil;
 
 import java.io.*;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Collection of all the Settings in the Game
@@ -16,23 +17,22 @@ public class BoardConfig {
 
     private final XY size;
 
-    //TODO: klein schreiben
-    private final int NUMBER_OF_GB;
-    private final int NUMBER_OF_BB;
-    private final int NUMBER_OF_GP;
-    private final int NUMBER_OF_BP;
-    private final int NUMBER_OF_WA;
+    private final int numberOfGb;
+    private final int numberOfBb;
+    private final int numberOfGp;
+    private final int numberOfBp;
+    private final int numberOfWa;
 
-    private final int POINTS_FOR_MINI_SQUIRREL = 150;
+    private final int pointsForMiniSquirrel = 150;
 
-    private final long GAME_DURATION_AT_START;
-    private final int TICKLENGTH;
-    private final int SQUIRREL_STUN_TIME_IN_TICKS = 3;
-    private final int BEAST_MOVE_TIME_IN_TICKS = 4;
-    private final int MINI_SQUIRREL_MOVE_TIME_IN_TICKS = 1;
+    private final long gameDurationAtStart;
+    private final int ticklength;
+    private final int squirrelStunTimeInTicks = 3;
+    private final int beastMoveTimeInTicks = 4;
+    private final int miniSquirrelMoveTimeInTicks = 1;
 
-    private final int VIEW_DISTANCE_OF_GOODBEAST;
-    private final int VIEW_DISTANCE_OF_BADBEAST;
+    private final int viewDistanceOfGoodbeast;
+    private final int viewDistanceOfBadbeast;
 
     private final Game.GameType gameType;
     private final String[] bots;
@@ -43,22 +43,22 @@ public class BoardConfig {
     private void saveConfig(){
         Properties properties = new Properties();
         properties.setProperty("Size", size.toString());
-        properties.setProperty("Number_GoodBeasts", "" + NUMBER_OF_GB);
-        properties.setProperty("Number_BadBeasts", "" + NUMBER_OF_BB);
-        properties.setProperty("Number_GoodPlants", "" + NUMBER_OF_GP);
-        properties.setProperty("Number_BadPlants", "" + NUMBER_OF_BP);
-        properties.setProperty("Number_Walls", "" + NUMBER_OF_WA);
+        properties.setProperty("Number_GoodBeasts", "" + numberOfGb);
+        properties.setProperty("Number_BadBeasts", "" + numberOfBb);
+        properties.setProperty("Number_GoodPlants", "" + numberOfGp);
+        properties.setProperty("Number_BadPlants", "" + numberOfBp);
+        properties.setProperty("Number_Walls", "" + numberOfWa);
 
-        properties.setProperty("Points_For_MiniSquirrel", "" + POINTS_FOR_MINI_SQUIRREL);
+        properties.setProperty("Points_For_MiniSquirrel", "" + pointsForMiniSquirrel);
 
-        properties.setProperty("Game_Duration", "" + GAME_DURATION_AT_START);
-        properties.setProperty("Ticklength", "" + TICKLENGTH);
-        properties.setProperty("Squirrel_Stun_Time_Ticks", "" + SQUIRREL_STUN_TIME_IN_TICKS);
-        properties.setProperty("Beast_Move_Time_Ticks", "" + BEAST_MOVE_TIME_IN_TICKS);
-        properties.setProperty("MiniSquirrel_Move_Time_Ticks", "" +MINI_SQUIRREL_MOVE_TIME_IN_TICKS);
+        properties.setProperty("Game_Duration", "" + gameDurationAtStart);
+        properties.setProperty("Ticklength", "" + ticklength);
+        properties.setProperty("Squirrel_Stun_Time_Ticks", "" + squirrelStunTimeInTicks);
+        properties.setProperty("Beast_Move_Time_Ticks", "" + beastMoveTimeInTicks);
+        properties.setProperty("MiniSquirrel_Move_Time_Ticks", "" + miniSquirrelMoveTimeInTicks);
 
-        properties.setProperty("View_Distance_GoodBeast", ""+ VIEW_DISTANCE_OF_GOODBEAST);
-        properties.setProperty("View_Distance_BadBeast", "" + VIEW_DISTANCE_OF_BADBEAST);
+        properties.setProperty("View_Distance_GoodBeast", ""+ viewDistanceOfGoodbeast);
+        properties.setProperty("View_Distance_BadBeast", "" + viewDistanceOfBadbeast);
 
         properties.setProperty("GameMode", gameType.toString());
 
@@ -70,34 +70,34 @@ public class BoardConfig {
         }
     }
 
-    public BoardConfig(String filename){
+    BoardConfig(String filename){
         Properties properties = new Properties();
         try {
             Reader reader = new FileReader(filename);
             properties.load(reader);
         } catch (IOException e){
-            //TODO: in Log schreiben
-            e.printStackTrace();
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, "Properties konnten nicht geladen werden");
         }
 
         //System.out.println(properties.getProperty("Size"));
         this.size = XYsupport.stringToXY(properties.getProperty("Size", "x: 40 y:40"));
-        NUMBER_OF_GB = Integer.parseInt(properties.getProperty("Number_GoodBeasts", "15"));
-        NUMBER_OF_BB = Integer.parseInt(properties.getProperty("Number_BadBeasts", "5"));
-        NUMBER_OF_GP = Integer.parseInt(properties.getProperty("Number_GoodPlants", "20"));
-        NUMBER_OF_BP = Integer.parseInt(properties.getProperty("Number_BadPlants", "6"));
-        NUMBER_OF_WA = Integer.parseInt(properties.getProperty("Number_Walls", "10"));
+        numberOfGb = Integer.parseInt(properties.getProperty("Number_GoodBeasts", "15"));
+        numberOfBb = Integer.parseInt(properties.getProperty("Number_BadBeasts", "5"));
+        numberOfGp = Integer.parseInt(properties.getProperty("Number_GoodPlants", "20"));
+        numberOfBp = Integer.parseInt(properties.getProperty("Number_BadPlants", "6"));
+        numberOfWa = Integer.parseInt(properties.getProperty("Number_Walls", "10"));
 
-        //POINTS_FOR_MINI_SQUIRREL = Integer.parseInt(properties.getProperty("Points_For_MiniSquirrel"));
+        //pointsForMiniSquirrel = Integer.parseInt(properties.getProperty("Points_For_MiniSquirrel"));
 
-        GAME_DURATION_AT_START = Long.parseLong(properties.getProperty("Game_Duration", "1800"));
-        TICKLENGTH = Integer.parseInt(properties.getProperty("Ticklength", "10"));
-        //SQUIRREL_STUN_TIME_IN_TICKS = Integer.parseInt(properties.getProperty("Squirrel_Stun_Time_Ticks"));
+        gameDurationAtStart = Long.parseLong(properties.getProperty("Game_Duration", "1800"));
+        ticklength = Integer.parseInt(properties.getProperty("Ticklength", "10"));
+        //squirrelStunTimeInTicks = Integer.parseInt(properties.getProperty("Squirrel_Stun_Time_Ticks"));
         properties.getProperty("Beast_Move_Time_Ticks", "4");
         properties.getProperty("MiniSquirrel_Move_Time_Ticks", "1");
 
-        VIEW_DISTANCE_OF_GOODBEAST = Integer.parseInt(properties.getProperty("View_Distance_GoodBeast", "7"));
-        VIEW_DISTANCE_OF_BADBEAST = Integer.parseInt(properties.getProperty("View_Distance_BadBeast", "7"));
+        viewDistanceOfGoodbeast = Integer.parseInt(properties.getProperty("View_Distance_GoodBeast", "7"));
+        viewDistanceOfBadbeast = Integer.parseInt(properties.getProperty("View_Distance_BadBeast", "7"));
 
         gameType = Game.GameType.getGameType(properties.getProperty("GameMode", "WITH_BOT"));
 
@@ -115,60 +115,60 @@ public class BoardConfig {
         return size;
     }
 
-    public int getTICKLENGTH() {
-        return TICKLENGTH;
+    public int getTicklength() {
+        return ticklength;
     }
 
-    int getPOINTS_FOR_MINI_SQUIRREL() {
-        return POINTS_FOR_MINI_SQUIRREL;
+    int getPointsForMiniSquirrel() {
+        return pointsForMiniSquirrel;
     }
 
-    int getSQUIRREL_STUN_TIME_IN_TICKS() {
-        return SQUIRREL_STUN_TIME_IN_TICKS;
+    int getSquirrelStunTimeInTicks() {
+        return squirrelStunTimeInTicks;
     }
 
-    int getBEAST_MOVE_TIME_IN_TICKS() {
-        return BEAST_MOVE_TIME_IN_TICKS;
+    int getBeastMoveTimeInTicks() {
+        return beastMoveTimeInTicks;
     }
 
-    int getMINI_SQUIRREL_MOVE_TIME_IN_TICKS() {
-        return MINI_SQUIRREL_MOVE_TIME_IN_TICKS;
+    int getMiniSquirrelMoveTimeInTicks() {
+        return miniSquirrelMoveTimeInTicks;
     }
 
-    int getVIEW_DISTANCE_OF_GOODBEAST() {
-        return VIEW_DISTANCE_OF_GOODBEAST;
+    int getViewDistanceOfGoodbeast() {
+        return viewDistanceOfGoodbeast;
     }
 
-    int getVIEW_DISTANCE_OF_BADBEAST() {
-        return VIEW_DISTANCE_OF_BADBEAST;
+    int getViewDistanceOfBadbeast() {
+        return viewDistanceOfBadbeast;
     }
 
-    int getNUMBER_OF_GB() {
-        return NUMBER_OF_GB;
+    int getNumberOfGb() {
+        return numberOfGb;
     }
 
-    int getNUMBER_OF_BB() {
-        return NUMBER_OF_BB;
+    int getNumberOfBb() {
+        return numberOfBb;
     }
 
-    int getNUMBER_OF_GP() {
-        return NUMBER_OF_GP;
+    int getNumberOfGp() {
+        return numberOfGp;
     }
 
-    int getNUMBER_OF_BP() {
-        return NUMBER_OF_BP;
+    int getNumberOfBp() {
+        return numberOfBp;
     }
 
-    int getNUMBER_OF_WA() {
-        return NUMBER_OF_WA;
+    int getNumberOfWa() {
+        return numberOfWa;
     }
 
     int getNUMBER_OF_BOTS() {
         return bots.length;
     }
 
-    public long getGAME_DURATION_AT_START() {
-        return GAME_DURATION_AT_START;
+    public long getGameDurationAtStart() {
+        return gameDurationAtStart;
     }
 
     public int getSELLSIZE() {
@@ -187,10 +187,7 @@ public class BoardConfig {
 
         String osVersion = System.getProperty("os.name");
         boolean isLinux;
-        if (osVersion.contentEquals("Linux"))
-            isLinux = true;
-        else
-            isLinux = false;
+        isLinux = osVersion.contentEquals("Linux");
 
         File folder;
         if (isLinux){

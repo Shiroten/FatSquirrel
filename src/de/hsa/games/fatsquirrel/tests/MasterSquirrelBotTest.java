@@ -1,11 +1,8 @@
 package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.botapi.ControllerContext;
-import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.HandOperatedMasterSquirrel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

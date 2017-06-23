@@ -65,7 +65,7 @@ public class Launcher extends Application {
     private static void startGame(Game game) {
         game.getState().loadHighScore("HighScore.props");
         System.out.println(game.getState().printHighscore());
-        game.setGameSpeed(game.getState().getBoard().getConfig().getTICKLENGTH());
+        game.setGameSpeed(game.getState().getBoard().getConfig().getTicklength());
         try {
             Timer timer = new Timer();
             timer.scheduleAtFixedRate(new TimerTask() {

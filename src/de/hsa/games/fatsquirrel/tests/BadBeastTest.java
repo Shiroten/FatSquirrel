@@ -2,7 +2,7 @@ package de.hsa.games.fatsquirrel.tests;
 
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
+import de.hsa.games.fatsquirrel.core.entity.BadBeast;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

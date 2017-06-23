@@ -6,7 +6,7 @@ import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
+import de.hsa.games.fatsquirrel.core.entity.GoodBeast;
 
 /**
  * Created by tillm on 27.05.2017.

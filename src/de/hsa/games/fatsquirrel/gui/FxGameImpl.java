@@ -5,7 +5,7 @@ import de.hsa.games.fatsquirrel.Game;
 import de.hsa.games.fatsquirrel.core.State;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.character.MiniSquirrel;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.MiniSquirrel;
 import de.hsa.games.fatsquirrel.util.ui.Command;
 
 /**
@@ -52,9 +52,6 @@ public class FxGameImpl extends Game {
                 case "f":
                     handOperatedMasterSquirrel.setCommand(ActionCommand.SPAWN);
                     handOperatedMasterSquirrel.setMiniSquirrelSpawnEnergy((Integer) (cmd.getParams())[0]);
-                    break;
-                case "p":
-                    handOperatedMasterSquirrel.updateEnergy(1000);
                     break;
                 case "t":
                     imploadMiniSquirrel = cmd;

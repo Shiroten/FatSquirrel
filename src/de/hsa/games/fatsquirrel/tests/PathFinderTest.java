@@ -7,10 +7,8 @@ import de.hsa.games.fatsquirrel.core.FlattenedBoard;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.Wall;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
-import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.HandOperatedMasterSquirrel;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tillm on 06.06.2017.

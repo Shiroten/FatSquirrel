@@ -4,8 +4,8 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.core.entity.*;
-import de.hsa.games.fatsquirrel.core.entity.character.*;
-import de.hsa.games.fatsquirrel.core.entity.character.Character;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.*;
+import de.hsa.games.fatsquirrel.core.entity.Character;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
 import java.util.ArrayList;
@@ -99,22 +99,22 @@ public class FlattenedBoard implements BoardView, EntityContext {
 
     @Override
     public int getBEAST_MOVE_TIME_IN_TICKS() {
-        return board.getConfig().getBEAST_MOVE_TIME_IN_TICKS();
+        return board.getConfig().getBeastMoveTimeInTicks();
     }
 
     @Override
     public int getMINI_SQUIRREL_MOVE_TIME_IN_TICKS() {
-        return board.getConfig().getMINI_SQUIRREL_MOVE_TIME_IN_TICKS();
+        return board.getConfig().getMiniSquirrelMoveTimeInTicks();
     }
 
     @Override
     public int getGOODBEAST_VIEW_DISTANCE() {
-        return board.getConfig().getVIEW_DISTANCE_OF_GOODBEAST();
+        return board.getConfig().getViewDistanceOfGoodbeast();
     }
 
     @Override
     public int getBADBEAST_VIEW_DISTANCE() {
-        return board.getConfig().getVIEW_DISTANCE_OF_BADBEAST();
+        return board.getConfig().getViewDistanceOfBadbeast();
     }
 
     /**
@@ -225,7 +225,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         switch (getEntityType(newField)) {
             case WALL:
                 miniSquirrel.updateEnergy(Wall.START_ENERGY);
-                miniSquirrel.setStunTime(board.getConfig().getSQUIRREL_STUN_TIME_IN_TICKS());
+                miniSquirrel.setStunTime(board.getConfig().getSquirrelStunTimeInTicks());
                 checkEnergyOfMiniSquirrel(miniSquirrel);
                 break;
 
@@ -302,7 +302,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
         switch (getEntityType(newField)) {
             case WALL:
                 masterSquirrel.updateEnergy(Wall.START_ENERGY);
-                masterSquirrel.setStunTime(board.getConfig().getSQUIRREL_STUN_TIME_IN_TICKS());
+                masterSquirrel.setStunTime(board.getConfig().getSquirrelStunTimeInTicks());
                 break;
             case BADBEAST:
                 masterSquirrel.updateEnergy(getEntity(newField).getEnergy());
@@ -325,7 +325,7 @@ public class FlattenedBoard implements BoardView, EntityContext {
                     energy = squirrel.getEnergy();
                 } else {
                     //Fremder MiniSquirrel wird gerammt
-                    energy = board.getConfig().getPOINTS_FOR_MINI_SQUIRREL();
+                    energy = board.getConfig().getPointsForMiniSquirrel();
                 }
 
                 masterSquirrel.updateEnergy(energy);

@@ -8,8 +8,8 @@ import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
-import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
-import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
+import de.hsa.games.fatsquirrel.core.entity.BadBeast;
+import de.hsa.games.fatsquirrel.core.entity.GoodBeast;
 
 import java.util.*;
 

@@ -1,16 +1,21 @@
 package de.hsa.games.fatsquirrel.core;
 
 import de.hsa.games.fatsquirrel.Game;
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotControllerFactory;
 import de.hsa.games.fatsquirrel.core.entity.*;
-import de.hsa.games.fatsquirrel.core.entity.character.*;
-import de.hsa.games.fatsquirrel.core.entity.character.Character;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.*;
+import de.hsa.games.fatsquirrel.core.entity.Character;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Manages everything on the board, and initializes it.
@@ -29,13 +34,13 @@ public class Board {
 
         this.config = new BoardConfig("default.props");
         this.implosions = new ArrayList<>();
-        this.remainingGameTime = config.getGAME_DURATION_AT_START();
+        this.remainingGameTime = config.getGameDurationAtStart();
     }
 
     public Board(String configName) {
         this.config = new BoardConfig(configName);
         this.implosions = new ArrayList<>();
-        this.remainingGameTime = config.getGAME_DURATION_AT_START();
+        this.remainingGameTime = config.getGameDurationAtStart();
         initBoard();
     }
 
@@ -72,11 +77,11 @@ public class Board {
         initOuterWalls();
 
         //Random Entitys auf der Map verteilt
-        addEntity(EntityType.WALL, config.getNUMBER_OF_WA());
-        addEntity(EntityType.BADBEAST, config.getNUMBER_OF_BB());
-        addEntity(EntityType.BADPLANT, config.getNUMBER_OF_BP());
-        addEntity(EntityType.GOODBEAST, config.getNUMBER_OF_GB());
-        addEntity(EntityType.GOODPLANT, config.getNUMBER_OF_GP());
+        addEntity(EntityType.WALL, config.getNumberOfWa());
+        addEntity(EntityType.BADBEAST, config.getNumberOfBb());
+        addEntity(EntityType.BADPLANT, config.getNumberOfBp());
+        addEntity(EntityType.GOODBEAST, config.getNumberOfGb());
+        addEntity(EntityType.GOODPLANT, config.getNumberOfGp());
 
         if (config.getGameType() == Game.GameType.WITH_BOT) {
             addEntity(EntityType.MASTERSQUIRREL, config.getNUMBER_OF_BOTS() + 1);
@@ -106,7 +111,7 @@ public class Board {
         try {
             for(Entity e : new ArrayList<>(entityList)){
                 if(entityList.contains(e)) {
-                    if (e instanceof de.hsa.games.fatsquirrel.core.entity.character.Character)
+                    if (e instanceof Character)
                         ((Character) e).nextStep(context);
                 }
             }
@@ -133,23 +138,7 @@ public class Board {
                 return;
             }
 
-            //TODO: Überlegen, ob man das per Intro-/Reflection lösen kann
             switch (type) {
-                case WALL:
-                    entityToAdd = new Wall(setID(), position);
-                    break;
-                case BADBEAST:
-                    entityToAdd = new BadBeast(setID(), position);
-                    break;
-                case BADPLANT:
-                    entityToAdd = new BadPlant(setID(), position);
-                    break;
-                case GOODBEAST:
-                    entityToAdd = new GoodBeast(setID(), position);
-                    break;
-                case GOODPLANT:
-                    entityToAdd = new GoodPlant(setID(), position);
-                    break;
                 case MASTERSQUIRREL:
                     if (config.getGameType() != Game.GameType.BOT_ONLY && getHandOperatedMasterSquirrel() == null) {
                         entityToAdd = new HandOperatedMasterSquirrel(-100, position);
@@ -159,12 +148,17 @@ public class Board {
                             entityToAdd = new MasterSquirrelBot(setID(), position, factory);
                             numberOfAIs++;
                         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                            //TODO: In Log schreiben
-                            e.printStackTrace();
+                            Logger logger = Logger.getLogger(Launcher.class.getName());
+                            logger.log(Level.FINE, "Factory konnte nicht gefunden werden");
                         }
                     }
                     masterSquirrel.add((MasterSquirrel) entityToAdd);
                     break;
+                case MINISQUIRREL:
+                case NONE:
+                    break;
+                default:
+                    entityToAdd = createBasicEntityFromType(type, position);
             }
             entityList.add(entityToAdd);
         }
@@ -179,8 +173,11 @@ public class Board {
 
         Entity addEntity = null;
 
-        //TODO: Per Reflection/Introspection lösen
         switch (type) {
+            case MINISQUIRREL:
+            case MASTERSQUIRREL:
+            case NONE:
+                break;
             case WALL:
                 addEntity = new Wall(setID(), position);
                 break;
@@ -196,6 +193,8 @@ public class Board {
             case GOODPLANT:
                 addEntity = new GoodPlant(setID(), position);
                 break;
+            default:
+                addEntity = createBasicEntityFromType(type, position);
         }
         entityList.add(addEntity);
 
@@ -260,9 +259,7 @@ public class Board {
      * @param entities Add Multiple Entity's
      */
     public void add(Entity... entities) {
-        for (Entity e : entities) {
-            this.entityList.add(e);
-        }
+        Collections.addAll(this.entityList, entities);
     }
 
     /**
@@ -273,6 +270,17 @@ public class Board {
             if(e instanceof HandOperatedMasterSquirrel)
                 return (HandOperatedMasterSquirrel) e;
         }
+        return null;
+    }
+
+    private Entity createBasicEntityFromType(EntityType entityType, XY position){
+        try {
+            return  (Entity)Class.forName(entityType.getClassName()).getDeclaredConstructors()[0].newInstance(setID(), position);
+        }catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, "Klasse der Entity konnte nicht gefunden werden");
+        }
+
         return null;
     }
 

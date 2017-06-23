@@ -1,11 +1,12 @@
-package de.hsa.games.fatsquirrel.core.entity.character;
+package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
+import de.hsa.games.fatsquirrel.core.entity.Character;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.PlayerEntity;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

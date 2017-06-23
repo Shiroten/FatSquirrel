@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.core.entity.character;
+package de.hsa.games.fatsquirrel.core.entity.squirrels;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.hsa.games.fatsquirrel.Launcher;
-import de.hsa.games.fatsquirrel.core.entity.character.MasterSquirrelBot.ControllerContextImpl;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.MasterSquirrelBot.ControllerContextImpl;
 
 /**
  * Used as proxy to log the calling of methods

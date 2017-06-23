@@ -2,8 +2,7 @@ package de.hsa.games.fatsquirrel;
 
 import de.hsa.games.fatsquirrel.core.Board;
 import de.hsa.games.fatsquirrel.core.State;
-import de.hsa.games.fatsquirrel.core.entity.character.HandOperatedMasterSquirrel;
-import de.hsa.games.fatsquirrel.gui.FxGameImpl;
+import de.hsa.games.fatsquirrel.core.entity.squirrels.HandOperatedMasterSquirrel;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
