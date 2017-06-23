@@ -1,18 +1,14 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.*;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 
-/**
- * Created by Shiroten on 15.06.2017.
- */
 public class ExCells26ReconMini implements BotController {
 
-    private BotCom botCom;
+    private final BotCom botCom;
     private int rightFieldLimit = 0;
     private int lowerFieldLimit = 0;
     private BotController reaperAI;
@@ -39,7 +35,7 @@ public class ExCells26ReconMini implements BotController {
         } else if(!botCom.isFieldLimitFound()) {
             System.out.println("Ende gefunden, Captain!");
             botCom.setFieldLimit(new XY(rightFieldLimit, lowerFieldLimit));
-            botCom.setFieldLimitFound(true);
+            botCom.setFieldLimitFound();
         } else{
             if(reaperAI == null) {
                 initReaperAi();

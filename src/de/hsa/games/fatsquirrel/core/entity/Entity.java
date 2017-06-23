@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
  */
 public abstract class Entity {
     private final int id;
-    protected int energy;
+    int energy;
     private XY coordinate;
 
     private String entityName;
@@ -23,7 +23,7 @@ public abstract class Entity {
         this.entityName = name;
     }
 
-    public Entity(int energy, int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
+    Entity(int energy, int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
         this.energy = energy;
         this.id = id;
         this.coordinate = coordinate;
@@ -80,7 +80,7 @@ public abstract class Entity {
         return entityName;
     }
 
-    public void setEntityName(String entityName) {
+    protected void setEntityName(String entityName) {
         this.entityName = entityName;
     }
 

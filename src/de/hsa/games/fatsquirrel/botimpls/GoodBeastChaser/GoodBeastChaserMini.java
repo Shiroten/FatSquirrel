@@ -6,15 +6,15 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 
 public class GoodBeastChaserMini implements BotController {
     private XY lastPosition = XY.ZERO_ZERO;
-    private XY maxSize = XY.ZERO_ZERO;
 
     @Override
     public void nextStep(ControllerContext view) {
-        maxSize = view.getViewLowerRight();
+        XY maxSize = view.getViewLowerRight();
 
 
         boolean shouldImplode = false;
-        int counterForPoints = 0;
+        //noinspection unused
+        @SuppressWarnings("unused") int counterForPoints = 0;
 
         /*for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; i++) {
@@ -67,7 +67,6 @@ public class GoodBeastChaserMini implements BotController {
         toMove = GoodBeastChaserHelper.dodgeMove(view, toMove, GoodBeastChaserHelper.freeFieldMode.master);
         lastPosition = view.locate().plus(toMove);
         view.move(toMove);
-
 
 
     }

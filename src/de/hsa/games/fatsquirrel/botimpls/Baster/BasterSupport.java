@@ -8,12 +8,9 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
 import de.hsa.games.fatsquirrel.core.entity.GoodBeast;
 
-/**
- * Created by tillm on 27.05.2017.
- */
 public class BasterSupport {
 
-    public XY preferredDirection(ControllerContext view){
+    XY preferredDirection(ControllerContext view){
         int[] ratings = rateMyView(view);
         int bestRating = 0;
         for(int i = 0; i <ratings.length; i++){

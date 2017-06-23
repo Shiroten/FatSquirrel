@@ -1,13 +1,9 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
-import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.PlayerEntity;
 import javafx.scene.paint.Color;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Entity that the player can catch to get points. Runs away from squirrels
@@ -16,9 +12,9 @@ import java.util.logging.Logger;
 public class GoodBeast extends Character {
     public static final int START_ENERGY = 200;
     private static final EntityType type = EntityType.GOODBEAST;
-    public static final Color ENTITYCOLOR = Color.color(1, 0.9765, 0);
-    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
-    public static final String defaultName = "GoodBeast";
+    private static final Color ENTITYCOLOR = Color.color(1, 0.9765, 0);
+    private static final Color ENTITYTEXTCOLOR = Color.gray(0);
+    private static final String defaultName = "GoodBeast";
     public int moveCounter = 0;
 
     public GoodBeast(int id, XY coordinate) {

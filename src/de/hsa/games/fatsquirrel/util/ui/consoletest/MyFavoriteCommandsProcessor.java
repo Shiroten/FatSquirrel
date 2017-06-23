@@ -11,9 +11,9 @@ import java.io.PrintStream;
 
 public class MyFavoriteCommandsProcessor {
 
-    private PrintStream outputStream = new PrintStream(System.out);
-    private BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
-    private CommandScanner commandScanner = new CommandScanner(MyFavoriteCommandType.values(), inputReader);
+    private final PrintStream outputStream = new PrintStream(System.out);
+    private final BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+    private final CommandScanner commandScanner = new CommandScanner(MyFavoriteCommandType.values(), inputReader);
 
 
     public MyFavoriteCommandsProcessor() {

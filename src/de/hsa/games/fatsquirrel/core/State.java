@@ -3,7 +3,6 @@ package de.hsa.games.fatsquirrel.core;
 import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.MasterSquirrel;
-import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
 import java.io.*;
 import java.util.*;
@@ -15,10 +14,10 @@ import java.util.logging.Logger;
  */
 public class State {
 
-    private Map<String, Long> currentHighscore = new HashMap<>();
-    private Map<String, ArrayList<Long>> totalHighscore = new HashMap<>();
+    private final Map<String, Long> currentHighscore = new HashMap<>();
+    private final Map<String, ArrayList<Long>> totalHighscore = new HashMap<>();
     private Board board;
-    private String highScorePath = "highscore.props";
+    private final String highScorePath = "highscore.props";
 
     /**
      * Creates new State with default Board

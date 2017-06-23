@@ -5,13 +5,13 @@ package de.hsa.games.fatsquirrel.botapi;
  */
 public interface BotControllerFactory {
     /**
-     * Create a new Botcontroller for a MiniSquirrel
-     * @return the BotController-Implementation for the Minisquirrel
+     * Create a new BotController for a MiniSquirrel
+     * @return the BotController-Implementation for the MiniSquirrel
      */
     BotController createMiniBotController();
     /**
-     * Create a new Botcontroller for a Mastersquirrel
-     * @return the BotController-Implementation for the Mastersquirrel
+     * Create a new BotController for a Mastersquirrel
+     * @return the BotController-Implementation for the MasterSquirrel
      */
     BotController createMasterBotController();
 }

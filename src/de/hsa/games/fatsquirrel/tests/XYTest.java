@@ -5,13 +5,13 @@ import de.hsa.games.fatsquirrel.XY;
 import static org.junit.Assert.*;
 
 public class XYTest {
-    private XY test1 = new XY(10,10);
-    private XY test2 = new XY(20,20);
-    private XY testLength1 = new XY(9,12);
-    private XY testLength2 = new XY (13,17);
-    private XY testDistanceFrom1 = new XY(15,15);
-    private XY testDistanceFrom2 = new XY(23,29);
-    private XY testDistanceFrom3 = new XY(6,3);
+    private final XY test1 = new XY(10,10);
+    private final XY test2 = new XY(20,20);
+    private final XY testLength1 = new XY(9,12);
+    private final XY testLength2 = new XY (13,17);
+    private final XY testDistanceFrom1 = new XY(15,15);
+    private final XY testDistanceFrom2 = new XY(23,29);
+    private final XY testDistanceFrom3 = new XY(6,3);
 
     @org.junit.Test
     public void plus() throws Exception {
@@ -51,6 +51,7 @@ public class XYTest {
 
     }
 
+    @SuppressWarnings("EmptyMethod")
     @org.junit.Test
     public void testToString() throws Exception {
     }

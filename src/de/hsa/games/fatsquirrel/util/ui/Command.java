@@ -1,8 +1,8 @@
 package de.hsa.games.fatsquirrel.util.ui;
 
 public class Command{
-    private CommandTypeInfo commandTypeInfo;
-    private Object[] params;
+    private final CommandTypeInfo commandTypeInfo;
+    private final Object[] params;
 
     public Command(CommandTypeInfo commandTypeInfo, Object[] params){
         this.commandTypeInfo = commandTypeInfo;

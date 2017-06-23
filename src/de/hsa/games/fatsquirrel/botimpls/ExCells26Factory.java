@@ -11,7 +11,7 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReconMini;
 
 public class ExCells26Factory implements BotControllerFactory {
 
-    private BotCom botcom;
+    private final BotCom botcom;
 
     public ExCells26Factory() {
         botcom = new BotCom();

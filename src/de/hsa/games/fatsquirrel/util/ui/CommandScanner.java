@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class CommandScanner {
-    private CommandTypeInfo[] commandTypeInfos;
-    private BufferedReader inputReader;
+    private final CommandTypeInfo[] commandTypeInfos;
+    private final BufferedReader inputReader;
 
     public CommandScanner(CommandTypeInfo[] commandTypeInfos, BufferedReader inputReader) {
         this.commandTypeInfos = commandTypeInfos;

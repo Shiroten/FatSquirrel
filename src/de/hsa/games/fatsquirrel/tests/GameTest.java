@@ -4,15 +4,10 @@ import de.hsa.games.fatsquirrel.Game;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-/**
- * Created by Shiroten on 20.05.2017.
- */
 public class GameTest {
-    double ticklengthAtStart = 125;
-    Game game = new Game();
+    private final double ticklengthAtStart = 125;
+    private final Game game = new Game();
 
     @Test
     public void setGameSpeed() throws Exception {

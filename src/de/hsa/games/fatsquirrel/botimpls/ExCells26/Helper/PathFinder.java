@@ -14,14 +14,11 @@ import de.hsa.games.fatsquirrel.core.entity.GoodBeast;
 import java.util.*;
 
 
-/**
- * Created by tillm on 02.06.2017.
- */
 public class PathFinder {
     private List<Node> openList;
     private List<Node> closedList;
     private ControllerContext context;
-    private BotCom botCom;
+    private final BotCom botCom;
 
     public PathFinder(BotCom botCom) {
         this.botCom = botCom;

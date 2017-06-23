@@ -12,8 +12,8 @@ import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 /**
  * Used as proxy to log the calling of methods
  */
-public class DebugHandler implements InvocationHandler {
-    private ControllerContext view;
+class DebugHandler implements InvocationHandler {
+    private final ControllerContext view;
 
     DebugHandler(ControllerContext view) {
         this.view = view;
@@ -34,9 +34,9 @@ public class DebugHandler implements InvocationHandler {
             result = method.invoke(view, args);
         } catch (IllegalAccessException ex) {
             logger.log(Level.FINER, ex.getMessage());
-        } catch (InvocationTargetException ex){
-            throw  ex.getTargetException();
-        } catch (Exception e){
+        } catch (InvocationTargetException ex) {
+            throw ex.getTargetException();
+        } catch (Exception e) {
             //Do nothing
         }
         sb.append("* result:").append(result);

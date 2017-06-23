@@ -1,7 +1,5 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public enum EntityType {
     BADBEAST(BadBeast.class.getSimpleName(), "BB"),

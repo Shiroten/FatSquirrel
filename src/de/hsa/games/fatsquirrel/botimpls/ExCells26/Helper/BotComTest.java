@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Shiroten on 17.06.2017.
- */
 public class BotComTest {
     @Test
     public void cellAt() throws Exception {

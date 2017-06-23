@@ -14,15 +14,15 @@ public abstract class MasterSquirrel extends PlayerEntity {
 
     private BotControllerFactory factory;
 
-    public static final int START_ENERGY = 1000;
-    public static final EntityType type = EntityType.MASTERSQUIRREL;
+    private static final int START_ENERGY = 1000;
+    private static final EntityType type = EntityType.MASTERSQUIRREL;
 
 
     public EntityType getEntityType() {
         return type;
     }
 
-    public MasterSquirrel(int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
+    MasterSquirrel(int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
         super(START_ENERGY, id, coordinate, entityColor, entityTextColor, name);
     }
 

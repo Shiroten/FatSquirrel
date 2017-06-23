@@ -34,8 +34,8 @@ public class XY {
     /**
      * create new XY with X and Y
      *
-     * @param x
-     * @param y
+     * @param x X Coordinate
+     * @param y Y Coordinate
      */
     public XY(int x, int y) {
         this.x = x;

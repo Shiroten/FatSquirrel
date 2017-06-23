@@ -14,7 +14,7 @@ public class Game {
 
     protected HandOperatedMasterSquirrel handOperatedMasterSquirrel;
     private double gameSpeed;
-    private double gameSpeedScaleFactor = 1.3;
+    private final double gameSpeedScaleFactor = 1.3;
     private UI ui;
     private State state;
     protected ActionCommand command;
@@ -50,7 +50,7 @@ public class Game {
     /**
      * set the GameSpeed of the Game in Ticks
      *
-     * @param getTICKLENGTH
+     * @param getTICKLENGTH tickLength in milliSeconds
      */
     public void setGameSpeed(double getTICKLENGTH) {
         this.gameSpeed = (Math.log(getTICKLENGTH) / Math.log(gameSpeedScaleFactor));
@@ -59,7 +59,7 @@ public class Game {
     /**
      * Increased the GameSpeed by a logarithmic amount
      *
-     * @param gameSpeed
+     * @param gameSpeed gameSpeed delta to add to the actual amount
      */
     public void addGameSpeed(int gameSpeed) {
         if ((int) Math.pow((this.gameSpeed + gameSpeed), gameSpeedScaleFactor) > 1)
@@ -69,7 +69,7 @@ public class Game {
     /**
      * Gets the actual TickLength of the Game
      *
-     * @return
+     * @return the actual tickLength
      */
     public int getTickLength() {
         return (int) Math.pow(gameSpeedScaleFactor, gameSpeed);
@@ -78,8 +78,8 @@ public class Game {
     /**
      * Creates the Game with UI and State
      *
-     * @param state
-     * @param ui
+     * @param state set the state for Game
+     * @param ui set the UI for Game
      */
     public Game(State state, UI ui) {
         this.state = state;
@@ -95,7 +95,7 @@ public class Game {
     /**
      * Runs render() and update() with logging
      */
-    public void run() {
+    void run() {
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINER, "start render()");
         render();
@@ -107,6 +107,7 @@ public class Game {
     /**
      * Useless Method
      */
+    @SuppressWarnings("InfiniteLoopStatement")
     public void startSingleThreadGame() {
         while (true) {
             render();
@@ -118,7 +119,7 @@ public class Game {
     /**
      * Resets the actual Game and overrides the Board with a new one
      */
-    protected void reset() {
+    void reset() {
         Board board = new Board(state.getBoard().getConfig().getConfigName());
         state.setBoard(board);
         handOperatedMasterSquirrel = this.getState().getBoard().getHandOperatedMasterSquirrel();

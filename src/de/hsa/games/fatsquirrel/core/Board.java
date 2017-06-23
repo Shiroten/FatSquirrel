@@ -23,13 +23,13 @@ import static de.hsa.games.fatsquirrel.core.entity.EntityType.BADBEAST;
  */
 public class Board {
 
-    private BoardConfig config;
+    private final BoardConfig config;
     private int idCounter = 2;
     private long remainingGameTime;
-    private List<MasterSquirrel> masterSquirrel = new ArrayList<>();
+    private final List<MasterSquirrel> masterSquirrel = new ArrayList<>();
     private ArrayList<ImplosionContext> implosions = new ArrayList<>();
-    private List<Entity> entityList = new ArrayList<>();
-    private Logger logger = Logger.getLogger(Launcher.class.getName());
+    private final List<Entity> entityList = new ArrayList<>();
+    private final Logger logger = Logger.getLogger(Launcher.class.getName());
 
     public Board() {
 

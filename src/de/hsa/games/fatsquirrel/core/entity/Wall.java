@@ -8,10 +8,10 @@ import javafx.scene.paint.Color;
  */
 public class Wall extends Entity {
     public static final int START_ENERGY = -10;
-    public static final EntityType type = EntityType.WALL;
-    public static final Color ENTITYCOLOR = Color.color(0.3804, 0.3804, 0.3765);
-    public static final Color ENTITYTEXTCOLOR = Color.gray(1);
-    public static final String defaultName = "Wall";
+    private static final EntityType type = EntityType.WALL;
+    private static final Color ENTITYCOLOR = Color.color(0.3804, 0.3804, 0.3765);
+    private static final Color ENTITYTEXTCOLOR = Color.gray(1);
+    private static final String defaultName = "Wall";
 
     public EntityType getEntityType() {
         return type;

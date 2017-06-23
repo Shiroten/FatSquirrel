@@ -23,8 +23,8 @@ public class MasterSquirrelBot extends MasterSquirrel {
      */
     public static class ControllerContextImpl implements ControllerContext {
 
-        private EntityContext context;
-        private MasterSquirrel masterSquirrel;
+        private final EntityContext context;
+        private final MasterSquirrel masterSquirrel;
         private static final int VIEW_DISTANCE = 15;
 
 
@@ -119,9 +119,9 @@ public class MasterSquirrelBot extends MasterSquirrel {
     }
 
     private int moveCounter = 0;
-    private BotController masterBotController;
-    public static final Color ENTITYCOLOR = Color.color(0, 0.0588, 1);
-    public static final Color ENTITYTEXTCOLOR = Color.color(1, 0.651, 0);
+    private final BotController masterBotController;
+    private static final Color ENTITYCOLOR = Color.color(0, 0.0588, 1);
+    private static final Color ENTITYTEXTCOLOR = Color.color(1, 0.651, 0);
     public static final String defaultName = "MS";
 
     public MasterSquirrelBot(int id, XY position, BotControllerFactory factory) {

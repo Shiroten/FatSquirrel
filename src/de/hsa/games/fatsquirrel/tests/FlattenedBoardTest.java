@@ -14,6 +14,7 @@ public class FlattenedBoardTest {
     private Board board = new Board();
     private FlattenedBoard flat;
 
+    @SuppressWarnings("EmptyMethod")
     @Before
     public void setUp() {
     }
@@ -73,8 +74,6 @@ public class FlattenedBoardTest {
                 for (int i = 0; i < flat.getSize().getX(); i++) {
                     if (goodBeast.getEntityType() == flat.getEntityType(new XY(i, j))) {
                         goodBeast = flat.getEntity(new XY(i, j));
-                        //System.out.println("Test: " + new XY(i, j));
-                        //System.out.println("Mini: " + mini.getCoordinate().toString());
                         counter++;
                     }
                 }

@@ -1,24 +1,21 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
-import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.PlayerEntity;
 import javafx.scene.paint.Color;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * The badbeast chases squirrels and bites them, reducing their points
+ * The BadBeast chases squirrels and bites them, reducing their points
  * Extends Character
  */
 public class BadBeast extends Character {
     public static final int START_ENERGY = -150;
     private static final EntityType type = EntityType.BADBEAST;
-    public static final Color ENTITYCOLOR = Color.color(1, 0.0392, 0);
-    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
-    public static final String defaultName = "BadBeast";
+    private static final Color ENTITYCOLOR = Color.color(1, 0.0392, 0);
+    private static final Color ENTITYTEXTCOLOR = Color.gray(0);
+    private static final String defaultName = "BadBeast";
     public int moveCounter = 0;
     private int lives;
 
@@ -40,8 +37,8 @@ public class BadBeast extends Character {
     }
 
     /**
-     * Lifes left
-     * @return current number of lifes
+     * Lives left
+     * @return current number of lives
      */
     public int getLives() {
         return this.lives;

@@ -19,8 +19,8 @@ public class FxGameImpl extends Game {
     /**
      * Constructor for FXGameImpl
      *
-     * @param fxUI
-     * @param state
+     * @param fxUI  FxUI to set for the FXGameImpl
+     * @param state state with board for the FXGameImpl
      */
     public FxGameImpl(FxUI fxUI, State state) {
         this.setUi(fxUI);
@@ -89,19 +89,17 @@ public class FxGameImpl extends Game {
 
         getState().update();
         FxUI fxUI = (FxUI) this.getUi();
-        StringBuilder msg = new StringBuilder();
-        msg.append(String.format("FrameRate: %2.0f", 1000.0 / this.getTickLength()));
-        msg.append(String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime()));
-        msg.append(String.format(" | MasterSquirrel Energy: "));
-        msg.append(handOperatedMasterSquirrel.getEnergy());
-
-        fxUI.message(msg.toString());
+        String msg = String.format("FrameRate: %2.0f", 1000.0 / this.getTickLength()) +
+                String.format(" | Remaining GameTime: %d", this.getState().getBoard().getRemainingGameTime()) +
+                " | MasterSquirrel Energy: " +
+                handOperatedMasterSquirrel.getEnergy();
+        fxUI.message(msg);
     }
 
     /**
      * Gives the implosion order for HandOperatedMasterSquirrel MiniSquirrels     *
      *
-     * @param implosionRadius
+     * @param implosionRadius set the implosionRadius of the MiniSquirrel
      */
     private void imploadMiniSquirrel(int implosionRadius) {
         for (Entity e : getState().getEntitySet()) {

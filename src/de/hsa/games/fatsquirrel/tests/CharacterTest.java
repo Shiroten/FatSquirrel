@@ -13,25 +13,22 @@ import de.hsa.games.fatsquirrel.core.entity.squirrels.*;
 import static org.junit.Assert.*;
 
 public class CharacterTest {
-    private Board board = new Board();
+    private final Board board = new Board();
     private FlattenedBoard flat;
 
     private GoodBeast gb;
     private BadBeast bb;
     private MasterSquirrel master;
-    private XY masterSpawnLocation = new XY(20, 20);
-    private MiniSquirrel mini;
-    private Wall[] walls;
-    private ControllerContext viewMaster;
+    private final XY masterSpawnLocation = new XY(20, 20);
 
     public void setUp() {
-        walls = new Wall[4];
+        Wall[] walls = new Wall[4];
         for (int i = 0; i < 4; i++) {
             walls[i] = new Wall(0, new XY(20 + i, 19));
             board.add(walls[i]);
         }
         master = new MasterSquirrelBot(101, masterSpawnLocation, new GoodBeastChaserFactory());
-        mini = new MiniSquirrelBot(102, new XY(21, 20), 200, master);
+        MiniSquirrel mini = new MiniSquirrelBot(102, new XY(21, 20), 200, master);
         gb = new GoodBeast(201, new XY(22, 20));
         bb = new BadBeast(202, new XY(23, 20));
 
@@ -46,7 +43,7 @@ public class CharacterTest {
     @org.junit.Test
     public void masterSquirrelTimerTest() {
         setUp();
-        viewMaster = new MasterSquirrelBot.ControllerContextImpl(flat, master);
+        ControllerContext viewMaster = new MasterSquirrelBot.ControllerContextImpl(flat, master);
 
         XY toMove = XY.UP;
         viewMaster.move(toMove);
@@ -65,6 +62,7 @@ public class CharacterTest {
 
     }
 
+    @SuppressWarnings("EmptyMethod")
     @org.junit.Test
     public void miniSquirrelTimerTest() {
 

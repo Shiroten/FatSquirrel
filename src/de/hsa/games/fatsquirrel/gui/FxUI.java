@@ -28,11 +28,11 @@ import java.util.logging.Logger;
  */
 public class FxUI extends Scene implements UI {
 
-    private Canvas boardCanvas;
-    private Label msgLabel;
+    private final Canvas boardCanvas;
+    private final Label msgLabel;
     private static Command cmd = new Command(GameCommandType.NOTHING, new Object[0]);
     private static outputLevel outputMode = outputLevel.simple;
-    private static showLastVector printVector = showLastVector.tail;
+    private static showLastVector printVector = showLastVector.headAndTail;
     private static toogleInput inputMode = toogleInput.inputEnergy;
     private static boolean showName = false;
     private static int CELL_SIZE_AT_START;
@@ -42,7 +42,7 @@ public class FxUI extends Scene implements UI {
     private static int fieldSizeX;
     private static int fieldSizeY;
     private static double scaleFactor = (double) cellSize / CELL_SIZE_AT_START;
-    private ArrayList<ImplosionContext> implosions;
+    private final ArrayList<ImplosionContext> implosions;
 
 
     public enum toogleInput {
@@ -224,7 +224,7 @@ public class FxUI extends Scene implements UI {
         tickImplosions();
     }
 
-    public void tickImplosions() {
+    private void tickImplosions() {
         ImplosionContext icToDelete = null;
         for (ImplosionContext ic : implosions) {
             ic.updateTick();
@@ -317,7 +317,7 @@ public class FxUI extends Scene implements UI {
 
     }
 
-    private void printImplosion(GraphicsContext gc, BoardView view) throws Exception {
+    private void printImplosion(GraphicsContext gc, @SuppressWarnings("unused") BoardView view) {
         for (ImplosionContext ic : implosions) {
 
             double opacity = (((double) ic.getTickCounter() / ic.getMAX_TICK_COUNTER()));
@@ -472,7 +472,7 @@ public class FxUI extends Scene implements UI {
                 case WALL:
                     break;
                 case MINISQUIRREL:
-                    simpleText.append(entityType.getTypeToString());
+                    simpleText.append(entity.getEntityName());
                     detailedText.append(entity.getEnergy());
                     if (((PlayerEntity) entity).getStunTime() != 0) {
                         extendText.append(((PlayerEntity) entity).getStunTime());
@@ -481,7 +481,7 @@ public class FxUI extends Scene implements UI {
                     }
                     break;
                 case MASTERSQUIRREL:
-                    simpleText.append(entityType.getTypeToString());
+                    simpleText.append(entity.getEntityName());
                     detailedText.append(entity.getEnergy());
                     if (((PlayerEntity) entity).getStunTime() != 0) {
                         extendText.append(((PlayerEntity) entity).getStunTime());
@@ -520,9 +520,9 @@ public class FxUI extends Scene implements UI {
         StringBuilder message = new StringBuilder();
         message.append(msg);
         if (inputMode == toogleInput.inputEnergy) {
-            message.append(" | MiniSquirrel-InputEnergy: " + miniSquirrelEnergy);
+            message.append(" | MiniSquirrel-InputEnergy: ").append(miniSquirrelEnergy);
         } else if (inputMode == toogleInput.inputRadius) {
-            message.append(" | MiniSquirrel-InputRadius: " + miniSquirrelRadius);
+            message.append(" | MiniSquirrel-InputRadius: ").append(miniSquirrelRadius);
         }
         Platform.runLater(() -> msgLabel.setText(message.toString()));
     }

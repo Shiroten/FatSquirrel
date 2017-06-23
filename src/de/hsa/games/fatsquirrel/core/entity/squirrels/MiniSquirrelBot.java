@@ -18,9 +18,9 @@ import java.util.logging.Logger;
 public class MiniSquirrelBot extends MiniSquirrel {
     public static class ControllerContextImpl implements ControllerContext {
 
-        private EntityContext context;
-        private XY myPosition;
-        private MiniSquirrel miniSquirrel;
+        private final EntityContext context;
+        private final XY myPosition;
+        private final MiniSquirrel miniSquirrel;
         private static final int VIEW_DISTANCE = 10;
 
         public ControllerContextImpl(EntityContext context, MiniSquirrel miniSquirrel) {
@@ -101,7 +101,7 @@ public class MiniSquirrelBot extends MiniSquirrel {
         }
     }
 
-    private BotController miniBotController;
+    private final BotController miniBotController;
 
     public MiniSquirrelBot(int id, XY position, int energy, MasterSquirrel daddy) {
         super(id, position, energy, daddy);

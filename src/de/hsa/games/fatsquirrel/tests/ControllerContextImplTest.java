@@ -14,12 +14,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by tillm on 19.05.2017.
- */
 public class ControllerContextImplTest {
 
-    private Board board = new Board("test.props");
+    private final Board board = new Board("test.props");
     private FlattenedBoard flat;
     private EntityContext context;
     private MasterSquirrelBot.ControllerContextImpl viewMaster;
@@ -29,14 +26,14 @@ public class ControllerContextImplTest {
     private XY positionOfMasterLeftDown = new XY(5, 75);
     private XY positionOfMasterRightDown = new XY(175, 75);
     private XY positionOfMasterRightUp = new XY(175, 5);
-    private XY spawnPositionOfMaster1 = new XY(80, 40);
-    private XY spawnPositionOfMaster2 = new XY(81, 40);
+    private final XY spawnPositionOfMaster1 = new XY(80, 40);
+    private final XY spawnPositionOfMaster2 = new XY(81, 40);
     private MasterSquirrelBot master1;
     private MasterSquirrelBot master2;
 
-    private XY spawnPositionOfMini1 = new XY(80, 41);
-    private XY spawnPositionOfMini2 = new XY(81, 41);
-    private XY spawnPositionOfMini3 = new XY(79, 41);
+    private final XY spawnPositionOfMini1 = new XY(80, 41);
+    private final XY spawnPositionOfMini2 = new XY(81, 41);
+    private final XY spawnPositionOfMini3 = new XY(79, 41);
     private MiniSquirrelBot mini1;
     private MiniSquirrelBot mini2;
     private MiniSquirrelBot mini3;

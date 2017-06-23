@@ -8,7 +8,6 @@ import de.hsa.games.fatsquirrel.core.entity.squirrels.*;
 import de.hsa.games.fatsquirrel.core.entity.Character;
 import de.hsa.games.fatsquirrel.gui.ImplosionContext;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class FlattenedBoard implements BoardView, EntityContext {
     private final XY size;
-    private Board board;
+    private final Board board;
 
     //Ganz, ganz wichtig für Konsistenz:
     //Ein Mehrdimensionales Array zählt folgendermaßen:

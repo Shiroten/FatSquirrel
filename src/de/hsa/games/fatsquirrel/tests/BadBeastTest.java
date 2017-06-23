@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by tillm on 31.05.2017.
- */
 public class BadBeastTest {
 
     @Test

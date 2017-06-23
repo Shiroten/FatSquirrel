@@ -2,7 +2,9 @@ package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 public enum MiniType {
     FERAL(100), RECON(100), REAPER(200), NONE(0);
-    private int energy;
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int energy;
 
     MiniType(int energy) {
         this.energy = energy;

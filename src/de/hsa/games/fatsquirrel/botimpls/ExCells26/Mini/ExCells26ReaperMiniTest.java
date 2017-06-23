@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Shiroten on 18.06.2017.
- */
 public class ExCells26ReaperMiniTest {
 
     @Test
@@ -20,7 +17,8 @@ public class ExCells26ReaperMiniTest {
         botCom.setCellForNextMini(cellOfMini);
         botCom.grid.put(cellOfMini.getQuadrant(), cellOfMini);
 
-        ExCells26ReaperMini reaper = new ExCells26ReaperMini(botCom);
+        //noinspection unused
+        @SuppressWarnings("unused") ExCells26ReaperMini reaper = new ExCells26ReaperMini(botCom);
         assertTrue(cellOfMini.isInside(new XY(53,53),botCom));
         assertTrue(cellOfMini.isInside(new XY(43,63),botCom));
         assertTrue(cellOfMini.isInside(new XY(63,43),botCom));

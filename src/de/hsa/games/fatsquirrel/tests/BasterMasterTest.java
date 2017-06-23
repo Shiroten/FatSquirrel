@@ -13,9 +13,6 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by tillm on 26.05.2017.
- */
 public class BasterMasterTest {
     private MasterSquirrelBot.ControllerContextImpl controllerContext;
     @Before

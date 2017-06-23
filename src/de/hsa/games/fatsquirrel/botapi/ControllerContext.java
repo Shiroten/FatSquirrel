@@ -86,6 +86,8 @@ public interface ControllerContext {
      * implementation is optional
      * @param text : the comment of the bot during fighting, e. g. ouch
      */
-    default void shout(String text) {};
+    default void shout(String text) {
+        System.out.println(text);
+    }
 
 }

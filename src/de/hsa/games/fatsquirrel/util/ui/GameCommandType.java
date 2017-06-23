@@ -19,16 +19,18 @@ public enum GameCommandType implements CommandTypeInfo {
     SUBTRACT_GAME_SPEED("#","gameSpeed-","Dekrement the Game Speed"),
     NOTHING("", "doNothing", "* Just press Enter");
 
-    private String commandName, helpText, methodName;
+    private final String commandName;
+    private final String helpText;
+    private final String methodName;
     private Class[] params;
 
-    private GameCommandType(String name, String methodName, String helpText){
+    GameCommandType(String name, String methodName, String helpText){
         commandName = name;
         this.helpText = helpText;
         this.methodName = methodName;
     }
 
-    private GameCommandType(String name, String methodName, String helpText, Class... params){
+    GameCommandType(String name, String methodName, String helpText, Class... params){
         commandName = name;
         this.helpText = helpText;
         this.methodName = methodName;

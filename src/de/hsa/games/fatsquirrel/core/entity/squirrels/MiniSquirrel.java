@@ -11,10 +11,10 @@ import javafx.scene.paint.Color;
  */
 public abstract class MiniSquirrel extends PlayerEntity {
     private static final EntityType type = EntityType.MINISQUIRREL;
-    public static final Color ENTITYCOLOR = Color.color(1, 0.5412, 0);
-    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
-    public static final String defaultName = "mS";
-    private MasterSquirrel daddy;
+    private static final Color ENTITYCOLOR = Color.color(1, 0.5412, 0);
+    private static final Color ENTITYTEXTCOLOR = Color.gray(0);
+    private static final String defaultName = "mS";
+    private final MasterSquirrel daddy;
     int moveCounter = 0;
     int implosionRadius = 5;
     boolean implode = false;
@@ -24,7 +24,7 @@ public abstract class MiniSquirrel extends PlayerEntity {
     }
 
 
-    public MiniSquirrel(int id, XY coordinate, int startEnergy, MasterSquirrel daddy) {
+    MiniSquirrel(int id, XY coordinate, int startEnergy, MasterSquirrel daddy) {
         super(startEnergy, id, coordinate, ENTITYCOLOR, ENTITYTEXTCOLOR, defaultName);
         this.daddy = daddy;
         this.setEntityName(getName(daddy.getFactory()));

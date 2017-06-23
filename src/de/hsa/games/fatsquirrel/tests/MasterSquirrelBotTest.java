@@ -6,13 +6,10 @@ import de.hsa.games.fatsquirrel.core.entity.squirrels.HandOperatedMasterSquirrel
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
-/**
- * Created by tillm on 19.05.2017.
- */
 public class MasterSquirrelBotTest {
 
+    @SuppressWarnings("EmptyMethod")
     @Test
     public void nextStep() throws Exception {
 

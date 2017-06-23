@@ -1,7 +1,6 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.BotCom;
@@ -9,9 +8,6 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.FieldUnreachableExcept
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 
-/**
- * Created by Shiroten on 15.06.2017.
- */
 public class ExCells26FeralMini extends ExCells26ReaperMini implements BotController {
 
     public ExCells26FeralMini(BotCom botCom) {
@@ -25,7 +21,7 @@ public class ExCells26FeralMini extends ExCells26ReaperMini implements BotContro
         }
 
         if (view.getEnergy() > 5000) {
-            setGoToMaster(true);
+            setGoToMaster();
         }
 
         if (goToMaster) {

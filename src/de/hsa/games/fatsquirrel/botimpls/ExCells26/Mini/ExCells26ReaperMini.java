@@ -10,22 +10,18 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.Cell;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.FieldUnreachableException;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 import java.util.ArrayList;
 
-/**
- * Created by Shiroten on 15.06.2017.
- */
 public class ExCells26ReaperMini implements BotController {
 
-    protected BotCom botCom;
-    protected Cell myCell;
+    final BotCom botCom;
+    private Cell myCell;
 
-    protected ArrayList<XY> unReachableGoodies = new ArrayList<>();
+    final ArrayList<XY> unReachableGoodies = new ArrayList<>();
     private XY cornerVector = XY.UP;
-    protected boolean goToMaster = false;
+    boolean goToMaster = false;
 
     public ExCells26ReaperMini(BotCom botCom) {
         this.botCom = botCom;
@@ -91,8 +87,8 @@ public class ExCells26ReaperMini implements BotController {
         this.myCell = myCell;
     }
 
-    public void setGoToMaster(boolean goToMaster) {
-        this.goToMaster = goToMaster;
+    public void setGoToMaster() {
+        this.goToMaster = true;
     }
 
     private XY runningCircle(ControllerContext view) throws NoTargetException {
@@ -116,7 +112,7 @@ public class ExCells26ReaperMini implements BotController {
         throw new NoTargetException();
     }
 
-    protected void executeGoToMaster(ControllerContext view) {
+    void executeGoToMaster(ControllerContext view) {
         XY positionOfMaster;
         if (botCom.positionOfExCellMaster.minus(view.locate()).length() > 10) {
             positionOfMaster = botCom.positionOfExCellMaster;
@@ -132,11 +128,12 @@ public class ExCells26ReaperMini implements BotController {
             view.move(pf.directionTo(view.locate(), positionOfMaster, view));
         } catch (FullFieldException | FieldUnreachableException e) {
             //Todo: add to Log
-            String s = "executeGoToMaster Error";
+            //noinspection unused
+            @SuppressWarnings("unused") String s = "executeGoToMaster Error";
         }
     }
 
-    protected XY getAccuratePositionOfMaster(ControllerContext view) throws NoTargetException {
+    private XY getAccuratePositionOfMaster(ControllerContext view) throws NoTargetException {
         for (int j = view.getViewUpperLeft().getY(); j < view.getViewLowerRight().getY(); j++) {
             for (int i = view.getViewUpperLeft().getX(); i < view.getViewLowerRight().getX(); i++) {
                 try {
@@ -155,7 +152,7 @@ public class ExCells26ReaperMini implements BotController {
         throw new NoTargetException();
     }
 
-    protected XY calculateTarget(ControllerContext view) throws NoTargetException {
+    XY calculateTarget(ControllerContext view) throws NoTargetException {
         unReachableGoodies.clear();
         XY positionOfGoodTarget;
         XY toMove;
@@ -178,7 +175,7 @@ public class ExCells26ReaperMini implements BotController {
 
     }
 
-    protected XY findNextGoodies(ControllerContext view) throws NoTargetException {
+    private XY findNextGoodies(ControllerContext view) throws NoTargetException {
         XY positionOfTentativelyTarget = new XY(999, 999);
         for (int j = view.getViewUpperLeft().getY(); j < view.getViewLowerRight().getY(); j++) {
             for (int i = view.getViewUpperLeft().getX(); i < view.getViewLowerRight().getX(); i++) {
@@ -207,7 +204,7 @@ public class ExCells26ReaperMini implements BotController {
         return positionOfTentativelyTarget;
     }
 
-    protected boolean isGoodTargetAt(ControllerContext view, XY position) {
+    private boolean isGoodTargetAt(ControllerContext view, XY position) {
         try {
             if (view.getEntityAt(position) == EntityType.GOODBEAST ||
                     view.getEntityAt(position) == EntityType.GOODPLANT) {

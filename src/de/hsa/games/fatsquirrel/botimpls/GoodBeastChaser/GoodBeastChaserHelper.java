@@ -10,9 +10,6 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Shiroten on 19.05.2017.
- */
 public class GoodBeastChaserHelper {
 
     protected enum freeFieldMode {
@@ -22,7 +19,7 @@ public class GoodBeastChaserHelper {
 
     }
 
-    protected static XY dodgeMove(ControllerContext view, XY directionVector, freeFieldMode ffm) {
+    static XY dodgeMove(ControllerContext view, XY directionVector, freeFieldMode ffm) {
         XYsupport.Rotation rotation = XYsupport.Rotation.clockwise;
         int nor = 1;
         boolean stuck = true;
@@ -51,7 +48,7 @@ public class GoodBeastChaserHelper {
         return null;
     }
 
-    protected static boolean freeField(ControllerContext view, XY location, freeFieldMode ffm) {
+    static boolean freeField(ControllerContext view, XY location, freeFieldMode ffm) {
 
         try {
             EntityType et = view.getEntityAt(location);
@@ -69,10 +66,7 @@ public class GoodBeastChaserHelper {
                             return true;
                         case MINISQUIRREL:
                         case MASTERSQUIRREL:
-                            if (view.isMine(location))
-                                return true;
-                            else
-                                return false;
+                            return view.isMine(location);
 
                     }
                 case spawnmini:
@@ -90,7 +84,7 @@ public class GoodBeastChaserHelper {
         return false;
     }
 
-    protected static XY nearestSearchedEntity(ControllerContext view, EntityType et) {
+    private static XY nearestSearchedEntity(ControllerContext view, EntityType et) {
 
         XY pos = view.locate();
         int minX = view.getViewUpperLeft().getX(), maxX = view.getViewLowerRight().getX();
@@ -117,7 +111,7 @@ public class GoodBeastChaserHelper {
         return null;
     }
 
-    protected static XY toMove(ControllerContext view, XY lastPosition, XY maxSize) {
+    static XY toMove(ControllerContext view, @SuppressWarnings("unused") XY lastPosition, XY maxSize) {
 
         XY toMove = XY.ZERO_ZERO;
 

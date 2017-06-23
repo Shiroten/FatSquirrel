@@ -10,14 +10,12 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Helper.PathFinder;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.HandOperatedMasterSquirrel;
 import org.junit.Test;
 
-/**
- * Created by tillm on 06.06.2017.
- */
 public class PathFinderTest {
     @Test
     public void directionTo() throws Exception {
         BotCom botCom = new BotCom();
-        PathFinder pathFinder = new PathFinder(botCom);
+        //noinspection unused
+        @SuppressWarnings("unused") PathFinder pathFinder = new PathFinder(botCom);
 
         Board board = new Board();
         GoodPlant goodPlant = new GoodPlant(1, new XY(3,3));
@@ -32,7 +30,8 @@ public class PathFinderTest {
 
         board.add(goodPlant, wall1, handOperatedMasterSquirrel, wall2, wall3, wall4, wall5, wall6, wall7);
 
-        FlattenedBoard context = board.flatten();
+        //noinspection unused
+        @SuppressWarnings("unused") FlattenedBoard context = board.flatten();
 
         /*XY to = pathFinder.directionTo(handOperatedMasterSquirrel.getCoordinate(), goodPlant.getCoordinate(), context);
         XY toTwo = new PathFinder().directionTo(new XY(3,3), new XY(2,4), context);

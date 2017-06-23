@@ -18,11 +18,10 @@ import java.util.logging.Logger;
 
 public class ExCells26Master implements BotController {
 
-    private BotCom botCom;
+    private final BotCom botCom;
     private Cell currentCell;
     private boolean firstCall = true;
     private ControllerContext view;
-    private ExCells26ReaperMini miniOfCurrentCell;
     private boolean firstTimeInCell = true;
     private int waitCycleForFeral = 5;
 
@@ -99,9 +98,9 @@ public class ExCells26Master implements BotController {
     private void collectMiniOfCell() {
         firstTimeInCell = false;
         if (currentCell.getMiniSquirrel() != null) {
-            miniOfCurrentCell = currentCell.getMiniSquirrel();
+            ExCells26ReaperMini miniOfCurrentCell = currentCell.getMiniSquirrel();
             miniOfCurrentCell.setMyCell(null);
-            miniOfCurrentCell.setGoToMaster(true);
+            miniOfCurrentCell.setGoToMaster();
             //currentCell.setMiniSquirrel(null);
         }
     }
@@ -151,12 +150,15 @@ public class ExCells26Master implements BotController {
         XY middle = new XY(botCom.getFieldLimit().getX() / 2, botCom.getFieldLimit().getX() / 2);
         PathFinder pf = new PathFinder(botCom);
         XY toMove = XY.ZERO_ZERO;
+        //noinspection TryWithIdenticalCatches
         try {
             toMove = pf.directionTo(view.locate(), middle, view);
         } catch (FullFieldException e) {
-            //Todo: add to Log
-            //e.printStackTrace();
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, e.getMessage());
         } catch (FieldUnreachableException e) {
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, e.getMessage());
         }
         view.move(XYsupport.normalizedVector(toMove));
     }

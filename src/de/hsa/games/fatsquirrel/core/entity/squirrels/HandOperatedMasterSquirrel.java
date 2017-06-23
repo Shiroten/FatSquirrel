@@ -21,9 +21,9 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     private ActionCommand command = ActionCommand.NOWHERE;
     private boolean spawnMiniSquirrel = false;
     private int miniSquirrelSpawnEnergy = 100;
-    public static final Color ENTITYCOLOR = Color.color(0, 0.9608, 1);
-    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
-    public static final String defaultName = "HS";
+    private static final Color ENTITYCOLOR = Color.color(0, 0.9608, 1);
+    private static final Color ENTITYTEXTCOLOR = Color.gray(0);
+    private static final String defaultName = "HS";
 
     public void setMiniSquirrelSpawnEnergy(int miniSquirrelSpawnEnergy) {
         if (miniSquirrelSpawnEnergy > 0)
