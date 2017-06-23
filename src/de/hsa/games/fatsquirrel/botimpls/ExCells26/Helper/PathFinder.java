@@ -8,6 +8,7 @@ import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.BadPlant;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
 import de.hsa.games.fatsquirrel.core.entity.GoodPlant;
+import de.hsa.games.fatsquirrel.core.entity.character.BadBeast;
 import de.hsa.games.fatsquirrel.core.entity.character.GoodBeast;
 
 import java.util.*;
@@ -66,7 +67,7 @@ public class PathFinder {
         while (!openList.isEmpty()) {
             Node currentNode = popMinF(openList);
             if (currentNode.getCoordinate().equals(destination)) {
-                System.out.println(closedList.size());
+                //System.out.println(closedList.size());
                 return getSecondNode(currentNode).coordinate.minus(from);
             }
 
@@ -192,12 +193,13 @@ public class PathFinder {
         for(XY direction : XYsupport.directions()){
             try {
                 if(context.getEntityAt(position.plus(direction)) == EntityType.BADBEAST)
-                    cumulatedWeight = cumulatedWeight + BadPlant.START_ENERGY;
+                    cumulatedWeight = cumulatedWeight - BadBeast.START_ENERGY;
             } catch (OutOfViewException e) {
                 //Do nothing
             }
         }
-
+        if(cumulatedWeight > 0)
+            System.out.println("Weight: " + cumulatedWeight);
         return cumulatedWeight;
     }
 
