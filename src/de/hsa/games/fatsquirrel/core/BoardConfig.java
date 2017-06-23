@@ -143,23 +143,23 @@ public class BoardConfig {
         return viewDistanceOfBadbeast;
     }
 
-    int getNumberOfGb() {
+    int getNumberOfGoodBeasts() {
         return numberOfGb;
     }
 
-    int getNumberOfBb() {
+    int getNumberOfBadBeasts() {
         return numberOfBb;
     }
 
-    int getNumberOfGp() {
+    int getNumberOfGoodPlants() {
         return numberOfGp;
     }
 
-    int getNumberOfBp() {
+    int getNumberOfBadPlants() {
         return numberOfBp;
     }
 
-    int getNumberOfWa() {
+    int getNumberOfWalls() {
         return numberOfWa;
     }
 

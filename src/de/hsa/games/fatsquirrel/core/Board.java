@@ -82,13 +82,11 @@ public class Board {
         initOuterWalls();
         createMasterSquirrels();
 
-        //TODO: Eventuell per Reflection lösen
-        //Random Entitys auf der Map verteilt
-        addEntity(EntityType.WALL, config.getNumberOfWa());
-        addEntity(BADBEAST, config.getNumberOfBb());
-        addEntity(EntityType.BADPLANT, config.getNumberOfBp());
-        addEntity(EntityType.GOODBEAST, config.getNumberOfGb());
-        addEntity(EntityType.GOODPLANT, config.getNumberOfGp());
+        addEntity(EntityType.WALL, config.getNumberOfWalls());
+        addEntity(BADBEAST, config.getNumberOfBadBeasts());
+        addEntity(EntityType.BADPLANT, config.getNumberOfBadPlants());
+        addEntity(EntityType.GOODBEAST, config.getNumberOfGoodBeasts());
+        addEntity(EntityType.GOODPLANT, config.getNumberOfGoodPlants());
 
     }
 
@@ -232,9 +230,9 @@ public class Board {
 
     private Entity createBasicEntityFromType(EntityType entityType, XY position) {
         try {
-            return (Entity) Class.forName(entityType.getClassName()).getDeclaredConstructors()[0].newInstance(setID(), position);
+            return (Entity) Class.forName("de.hsa.games.fatsquirrel.core.entity."+entityType.getClassName()).getDeclaredConstructors()[0].newInstance(setID(), position);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            logger.log(Level.FINE, "Klasse der Entity konnte nicht gefunden werden");
+            logger.log(Level.SEVERE, "Klasse der Entity konnte nicht gefunden werden");
         }
         return null;
     }
