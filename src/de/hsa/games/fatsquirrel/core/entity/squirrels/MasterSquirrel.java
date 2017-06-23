@@ -17,12 +17,13 @@ public abstract class MasterSquirrel extends PlayerEntity {
     public static final int START_ENERGY = 1000;
     public static final EntityType type = EntityType.MASTERSQUIRREL;
 
+
     public EntityType getEntityType() {
         return type;
     }
 
-    public MasterSquirrel(int id, XY coordinate, Color c) {
-        super(START_ENERGY, id, coordinate, c);
+    public MasterSquirrel(int id, XY coordinate, Color color, String name) {
+        super(START_ENERGY, id, coordinate, color, name);
     }
 
     @Override

@@ -121,12 +121,12 @@ public class MasterSquirrelBot extends MasterSquirrel {
     private int moveCounter = 0;
     private BotController masterBotController;
     public static final Color ENTITYCOLOR = Color.color(0, 0.0588, 1);
+    public static final String defaultName = "MS";
 
     public MasterSquirrelBot(int id, XY position, BotControllerFactory factory) {
-        super(id, position, ENTITYCOLOR);
+        super(id, position, ENTITYCOLOR, defaultName);
         setFactory(factory);
         this.masterBotController = factory.createMasterBotController();
-
         this.setEntityName(getName(factory));
     }
 

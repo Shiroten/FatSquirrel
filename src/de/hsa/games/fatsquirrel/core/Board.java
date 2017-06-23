@@ -107,17 +107,41 @@ public class Board {
         }
     }
 
-    public void nextStep(EntityContext context) {
+    private void createMasterSquirrels() {
         try {
-            for (Entity e : new ArrayList<>(entityList)) {
-                if (entityList.contains(e)) {
-                    if (e instanceof Character)
-                        ((Character) e).nextStep(context);
-                }
+            switch (config.getGameType()){
+                case BOT_ONLY:
+                    createBots();
+                    break;
+                case WITH_BOT:
+                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
+                    createBots();
+                case SINGLE_PLAYER:
+                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
             }
-        } catch (ConcurrentModificationException e) {
-            e.printStackTrace();
+        } catch (FullFieldException e) {
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.WARNING, "Board is full");
         }
+    }
+
+    /**
+     * @param position Position in XY of Mini
+     * @param energy   StartEnergy of MiniSquirrel
+     * @param daddy    MasterSquirrel Reference of the MiniSquirrel
+     */
+    void addMiniSquirrel(XY position, int energy, MasterSquirrel daddy) {
+        MiniSquirrel msb = new MiniSquirrelBot(setID(), position, energy, daddy);
+        entityList.add(msb);
+    }
+
+    private Entity createBasicEntityFromType(EntityType entityType, XY position) {
+        try {
+            return (Entity) Class.forName(entityType.getClassName()).getDeclaredConstructors()[0].newInstance(setID(), position);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            logger.log(Level.FINE, "Klasse der Entity konnte nicht gefunden werden");
+        }
+        return null;
     }
 
     /**
@@ -142,8 +166,6 @@ public class Board {
      * @return Entity to be added to List
      */
     Entity addEntity(EntityType type, XY position) {
-
-
         Entity addEntity = null;
         if(getBasicEntities().contains(type)) {
             switch (type) {
@@ -156,18 +178,20 @@ public class Board {
             }
             entityList.add(addEntity);
         }
-
         return addEntity;
     }
 
-    /**
-     * @param position Position in XY of Mini
-     * @param energy   StartEnergy of MiniSquirrel
-     * @param daddy    MasterSquirrel Reference of the MiniSquirrel
-     */
-    void addMiniSquirrel(XY position, int energy, MasterSquirrel daddy) {
-        MiniSquirrel msb = new MiniSquirrelBot(setID(), position, energy, daddy);
-        entityList.add(msb);
+    public void nextStep(EntityContext context) {
+        try {
+            for (Entity e : new ArrayList<>(entityList)) {
+                if (entityList.contains(e)) {
+                    if (e instanceof Character)
+                        ((Character) e).nextStep(context);
+                }
+            }
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -229,33 +253,6 @@ public class Board {
                 return (HandOperatedMasterSquirrel) e;
         }
         return null;
-    }
-
-    private Entity createBasicEntityFromType(EntityType entityType, XY position) {
-        try {
-            return (Entity) Class.forName(entityType.getClassName()).getDeclaredConstructors()[0].newInstance(setID(), position);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            logger.log(Level.FINE, "Klasse der Entity konnte nicht gefunden werden");
-        }
-        return null;
-    }
-
-    private void createMasterSquirrels() {
-        try {
-            switch (config.getGameType()){
-                case BOT_ONLY:
-                    createBots();
-                    break;
-                case WITH_BOT:
-                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
-                    createBots();
-                case SINGLE_PLAYER:
-                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
-            }
-        } catch (FullFieldException e) {
-            Logger logger = Logger.getLogger(Launcher.class.getName());
-            logger.log(Level.WARNING, "Board is full");
-        }
     }
 
     private void createBots() {

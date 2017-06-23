@@ -12,28 +12,28 @@ public abstract class PlayerEntity extends Character {
     private int stunTime = 0;
 
     //Package Private
-    PlayerEntity(int startEnergy, int id, XY coordinate, Color c){
-        super(startEnergy, id, coordinate, c);
+    PlayerEntity(int startEnergy, int id, XY coordinate, Color color, String name) {
+        super(startEnergy, id, coordinate, color, name);
     }
 
-    public void setStunTime(int stunTime){
+    public void setStunTime(int stunTime) {
         this.stunTime = stunTime;
     }
 
-    public int getStunTime(){
+    public int getStunTime() {
         return this.stunTime;
     }
 
     /**
      * Reduce stunTime by one
      */
-    void reduceStunTime(){
-        if(stunTime > 0)
+    void reduceStunTime() {
+        if (stunTime > 0)
             stunTime--;
     }
 
     //TODO: Im Namensrefactor
-    String getName(BotControllerFactory factory){
-        return factory.getClass().getName().substring(34, factory.getClass().getName().length()-7);
+    String getName(BotControllerFactory factory) {
+        return factory.getClass().getName().substring(34, factory.getClass().getName().length() - 7);
     }
 }

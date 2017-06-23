@@ -17,10 +17,11 @@ public class GoodBeast extends Character {
     public static final int START_ENERGY = 200;
     private static final EntityType type = EntityType.GOODBEAST;
     public static final Color ENTITYCOLOR = Color.color(1, 0.9765, 0);
+    public static final String defaultName = "GB";
     public int moveCounter = 0;
 
     public GoodBeast(int id, XY coordinate) {
-        super(START_ENERGY, id, coordinate, ENTITYCOLOR);
+        super(START_ENERGY, id, coordinate, ENTITYCOLOR, defaultName);
     }
 
     public EntityType getEntityType() {

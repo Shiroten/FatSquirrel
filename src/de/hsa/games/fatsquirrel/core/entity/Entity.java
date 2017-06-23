@@ -16,17 +16,19 @@ public abstract class Entity {
 
     private Color entityTextColor;
 
-    public Entity(int id, XY coordinate,Color c) {
+    public Entity(int id, XY coordinate,Color color, String name) {
         this.id = id;
         this.coordinate = coordinate;
-        this.entityColor = c;
+        this.entityColor = color;
+        this.entityName = name;
     }
 
-    public Entity(int energy, int id, XY coordinate, Color c) {
+    public Entity(int energy, int id, XY coordinate, Color color, String name) {
         this.energy = energy;
         this.id = id;
         this.coordinate = coordinate;
-        this.entityColor = c;
+        this.entityColor = color;
+        this.entityName = name;
     }
 
     public int getId() {

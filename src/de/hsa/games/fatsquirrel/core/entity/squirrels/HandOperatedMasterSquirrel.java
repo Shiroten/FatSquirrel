@@ -22,6 +22,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     private boolean spawnMiniSquirrel = false;
     private int miniSquirrelSpawnEnergy = 100;
     public static final Color ENTITYCOLOR = Color.color(0, 0.9608, 1);
+    public static final String defaultName = "HS";
 
     public void setMiniSquirrelSpawnEnergy(int miniSquirrelSpawnEnergy) {
         if(miniSquirrelSpawnEnergy > 0)
@@ -33,9 +34,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     }
 
     public HandOperatedMasterSquirrel(int id, XY coordinate) {
-        super(id, coordinate, ENTITYCOLOR);
+        super(id, coordinate, ENTITYCOLOR, "Player");
         setFactory(new PlayerFactory());
-        this.setEntityName("Player");
     }
 
     @Override
