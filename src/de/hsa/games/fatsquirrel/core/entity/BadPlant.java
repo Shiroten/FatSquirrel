@@ -1,6 +1,7 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
+import javafx.scene.paint.Color;
 
 /**
  * Can get eaten by Squirrels, but gives negative points
@@ -8,8 +9,10 @@ import de.hsa.games.fatsquirrel.XY;
 public class BadPlant extends Entity {
     public static final int START_ENERGY = -100;
     private static final EntityType type = EntityType.BADPLANT;
+    public static final Color ENTITYCOLOR = Color.color(0, 0.2353, 0);
+
     public BadPlant(int id, XY coordinate) {
-        super(START_ENERGY, id, coordinate);
+        super(START_ENERGY, id, coordinate, ENTITYCOLOR);
     }
 
     public EntityType getEntityType() {

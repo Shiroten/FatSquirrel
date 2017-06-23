@@ -402,40 +402,7 @@ public class FxUI extends Scene implements UI {
     }
 
     private Color entityTypeToColor(Entity e) {
-        EntityType et = e.getEntityType();
-        Color returnColor;
-
-        switch (et) {
-            case GOODPLANT:
-                returnColor = Color.color(0, 1, 0);
-                break;
-            case GOODBEAST:
-                returnColor = Color.color(1, 0.9765, 0);
-                break;
-            case BADPLANT:
-                returnColor = Color.color(0, 0.2353, 0);
-                break;
-            case BADBEAST:
-                returnColor = Color.color(1, 0.0392, 0);
-                break;
-            case WALL:
-                returnColor = Color.color(0.3804, 0.3804, 0.3765);
-                break;
-            case MINISQUIRREL:
-                returnColor = Color.color(1, 0.5412, 0);
-                break;
-            case MASTERSQUIRREL:
-                if (e.getId() == -100) {
-                    returnColor = Color.color(0, 0.9608, 1);
-                } else {
-                    returnColor = Color.color(0, 0.0588, 1);
-                }
-
-                break;
-            default:
-                returnColor = Color.gray(0, 0);
-        }
-        return returnColor;
+        return e.getEntityColor();
     }
 
     private Color entityTypeToTextColor(Entity e) {

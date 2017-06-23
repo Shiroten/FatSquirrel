@@ -16,15 +16,17 @@ public abstract class Entity {
 
     private Color entityTextColor;
 
-    public Entity(int id, XY coordinate) {
+    public Entity(int id, XY coordinate,Color c) {
         this.id = id;
         this.coordinate = coordinate;
+        this.entityColor = c;
     }
 
-    public Entity(int energy, int id, XY coordinate) {
+    public Entity(int energy, int id, XY coordinate, Color c) {
         this.energy = energy;
         this.id = id;
         this.coordinate = coordinate;
+        this.entityColor = c;
     }
 
     public int getId() {
