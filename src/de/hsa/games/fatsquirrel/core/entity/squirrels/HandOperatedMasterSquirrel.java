@@ -32,7 +32,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
     public HandOperatedMasterSquirrel(int id, XY coordinate) {
         super(id, coordinate);
-        this.factory = new PlayerFactory();
+        setFactory(new PlayerFactory());
         this.setEntityName("Player");
     }
 

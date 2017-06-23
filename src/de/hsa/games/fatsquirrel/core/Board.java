@@ -178,21 +178,6 @@ public class Board {
             case MASTERSQUIRREL:
             case NONE:
                 break;
-            case WALL:
-                addEntity = new Wall(setID(), position);
-                break;
-            case BADBEAST:
-                addEntity = new BadBeast(setID(), position);
-                break;
-            case BADPLANT:
-                addEntity = new BadPlant(setID(), position);
-                break;
-            case GOODBEAST:
-                addEntity = new GoodBeast(setID(), position);
-                break;
-            case GOODPLANT:
-                addEntity = new GoodPlant(setID(), position);
-                break;
             default:
                 addEntity = createBasicEntityFromType(type, position);
         }

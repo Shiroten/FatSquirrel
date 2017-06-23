@@ -6,13 +6,15 @@ public enum EntityType {
     BADPLANT(BadPlant.class.getName()),
     GOODPLANT(GoodPlant.class.getName()),
     WALL(Wall.class.getName()),
-    MASTERSQUIRREL, MINISQUIRREL, NONE;
+    MASTERSQUIRREL,
+    MINISQUIRREL,
+    NONE;
 
     private String className;
-    private EntityType(){
+    EntityType(){
     }
 
-    private EntityType(String s){
+    EntityType(String s){
         this.className = s;
     }
 

@@ -63,7 +63,7 @@ public class Launcher extends Application {
     }
 
     private static void startGame(Game game) {
-        game.getState().loadHighScore("HighScore.props");
+        game.getState().loadHighScore();
         System.out.println(game.getState().printHighscore());
         game.setGameSpeed(game.getState().getBoard().getConfig().getTicklength());
         try {
@@ -82,7 +82,7 @@ public class Launcher extends Application {
                         } else {
                             game.run();
                             game.getState().updateHighscore();
-                            game.getState().saveHighScore("HighScore.props");
+                            game.getState().saveHighScore();
                             System.out.println(game.getState().printHighscore());
                             Thread.sleep(1000 * 3);
                             game.reset();

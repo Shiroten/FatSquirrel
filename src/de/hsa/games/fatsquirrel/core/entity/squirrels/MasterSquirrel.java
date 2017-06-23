@@ -11,9 +11,9 @@ import de.hsa.games.fatsquirrel.core.entity.EntityType;
  */
 public abstract class MasterSquirrel extends PlayerEntity {
 
-    protected BotControllerFactory factory;
+    private BotControllerFactory factory;
 
-    private static final int START_ENERGY = 1000;
+    public static final int START_ENERGY = 1000;
     public static final EntityType type = EntityType.MASTERSQUIRREL;
 
     public EntityType getEntityType() {
@@ -40,7 +40,11 @@ public abstract class MasterSquirrel extends PlayerEntity {
      * The factory with which the BotControllers are created
      * @return The BotcontrollerFactory of the MasterSquirrel
      */
-    public BotControllerFactory getFactory() {
+    BotControllerFactory getFactory() {
         return factory;
+    }
+
+    void setFactory(BotControllerFactory factory){
+        this.factory = factory;
     }
 }

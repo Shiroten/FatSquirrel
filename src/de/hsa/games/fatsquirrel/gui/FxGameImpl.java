@@ -33,7 +33,6 @@ public class FxGameImpl extends Game {
      */
     protected void processInput() {
 
-        //TODO: Per Reflection lösen
         if (handOperatedMasterSquirrel != null) {
             Command cmd = this.getUi().getCommand();
             switch (cmd.getCommandTypeInfo().getName()) {

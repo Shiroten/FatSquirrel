@@ -17,6 +17,7 @@ public class State {
     private Map<String, Long> currentHighscore = new HashMap<>();
     private Map<String, ArrayList<Long>> totalHighscore = new HashMap<>();
     private Board board;
+    private String highScorePath = "highscore.props";
 
     /**
      * Creates new State with default Board
@@ -28,7 +29,7 @@ public class State {
     /**
      * Creates new State with BoardName
      *
-     * @param configName
+     * @param configName The name of the config file
      */
     public State(String configName) {
         this.board = new Board(configName);
@@ -37,7 +38,7 @@ public class State {
     /**
      * Sets new Board to State
      *
-     * @param board
+     * @param board An instance of the game board
      */
     public void setBoard(Board board) {
         this.board = board;
@@ -75,12 +76,12 @@ public class State {
             if (ms == null) {
                 continue;
             }
-            ArrayList longArrayList;
+            ArrayList<Long> longArrayList;
             if (totalHighscore.get(ms.getEntityName()) != null) {
                 longArrayList = totalHighscore.get(ms.getEntityName());
             } else {
                 //if first Value, create new list
-                longArrayList = new ArrayList();
+                longArrayList = new ArrayList<>();
             }
             longArrayList.add((long) ms.getEnergy());
             //put list back to map
@@ -128,9 +129,9 @@ public class State {
     }
 
     /**
-     * @param path save the actual HighScore to a File in the given Path
+     * Save the highscore to highscore.props
      */
-    public void saveHighScore(String path) {
+    public void saveHighScore() {
         //Sort Array before saving
         for (ArrayList<Long> entry : totalHighscore.values()) {
             Collections.sort(entry);
@@ -143,7 +144,7 @@ public class State {
             properties.setProperty(pairs.getKey(), pairs.getValue().toString());
         }
         try {
-            Writer writer = new FileWriter(path);
+            Writer writer = new FileWriter(highScorePath);
             properties.store(writer, "FatSquirrel Highscore");
         } catch (IOException e) {
             e.printStackTrace();
@@ -151,13 +152,13 @@ public class State {
     }
 
     /**
-     * @param path load the actual HighScore from a File in the given Path
+     * Load the actual HighScore from a highscore.props
      */
-    public void loadHighScore(String path) {
+    public void loadHighScore() {
         //OpenFile
         Properties properties = new Properties();
         try {
-            Reader reader = new FileReader(path);
+            Reader reader = new FileReader(highScorePath);
             properties.load(reader);
         } catch (FileNotFoundException f) {
             System.out.println("Keine Highscore Datei Gefunden. Lege beim Speichern einen neu an.");
@@ -180,9 +181,9 @@ public class State {
             //Split to seperate Values
             valuesToParse = propertiesString.split(",");
 
-            ArrayList values = new ArrayList();
-            for (int i = 0; i < valuesToParse.length; i++) {
-                values.add(Long.parseLong(valuesToParse[i]));
+            ArrayList<Long> values = new ArrayList<>();
+            for (String aValuesToParse : valuesToParse) {
+                values.add(Long.parseLong(aValuesToParse));
             }
             totalHighscore.put(o.toString(), values);
         }

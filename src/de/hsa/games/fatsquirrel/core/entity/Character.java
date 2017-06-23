@@ -1,10 +1,6 @@
 package de.hsa.games.fatsquirrel.core.entity;
 
 import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.XYsupport;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
-import de.hsa.games.fatsquirrel.core.entity.EntityContext;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
 
 /**
  * The parent class for all entities that can make an action, i.e. have a nextStep()
