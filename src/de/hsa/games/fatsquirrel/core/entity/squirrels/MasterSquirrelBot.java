@@ -97,7 +97,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public void spawnMiniBot(XY direction, int energy) throws SpawnException {
-            if(direction.length() > 1.5)
+            if (direction.length() > 1.5)
                 throw new SpawnException();
             if (masterSquirrel.getEnergy() >= energy) {
                 try {
@@ -121,13 +121,14 @@ public class MasterSquirrelBot extends MasterSquirrel {
     private int moveCounter = 0;
     private BotController masterBotController;
     public static final Color ENTITYCOLOR = Color.color(0, 0.0588, 1);
+    public static final Color ENTITYTEXTCOLOR = Color.color(1, 0.651, 0);
     public static final String defaultName = "MS";
 
     public MasterSquirrelBot(int id, XY position, BotControllerFactory factory) {
-        super(id, position, ENTITYCOLOR, defaultName);
+        super(id, position, ENTITYCOLOR, ENTITYTEXTCOLOR,
+                factory.getClass().getName().substring(34, factory.getClass().getName().length() - 7));
         setFactory(factory);
         this.masterBotController = factory.createMasterBotController();
-        this.setEntityName(getName(factory));
     }
 
     @Override
@@ -140,7 +141,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 handler);
 
         int waitingTime = 1;
-        if (moveCounter % (waitingTime+1) == 0) {
+        if (moveCounter % (waitingTime + 1) == 0) {
             if (getStunTime() > 0)
                 reduceStunTime();
             else {

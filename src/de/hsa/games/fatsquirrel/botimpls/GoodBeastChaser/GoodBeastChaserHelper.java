@@ -1,10 +1,14 @@
 package de.hsa.games.fatsquirrel.botimpls.GoodBeastChaser;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.OutOfViewException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Shiroten on 19.05.2017.
@@ -80,7 +84,8 @@ public class GoodBeastChaserHelper {
                     }
             }
         } catch (OutOfViewException e) {
-            e.printStackTrace();
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, e.getMessage());
         }
         return false;
     }

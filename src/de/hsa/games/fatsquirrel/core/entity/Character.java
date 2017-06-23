@@ -10,8 +10,8 @@ import javafx.scene.paint.Color;
 public abstract class Character extends Entity {
     private XY lastDirection = XY.ZERO_ZERO;
 
-    protected Character(int energy, int id, XY coordinate, Color color, String name) {
-        super(energy, id, coordinate, color, name);
+    protected Character(int energy, int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
+        super(energy, id, coordinate, entityColor, entityTextColor, name);
     }
 
     /**

@@ -22,8 +22,8 @@ public abstract class MasterSquirrel extends PlayerEntity {
         return type;
     }
 
-    public MasterSquirrel(int id, XY coordinate, Color color, String name) {
-        super(START_ENERGY, id, coordinate, color, name);
+    public MasterSquirrel(int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
+        super(START_ENERGY, id, coordinate, entityColor, entityTextColor, name);
     }
 
     @Override

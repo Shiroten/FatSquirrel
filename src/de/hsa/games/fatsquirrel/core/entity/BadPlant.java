@@ -10,10 +10,11 @@ public class BadPlant extends Entity {
     public static final int START_ENERGY = -100;
     private static final EntityType type = EntityType.BADPLANT;
     public static final Color ENTITYCOLOR = Color.color(0, 0.2353, 0);
-    public static final String defaultName = "BP";
+    public static final Color ENTITYTEXTCOLOR = Color.color(0, 0.7647, 0);
+    public static final String defaultName = "BadPlant";
 
     public BadPlant(int id, XY coordinate) {
-        super(START_ENERGY, id, coordinate, ENTITYCOLOR, defaultName);
+        super(START_ENERGY, id, coordinate, ENTITYCOLOR, ENTITYTEXTCOLOR, defaultName);
     }
 
     public EntityType getEntityType() {
@@ -21,9 +22,9 @@ public class BadPlant extends Entity {
     }
 
     @Override
-    public void updateEnergy(int energyDifference){
+    public void updateEnergy(int energyDifference) {
         this.energy += energyDifference;
-        if(energy > 0)
+        if (energy > 0)
             energy = 0;
     }
 }

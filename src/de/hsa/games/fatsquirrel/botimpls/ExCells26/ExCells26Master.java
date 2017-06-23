@@ -1,5 +1,6 @@
 package de.hsa.games.fatsquirrel.botimpls.ExCells26;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.BotController;
@@ -11,6 +12,9 @@ import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.ExCells26ReaperMini;
 import de.hsa.games.fatsquirrel.botimpls.ExCells26.Mini.MiniType;
 import de.hsa.games.fatsquirrel.core.FullFieldException;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ExCells26Master implements BotController {
 
@@ -127,8 +131,8 @@ public class ExCells26Master implements BotController {
                 //Todo: adding can't spawn
             }
         } catch (SpawnException | OutOfViewException e) {
-            //Todo: add to Log
-            e.printStackTrace();
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.FINE, e.getMessage());
         }
     }
 

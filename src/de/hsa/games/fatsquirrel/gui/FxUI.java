@@ -407,114 +407,89 @@ public class FxUI extends Scene implements UI {
 
     private Color entityTypeToTextColor(Entity e) {
 
-        Color returnColor = Color.BLACK;
+        Color returnColor;
         EntityType et = e.getEntityType();
 
         switch (et) {
             case GOODPLANT:
-
-                break;
             case GOODBEAST:
-
-                break;
             case BADPLANT:
-                returnColor = Color.WHITE;
-                break;
             case BADBEAST:
-
-                break;
             case WALL:
-
+                returnColor = e.getEntityTextColor();
                 break;
             case MINISQUIRREL:
                 if (((PlayerEntity) e).getStunTime() != 0) {
                     returnColor = Color.RED;
+                } else {
+                    returnColor = e.getEntityTextColor();
                 }
-
                 break;
             case MASTERSQUIRREL:
                 if (((PlayerEntity) e).getStunTime() != 0) {
                     returnColor = Color.RED;
                 } else {
-                    if (e.getId() == -100) {
-                        returnColor = Color.BLACK;
-                    } else {
-                        returnColor = Color.color(1, 0.651, 0);
-                    }
+                    returnColor = e.getEntityTextColor();
                 }
                 break;
             default:
-                returnColor = Color.BLACK;
+                returnColor = e.getEntityTextColor();
         }
         return returnColor;
     }
 
-    private String entityToString(Entity e) {
+    private String entityToString(Entity entity) {
 
-        EntityType et = e.getEntityType();
-        String stringToPrint;
+        EntityType entityType = entity.getEntityType();
         StringBuilder simpleText = new StringBuilder();
         StringBuilder detailedText = new StringBuilder();
         StringBuilder extendText = new StringBuilder();
         StringBuilder showIDText = new StringBuilder();
-        showIDText.append(e.getId());
+        String stringToPrint;
+        showIDText.append(entity.getId());
 
-        switch (et) {
-            case GOODPLANT:
-                simpleText.append("GP");
-                detailedText.append("GP");
-                extendText.append(e.getEnergy());
-                break;
-            case GOODBEAST:
-                simpleText.append("BP");
-                detailedText.append("GB");
-                extendText.append(e.getEnergy());
-                break;
-            case BADPLANT:
-                simpleText.append("BP");
-                detailedText.append("BP");
-                extendText.append(e.getEnergy());
-                break;
-            case BADBEAST:
-                simpleText.append("BB");
-                detailedText.append(e.getEnergy());
-                extendText.append(((BadBeast) e).getLives());
-                break;
-            case WALL:
-                break;
-            case MINISQUIRREL:
-                simpleText.append("mS");
-                detailedText.append(e.getEnergy());
-                if (((PlayerEntity) e).getStunTime() != 0) {
-                    extendText.append(((PlayerEntity) e).getStunTime());
-                } else {
-                    extendText.append(e.getEnergy());
-                }
-                break;
-            case MASTERSQUIRREL:
-                if (e.getId() == -100) {
-                    simpleText.append("HS");
-                } else {
-                    simpleText.append("MS");
-                }
-                detailedText.append(e.getEnergy());
-                if (((PlayerEntity) e).getStunTime() != 0) {
-                    extendText.append(((PlayerEntity) e).getStunTime());
-                } else {
-                    extendText.append(e.getEnergy());
-                }
-                break;
-        }
-
-        if (showName && e.getEntityName() != null) {
-            simpleText = new StringBuilder().append(e.getEntityName());
-            detailedText = new StringBuilder().append(e.getEntityName());
-            extendText = new StringBuilder().append(e.getEntityName());
-            showIDText = new StringBuilder().append(e.getEntityName());
-        } else if (showName) {
-            detailedText = new StringBuilder().append(simpleText);
-            extendText = new StringBuilder().append(simpleText);
-            showIDText = new StringBuilder().append(simpleText);
+        if (showName) {
+            if (entityType != EntityType.WALL) {
+                simpleText = new StringBuilder().append(entity.getEntityName());
+                detailedText = new StringBuilder().append(entity.getEntityName());
+                extendText = new StringBuilder().append(entity.getEntityName());
+                showIDText = new StringBuilder().append(entity.getEntityName());
+            }
+        } else {
+            switch (entityType) {
+                case GOODPLANT:
+                case GOODBEAST:
+                case BADPLANT:
+                    simpleText.append(entityType.getTypeToString());
+                    detailedText.append(entityType.getTypeToString());
+                    extendText.append(entity.getEnergy());
+                    break;
+                case BADBEAST:
+                    simpleText.append(entityType.getTypeToString());
+                    detailedText.append(entity.getEnergy());
+                    extendText.append(((BadBeast) entity).getLives());
+                    break;
+                case WALL:
+                    break;
+                case MINISQUIRREL:
+                    simpleText.append(entityType.getTypeToString());
+                    detailedText.append(entity.getEnergy());
+                    if (((PlayerEntity) entity).getStunTime() != 0) {
+                        extendText.append(((PlayerEntity) entity).getStunTime());
+                    } else {
+                        extendText.append(entity.getEnergy());
+                    }
+                    break;
+                case MASTERSQUIRREL:
+                    simpleText.append(entityType.getTypeToString());
+                    detailedText.append(entity.getEnergy());
+                    if (((PlayerEntity) entity).getStunTime() != 0) {
+                        extendText.append(((PlayerEntity) entity).getStunTime());
+                    } else {
+                        extendText.append(entity.getEnergy());
+                    }
+                    break;
+            }
         }
         stringToPrint = switchVerboseLevel(outputMode, simpleText, detailedText, extendText, showIDText);
 

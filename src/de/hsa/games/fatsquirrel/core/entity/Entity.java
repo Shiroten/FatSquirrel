@@ -13,21 +13,22 @@ public abstract class Entity {
 
     private String entityName;
     private Color entityColor;
-
     private Color entityTextColor;
 
-    public Entity(int id, XY coordinate,Color color, String name) {
+    public Entity(int id, XY coordinate,Color entityColor, Color entityTextColor, String name) {
         this.id = id;
         this.coordinate = coordinate;
-        this.entityColor = color;
+        this.entityColor = entityColor;
+        this.entityTextColor = entityTextColor;
         this.entityName = name;
     }
 
-    public Entity(int energy, int id, XY coordinate, Color color, String name) {
+    public Entity(int energy, int id, XY coordinate, Color entityColor, Color entityTextColor, String name) {
         this.energy = energy;
         this.id = id;
         this.coordinate = coordinate;
-        this.entityColor = color;
+        this.entityColor = entityColor;
+        this.entityTextColor = entityTextColor;
         this.entityName = name;
     }
 

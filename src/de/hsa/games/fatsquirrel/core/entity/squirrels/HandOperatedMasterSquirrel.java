@@ -22,10 +22,11 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     private boolean spawnMiniSquirrel = false;
     private int miniSquirrelSpawnEnergy = 100;
     public static final Color ENTITYCOLOR = Color.color(0, 0.9608, 1);
+    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
     public static final String defaultName = "HS";
 
     public void setMiniSquirrelSpawnEnergy(int miniSquirrelSpawnEnergy) {
-        if(miniSquirrelSpawnEnergy > 0)
+        if (miniSquirrelSpawnEnergy > 0)
             this.miniSquirrelSpawnEnergy = miniSquirrelSpawnEnergy;
     }
 
@@ -34,7 +35,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     }
 
     public HandOperatedMasterSquirrel(int id, XY coordinate) {
-        super(id, coordinate, ENTITYCOLOR, "Player");
+        super(id, coordinate, ENTITYCOLOR, ENTITYTEXTCOLOR, "Player");
         setFactory(new PlayerFactory());
     }
 
@@ -67,7 +68,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
 
     /**
      * Spawn a new MiniSquirrel. Tries to spawn to an empty field next to the MasterSquirrel
-     * @param energy The startEnergy of the MiniSquirrel
+     *
+     * @param energy  The startEnergy of the MiniSquirrel
      * @param context The fields the MasterSquirrel can see
      * @throws NotEnoughEnergyException If the MasterSquirrels energy is greater than the specified energy
      */

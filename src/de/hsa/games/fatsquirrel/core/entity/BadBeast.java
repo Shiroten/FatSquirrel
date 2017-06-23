@@ -17,12 +17,13 @@ public class BadBeast extends Character {
     public static final int START_ENERGY = -150;
     private static final EntityType type = EntityType.BADBEAST;
     public static final Color ENTITYCOLOR = Color.color(1, 0.0392, 0);
-    public static final String defaultName = "BD";
+    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
+    public static final String defaultName = "BadBeast";
     public int moveCounter = 0;
     private int lives;
 
     public BadBeast(int id, XY coordinate) {
-        super(START_ENERGY, id, coordinate, ENTITYCOLOR, defaultName);
+        super(START_ENERGY, id, coordinate, ENTITYCOLOR, ENTITYTEXTCOLOR, defaultName);
         this.lives = 7;
     }
 

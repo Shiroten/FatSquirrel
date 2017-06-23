@@ -4,24 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum EntityType {
-    BADBEAST(BadBeast.class.getSimpleName()),
-    GOODBEAST(GoodBeast.class.getSimpleName()),
-    BADPLANT(BadPlant.class.getSimpleName()),
-    GOODPLANT(GoodPlant.class.getSimpleName()),
-    WALL(Wall.class.getSimpleName()),
-    MASTERSQUIRREL,
-    MINISQUIRREL,
+    BADBEAST(BadBeast.class.getSimpleName(), "BB"),
+    GOODBEAST(GoodBeast.class.getSimpleName(), "GB"),
+    BADPLANT(BadPlant.class.getSimpleName(), "BP"),
+    GOODPLANT(GoodPlant.class.getSimpleName(), "GP"),
+    WALL(Wall.class.getSimpleName(), "WA"),
+    MASTERSQUIRREL("MS"),
+    MINISQUIRREL("mS"),
     NONE;
 
     private String className;
-    EntityType(){
+    private String typeToString;
+
+    EntityType() {
     }
 
-    EntityType(String s){
-        this.className = s;
+    EntityType(String typeToString) {
+        this.typeToString = typeToString;
     }
 
-    public String getClassName(){
+    EntityType(String className, String typeToString) {
+        this.className = className;
+        this.typeToString = typeToString;
+    }
+    public String getTypeToString(){
+        return this.typeToString;
+    }
+
+    public String getClassName() {
         return this.className;
     }
 }

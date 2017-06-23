@@ -221,7 +221,7 @@ public class Board {
      * @return gets the Reference of the actual Player
      */
     public HandOperatedMasterSquirrel getHandOperatedMasterSquirrel() {
-        for (Entity e : entityList) {
+        for (Entity e : masterSquirrel) {
             if (e instanceof HandOperatedMasterSquirrel)
                 return (HandOperatedMasterSquirrel) e;
         }
@@ -239,16 +239,21 @@ public class Board {
 
     private void createMasterSquirrels() {
         try {
+            MasterSquirrel toAdd;
             switch (config.getGameType()){
                 case BOT_ONLY:
                     createBots();
                     break;
                 case WITH_BOT:
-                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
+                    toAdd = new HandOperatedMasterSquirrel(1, randomPosition());
+                    entityList.add(toAdd);
+                    masterSquirrel.add(toAdd);
                     createBots();
                     break;
                 case SINGLE_PLAYER:
-                    entityList.add(new HandOperatedMasterSquirrel(1, randomPosition()));
+                    toAdd = new HandOperatedMasterSquirrel(1, randomPosition());
+                    entityList.add(toAdd);
+                    masterSquirrel.add(toAdd);
                     break;
             }
         } catch (FullFieldException e) {
@@ -261,7 +266,9 @@ public class Board {
         for (int i = 0; i < config.getNUMBER_OF_BOTS(); i++) {
             try {
                 BotControllerFactory factory = (BotControllerFactory) Class.forName("de.hsa.games.fatsquirrel.botimpls." + config.getBots()[i]).newInstance();
-                entityList.add(new MasterSquirrelBot(setID(), randomPosition(), factory));
+                MasterSquirrel toAdd = new MasterSquirrelBot(setID(), randomPosition(), factory);
+                entityList.add(toAdd);
+                masterSquirrel.add(toAdd);
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 logger.log(Level.WARNING, "Factory konnte nicht gefunden werden");
             } catch (FullFieldException e) {

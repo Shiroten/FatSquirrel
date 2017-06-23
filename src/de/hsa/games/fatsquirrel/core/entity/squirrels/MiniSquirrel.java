@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 public abstract class MiniSquirrel extends PlayerEntity {
     private static final EntityType type = EntityType.MINISQUIRREL;
     public static final Color ENTITYCOLOR = Color.color(1, 0.5412, 0);
+    public static final Color ENTITYTEXTCOLOR = Color.gray(0);
     public static final String defaultName = "mS";
     private MasterSquirrel daddy;
     int moveCounter = 0;
@@ -24,7 +25,7 @@ public abstract class MiniSquirrel extends PlayerEntity {
 
 
     public MiniSquirrel(int id, XY coordinate, int startEnergy, MasterSquirrel daddy) {
-        super(startEnergy, id, coordinate, ENTITYCOLOR, defaultName);
+        super(startEnergy, id, coordinate, ENTITYCOLOR, ENTITYTEXTCOLOR, defaultName);
         this.daddy = daddy;
         this.setEntityName(getName(daddy.getFactory()));
 
@@ -39,10 +40,12 @@ public abstract class MiniSquirrel extends PlayerEntity {
     }
 
     @Override
-    public void nextStep(EntityContext context) {}
+    public void nextStep(EntityContext context) {
+    }
 
     /**
      * Set the flag to implode in the next nextStep()
+     *
      * @param implosionRadius How far the implosion should spread. Between 1 and 10.
      */
     public void implode(int implosionRadius) {
