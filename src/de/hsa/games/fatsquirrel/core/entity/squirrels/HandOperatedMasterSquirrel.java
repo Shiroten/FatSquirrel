@@ -5,9 +5,9 @@ import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botimpls.Player.PlayerFactory;
-import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+import javafx.scene.paint.Color;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +23,8 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
     private int miniSquirrelSpawnEnergy = 100;
 
     public void setMiniSquirrelSpawnEnergy(int miniSquirrelSpawnEnergy) {
-        this.miniSquirrelSpawnEnergy = miniSquirrelSpawnEnergy;
+        if(miniSquirrelSpawnEnergy > 0)
+            this.miniSquirrelSpawnEnergy = miniSquirrelSpawnEnergy;
     }
 
     public void setCommand(ActionCommand command) {
@@ -34,6 +35,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         super(id, coordinate);
         setFactory(new PlayerFactory());
         this.setEntityName("Player");
+        setEntityColor(Color.color(0, 0.9608, 1));
     }
 
     @Override
@@ -46,7 +48,7 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
                 spawnMini(miniSquirrelSpawnEnergy, context);
             } catch (NotEnoughEnergyException e) {
                 Logger logger = Logger.getLogger(Launcher.class.getName());
-                logger.log(Level.FINEST, "Cant spawn Mini");
+                logger.log(Level.FINEST, "Player can't spawn Mini, not enough energy");
             }
         } else {
             switch (command) {
@@ -74,11 +76,10 @@ public class HandOperatedMasterSquirrel extends MasterSquirrel {
         Logger logger = Logger.getLogger(Launcher.class.getName());
         logger.log(Level.FINE, "Spawning Mini");
 
-        XY locationOfMaster = getCoordinate();
         if (getEnergy() >= energy) {
             for (XY xy : XYsupport.directions()) {
                 //Wenn dieses Feld leer ist...
-                if (context.getEntityType(locationOfMaster.plus(xy)) == EntityType.NONE) {
+                if (context.getEntityType(getCoordinate().plus(xy)) == EntityType.NONE) {
                     //Füge neues MiniSquirreBot hinzu zum Board
                     context.spawnMiniSquirrel(getCoordinate().plus(xy), energy, this);
                     return;

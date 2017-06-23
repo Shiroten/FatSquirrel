@@ -1,6 +1,4 @@
-package de.hsa.games.fatsquirrel.console;
-
-import de.hsa.games.fatsquirrel.util.ui.CommandTypeInfo;
+package de.hsa.games.fatsquirrel.util.ui;
 
 /**
  * A sophisticated definition of console commands for the console version of the game.

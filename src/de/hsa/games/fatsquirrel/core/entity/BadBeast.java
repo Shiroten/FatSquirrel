@@ -46,23 +46,19 @@ public class BadBeast extends Character {
     @Override
     public void nextStep(EntityContext context ) {
 
-        Logger logger = Logger.getLogger(Launcher.class.getName());
-        logger.log(Level.FINEST, "start nextStep() of BadBeast");
+        int waitingTime = context.getBEAST_MOVE_TIME_IN_TICKS();
 
-        if (moveCounter == 0) {
+        if (moveCounter % waitingTime + 1 == 0) {
             PlayerEntity pe = context.nearestPlayerEntity(this.getCoordinate());
             XY distance = pe.getCoordinate().minus(this.getCoordinate());
 
             if (distance.length() < context.getBADBEAST_VIEW_DISTANCE()) {
                 context.tryMove(this, XYsupport.normalizedVector(distance));
-            } else{
+            } else {
                 context.tryMove(this, XYsupport.randomDirection());
             }
-            moveCounter++;
-        } else if (moveCounter == context.getBEAST_MOVE_TIME_IN_TICKS())
-            moveCounter = 0;
-        else
-            moveCounter++;
+        }
+        moveCounter++;
     }
     @Override
     public void updateEnergy(int energyDifference){

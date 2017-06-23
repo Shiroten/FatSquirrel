@@ -31,6 +31,7 @@ public abstract class PlayerEntity extends Character {
             stunTime--;
     }
 
+    //TODO: Im Namensrefactor
     String getName(BotControllerFactory factory){
         return factory.getClass().getName().substring(34, factory.getClass().getName().length()-7);
     }

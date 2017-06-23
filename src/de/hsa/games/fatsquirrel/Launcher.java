@@ -1,6 +1,5 @@
 package de.hsa.games.fatsquirrel;
 
-import de.hsa.games.fatsquirrel.console.GameImpl;
 import de.hsa.games.fatsquirrel.core.State;
 import de.hsa.games.fatsquirrel.gui.FxGameImpl;
 import de.hsa.games.fatsquirrel.gui.FxUI;
@@ -40,10 +39,6 @@ public class Launcher extends Application {
             case 0:
                 Application.launch(args);
                 break;
-            case 1:
-                //For SingleThreaded Console Game
-                consoleTest();
-                break;
             case 2:
                 commandTest();
                 break;
@@ -55,11 +50,6 @@ public class Launcher extends Application {
 
         MyFavoriteCommandsProcessor myFavoriteCommandsProcessor = new MyFavoriteCommandsProcessor();
         myFavoriteCommandsProcessor.process();
-    }
-
-    private static void consoleTest() {
-        Game game = new GameImpl();
-        game.startSingleThreadGame();
     }
 
     private static void startGame(Game game) {

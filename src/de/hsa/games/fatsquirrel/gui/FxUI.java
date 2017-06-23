@@ -1,13 +1,9 @@
 package de.hsa.games.fatsquirrel.gui;
 
-import de.hsa.games.fatsquirrel.Launcher;
-import de.hsa.games.fatsquirrel.UI;
-import de.hsa.games.fatsquirrel.XY;
-import de.hsa.games.fatsquirrel.console.GameCommandType;
+import de.hsa.games.fatsquirrel.*;
+import de.hsa.games.fatsquirrel.util.ui.GameCommandType;
 import de.hsa.games.fatsquirrel.core.BoardView;
-import de.hsa.games.fatsquirrel.core.entity.Entity;
-import de.hsa.games.fatsquirrel.core.entity.EntityType;
-import de.hsa.games.fatsquirrel.core.entity.BadBeast;
+import de.hsa.games.fatsquirrel.core.entity.*;
 import de.hsa.games.fatsquirrel.core.entity.Character;
 import de.hsa.games.fatsquirrel.core.entity.squirrels.PlayerEntity;
 import de.hsa.games.fatsquirrel.util.ui.Command;

@@ -4,7 +4,6 @@ import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.botapi.BotController;
 import de.hsa.games.fatsquirrel.botapi.ControllerContext;
 import de.hsa.games.fatsquirrel.botapi.SpawnException;
-import de.hsa.games.fatsquirrel.console.NotEnoughEnergyException;
 
 public class BasterMaster implements BotController {
     private BasterSupport basterSupport = new BasterSupport();

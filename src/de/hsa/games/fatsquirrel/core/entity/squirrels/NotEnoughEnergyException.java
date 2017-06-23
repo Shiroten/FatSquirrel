@@ -1,4 +1,4 @@
-package de.hsa.games.fatsquirrel.console;
+package de.hsa.games.fatsquirrel.core.entity.squirrels;
 
 /**
  * Created by Shiroten on 07.05.2017.

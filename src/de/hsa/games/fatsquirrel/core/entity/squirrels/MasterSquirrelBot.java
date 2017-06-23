@@ -1,12 +1,16 @@
 package de.hsa.games.fatsquirrel.core.entity.squirrels;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.*;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+import javafx.scene.paint.Color;
 
 import java.lang.reflect.Proxy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A MasterSquirrel controlled by an AI, which is specified by the BotController
@@ -31,23 +35,15 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public XY getViewUpperLeft() {
-            int x = locate().getX() - VIEW_DISTANCE;
-            if (x < 0)
-                x = 0;
-            int y = locate().getY() - VIEW_DISTANCE;
-            if (y < 0)
-                y = 0;
+            int x = (locate().getX() - VIEW_DISTANCE) < 0 ? 0 : locate().getX() - VIEW_DISTANCE;
+            int y = locate().getY() - VIEW_DISTANCE < 0 ? 0 : locate().getY() - VIEW_DISTANCE;
             return new XY(x, y);
         }
 
         @Override
         public XY getViewLowerRight() {
-            int x = locate().getX() + VIEW_DISTANCE;
-            if (x > context.getSize().getX())
-                x = context.getSize().getX();
-            int y = locate().getY() + VIEW_DISTANCE;
-            if (y > context.getSize().getY())
-                y = context.getSize().getY();
+            int x = locate().getX() + VIEW_DISTANCE > context.getSize().getX() ? context.getSize().getX() : locate().getX() + VIEW_DISTANCE;
+            int y = locate().getY() + VIEW_DISTANCE > context.getSize().getY() ? context.getSize().getY() : locate().getY();
             return new XY(x, y);
         }
 
@@ -71,11 +67,13 @@ public class MasterSquirrelBot extends MasterSquirrel {
 
         @Override
         public void implode(int impactRadius) {
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.WARNING, masterSquirrel.getFactory().getClass().getSimpleName() + " master tried to implode");
         }
 
         @Override
         public XY directionOfMaster() {
-            return null;
+            return XY.ZERO_ZERO;
         }
 
         @Override
@@ -87,22 +85,20 @@ public class MasterSquirrelBot extends MasterSquirrel {
         public EntityType getEntityAt(XY xy) throws OutOfViewException {
             if (!XYsupport.isInRange(xy, getViewUpperLeft(), getViewLowerRight()))
                 throw new OutOfViewException();
-
             return context.getEntityType(xy);
         }
 
         @Override
         public void move(XY direction) {
-            for (XY xy : XYsupport.directions()) {
-                if (xy.equals(direction)) {
-                    context.tryMove(masterSquirrel, direction);
-                    return;
-                }
+            if (direction.length() <= 1.5) {
+                context.tryMove(masterSquirrel, direction);
             }
         }
 
         @Override
         public void spawnMiniBot(XY direction, int energy) throws SpawnException {
+            if(direction.length() > 1.5)
+                throw new SpawnException();
             if (masterSquirrel.getEnergy() >= energy) {
                 try {
                     if (getEntityAt(locate().plus(direction)) != EntityType.NONE)
@@ -131,6 +127,7 @@ public class MasterSquirrelBot extends MasterSquirrel {
         this.masterBotController = factory.createMasterBotController();
 
         this.setEntityName(getName(factory));
+        setEntityColor(Color.color(0, 0.0588, 1));
     }
 
     @Override
@@ -142,17 +139,15 @@ public class MasterSquirrelBot extends MasterSquirrel {
                 new Class[]{ControllerContext.class},
                 handler);
 
-        if (moveCounter == 0) {
+        int waitingTime = 1;
+        if (moveCounter % waitingTime+1 == 0) {
             if (getStunTime() > 0)
                 reduceStunTime();
             else {
                 masterBotController.nextStep(proxyView);
             }
-            moveCounter++;
-        } else if (moveCounter == 2)
-            moveCounter = 0;
-        else
-            moveCounter++;
+        }
+        moveCounter++;
     }
 
 

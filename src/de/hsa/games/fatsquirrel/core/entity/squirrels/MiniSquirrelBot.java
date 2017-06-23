@@ -1,10 +1,15 @@
 package de.hsa.games.fatsquirrel.core.entity.squirrels;
 
+import de.hsa.games.fatsquirrel.Launcher;
 import de.hsa.games.fatsquirrel.XY;
 import de.hsa.games.fatsquirrel.XYsupport;
 import de.hsa.games.fatsquirrel.botapi.*;
 import de.hsa.games.fatsquirrel.core.entity.EntityContext;
 import de.hsa.games.fatsquirrel.core.entity.EntityType;
+
+import java.lang.reflect.Proxy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A MiniSquirrel controlled by an AI, which is specified by the BotController
@@ -26,23 +31,15 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public XY getViewUpperLeft() {
-            int x = locate().getX() - VIEW_DISTANCE;
-            if (x < 0)
-                x = 0;
-            int y = locate().getY() -VIEW_DISTANCE;
-            if (y < 0)
-                y = 0;
+            int x = (locate().getX() - VIEW_DISTANCE) < 0 ? 0 : locate().getX() - VIEW_DISTANCE;
+            int y = locate().getY() - VIEW_DISTANCE < 0 ? 0 : locate().getY() - VIEW_DISTANCE;
             return new XY(x, y);
         }
 
         @Override
         public XY getViewLowerRight() {
-            int x = locate().getX() + VIEW_DISTANCE;
-            if (x > context.getSize().getX())
-                x = context.getSize().getX();
-            int y = locate().getY() + VIEW_DISTANCE;
-            if (y > context.getSize().getY())
-                y = context.getSize().getY();
+            int x = locate().getX() + VIEW_DISTANCE > context.getSize().getX() ? context.getSize().getX() : locate().getX() + VIEW_DISTANCE;
+            int y = locate().getY() + VIEW_DISTANCE > context.getSize().getY() ? context.getSize().getY() : locate().getY();
             return new XY(x, y);
         }
 
@@ -87,16 +84,15 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
         @Override
         public void move(XY direction) {
-            for (XY xy : XYsupport.directions()) {
-                if (xy.equals(direction)) {
-                    context.tryMove(miniSquirrel, direction);
-                    return;
-                }
+            if (direction.length() <= 1.5) {
+                context.tryMove(miniSquirrel, direction);
             }
         }
 
         @Override
         public void spawnMiniBot(XY direction, int energy) throws SpawnException {
+            Logger logger = Logger.getLogger(Launcher.class.getName());
+            logger.log(Level.WARNING, miniSquirrel.getEntityName() + " mini tried to spawn another bot");
         }
 
         @Override
@@ -114,21 +110,24 @@ public class MiniSquirrelBot extends MiniSquirrel {
 
     public void nextStep(EntityContext context) {
         ControllerContextImpl view = new ControllerContextImpl(context, this);
+        DebugHandler handler = new DebugHandler(view);
+        ControllerContext proxyView = (ControllerContext) Proxy.newProxyInstance(
+                ControllerContext.class.getClassLoader(),
+                new Class[]{ControllerContext.class},
+                handler);
 
-        if (moveCounter == 0) {
+        int waitingTime = 0;
+        if (moveCounter % waitingTime + 1 == 0) {
             if (getStunTime() > 0)
                 reduceStunTime();
             else {
-                if(implode)
+                if (implode)
                     view.implode(implosionRadius);
                 else
-                    miniBotController.nextStep(view);
+                    miniBotController.nextStep(proxyView);
             }
-            moveCounter++;
-        } else if (moveCounter == context.getMINI_SQUIRREL_MOVE_TIME_IN_TICKS())
-            moveCounter = 0;
-        else
-            moveCounter++;
+        }
+        moveCounter++;
     }
 
 

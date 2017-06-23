@@ -53,6 +53,7 @@ public abstract class Entity {
         return EntityType.NONE;
     }
 
+    //TODO: Ändern
     @Override
     public String toString() {
         return (getEntityType().toString() + " [ID: " + id + ", Energy: " + energy
@@ -64,9 +65,7 @@ public abstract class Entity {
 
         if (o instanceof Entity) {
             Entity e = (Entity) o;
-            boolean returnValue;
-            returnValue = this.id == e.getId();
-            return returnValue;
+            return this.id == e.getId();
         }
         return false;
 
