@@ -34,9 +34,9 @@ class DebugHandler implements InvocationHandler {
             result = method.invoke(view, args);
         } catch (IllegalAccessException ex) {
             logger.log(Level.FINER, ex.getMessage());
-        } catch (InvocationTargetException ex) {
-            throw ex.getTargetException();
-        } catch (Exception e) {
+        } catch (InvocationTargetException ex){
+            throw  ex.getTargetException();
+        } catch (Exception e){
             //Do nothing
         }
         sb.append("* result:").append(result);
